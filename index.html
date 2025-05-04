@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Υπολογιστική κατανάλωσης νερού ανά άτομο ανά ημέρα">
+  <title>Water Consumption Calculator</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">
+  <style>
+    :root { --primary-color: #4a90e2; --bg-color: #f4f7fa; --card-bg: #fff; --text-color: #333; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Roboto', sans-serif; background: var(--bg-color); color: var(--text-color); display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .container { background: var(--card-bg); padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+    h1 { margin-bottom: 1.5rem; font-size: 1.5rem; text-align: center; }
+    .form-group { margin-bottom: 1rem; }
+    label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+    input[type=number], select { width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
+    button { width: 100%; padding: 0.75rem; background: var(--primary-color); color: #fff; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; font-weight: 500; }
+    button:hover { background: #4178bf; }
+    .result { margin-top: 1.5rem; padding: 1rem; background: #e8f1fd; border-radius: 4px; text-align: center; font-size: 1.25rem; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Πόσο νερό καταναλώνεις καθημερινά στο σπίτι σου;</h1>
+    <div class="form-group">
+      <label for="total">Ολική κατανάλωση (m³)</label>
+      <input type="number" id="total" placeholder="π.χ. 30.0" min="0" step="1">
+    </div>
+    <div class="form-group">
+      <label for="period">Περίοδος (μήνες)</label>
+      <select id="period">
+        <option value="1">1 μήνας</option>
+        <option value="2">2 μήνες</option>
+        <option value="3">3 μήνες</option>
+        <option value="4">4 μήνες</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="people">Άτομα στο σπίτι</label>
+      <input type="number" id="people" placeholder="π.χ., 3" min="1" step="1">
+    </div>
+    <button id="calculate">Υπολόγισε</button>
+    <div id="result" class="result" style="display:none;"></div>
+  </div>
+  <script>
+    document.getElementById('calculate').addEventListener('click', () => {
+      const total = parseFloat(document.getElementById('total').value);
+      const period = parseInt(document.getElementById('period').value);
+      const people = parseInt(document.getElementById('people').value);
+      if (isNaN(total) || isNaN(period) || isNaN(people) || total <= 0 || people <= 0) {
+        alert('Please enter valid values.');
+        return;
+      }
+      const days = period * 30;
+      const perPersonPerDay = total / (people * days);
+      const litersPerPerson = perPersonPerDay * 1000;
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('result').innerHTML = 
+        `Μέση κατανάλωση: <strong>${litersPerPerson.toFixed(1)} λίτρα</strong> ανά άτομο ανά ημέρα<br>`;
+    });
+  </script>
+</body>
+</html>
