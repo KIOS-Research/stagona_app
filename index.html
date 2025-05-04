@@ -22,42 +22,145 @@
 </head>
 <body>
   <div class="container">
-    <h1>Πόσο νερό καταναλώνεις καθημερινά στο σπίτι σου;</h1>
-    <div class="form-group">
-      <label for="total">Ολική κατανάλωση (m³)</label>
-      <input type="number" id="total" placeholder="π.χ. 30.0" min="0" step="1">
+    <h1>Πόσο νερό καταναλώνεις στο σπίτι σου;</h1>
+
+    <label for="total">Συνολική κατανάλωση/Consumption (m³):</label>
+    <input type="number" id="total" placeholder="π.χ. 30" min="0" step="1">
+
+    <label for="period">Περίοδος (μήνες):</label>
+    <select id="period">
+      <option value="1">1 μήνας</option>
+      <option value="2">2 μήνες</option>
+      <option value="3">3 μήνες</option>
+      <option value="4">4 μήνες</option>
+    </select>
+
+    <label for="people">Αριθμός ατόμων στο σπίτι:</label>
+    <input type="number" id="people" placeholder="π.χ. 4" min="1" step="1">
+
+    <button id="calc">Υπολόγισε πόσο νερό καταναλώνεις</button>
+
+    <div class="result" id="result" style="display: none;"></div>
+
+    <div class="share-section" id="shareSection" style="display: none;">
+      <strong>Μοιραστείτε το αποτέλεσμα:</strong>
+      <div class="share-buttons">
+        <div class="share-button" id="shareTwitter" title="Twitter">
+          <i class="fab fa-twitter"></i>
+        </div>
+        <div class="share-button" id="shareFacebook" title="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </div>
+        <div class="share-button" id="shareWhatsApp" title="WhatsApp">
+          <i class="fab fa-whatsapp"></i>
+        </div>
+        <div class="share-button" id="shareEmail" title="Email">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="share-button" id="copyLink" title="Αντέγραψε σύνδεσμο">
+          <i class="fas fa-link"></i>
+        </div>
+        <div class="share-button" id="copySummary" title="Αντέγραψε περίληψη">
+          <i class="fas fa-clipboard"></i>
+        </div>
+      </div>
+      <div id="qrcode"></div>
+      <label for="embedCode">Κώδικας ενσωμάτωσης:</label>
+      <textarea id="embedCode" readonly></textarea>
     </div>
-    <div class="form-group">
-      <label for="period">Περίοδος (μήνες)</label>
-      <select id="period">
-        <option value="1">1 μήνας</option>
-        <option value="2">2 μήνες</option>
-        <option value="3">3 μήνες</option>
-        <option value="4">4 μήνες</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="people">Άτομα στο σπίτι</label>
-      <input type="number" id="people" placeholder="π.χ., 3" min="1" step="1">
-    </div>
-    <button id="calculate">Υπολόγισε</button>
-    <div id="result" class="result" style="display:none;"></div>
   </div>
+
+  <!-- QRCode.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
   <script>
-    document.getElementById('calculate').addEventListener('click', () => {
-      const total = parseFloat(document.getElementById('total').value);
-      const period = parseInt(document.getElementById('period').value);
+    document.getElementById('calc').addEventListener('click', () => {
+      const totalM3 = parseFloat(document.getElementById('total').value);
+      const months = parseInt(document.getElementById('period').value);
       const people = parseInt(document.getElementById('people').value);
-      if (isNaN(total) || isNaN(period) || isNaN(people) || total <= 0 || people <= 0) {
-        alert('Please enter valid values.');
+      const avgCyprus = 160; // λίτρα/άτομο/ημέρα
+
+      if (!totalM3 || !months || !people) {
+        alert('Παρακαλώ συμπληρώστε σωστά όλα τα πεδία.');
         return;
       }
-      const days = period * 30;
-      const perPersonPerDay = total / (people * days);
-      const litersPerPerson = perPersonPerDay * 1000;
-      document.getElementById('result').style.display = 'block';
-      document.getElementById('result').innerHTML = 
-        `Μέση κατανάλωση: <strong>${litersPerPerson.toFixed(1)} λίτρα</strong> ανά άτομο ανά ημέρα<br>`;
+
+      // Υπολογισμοί
+      const totalLitres = totalM3 * 1000;
+      const days = months * 30;
+      const perPersonPerDay = totalLitres / days / people;
+      const pctAbove = ((perPersonPerDay - avgCyprus) / avgCyprus) * 100;
+      const reductionNeeded = perPersonPerDay - avgCyprus;
+
+      // Μήνυμα αποτελέσματος
+      let message = `<strong>Μέση κατανάλωση ανά άτομο/ημέρα:</strong> ${perPersonPerDay.toFixed(1)} λίτρα<br/><br/>`;
+      if (perPersonPerDay < 150) {
+        message += `Εξαιρετική δουλειά! Είστε κάτω από τον μέσο όρο στην Κύπρο (160 λίτρα/ημέρα) και καταναλώνετε λιγότερο από 150 λίτρα. Συνεχίστε έτσι!`;
+      } else {
+        message += `Είστε ${(pctAbove).toFixed(1)}% πάνω από τον μέσο όρο των 160 λίτρων. Στοχεύστε να μειώσετε κατά ${(reductionNeeded).toFixed(1)} λίτρα ανά άτομο/ημέρα για να φτάσετε στον μέσο όρο.`;
+      }
+      message += `<br/><br/>Αν όλοι μείωναν κατά 15 λίτρα (1 λεπτό λιγότερο στο μπάνιο!), θα εξοικονομούσαμε 5 εκατ. m³ ετησίως, ίσα με τη μονάδα αφαλάτωσης Πάφου (6,5 εκ. €)!`;
+
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = message;
+      resultDiv.style.display = 'block';
+
+      // Προετοιμασία για κοινή χρήση
+      const shareText = encodeURIComponent(
+        `Η μέση κατανάλωσή μου είναι ${perPersonPerDay.toFixed(1)} λίτρα/ημέρα! Δοκίμασέ το κι εσύ:`
+      );
+      const baseUrl = `${location.origin}${location.pathname}`;
+      const urlParams = `?total=${totalM3}&period=${months}&people=${people}`;
+      const pageUrl = encodeURIComponent(baseUrl + urlParams);
+
+      // Εμφάνιση share section
+      document.getElementById('shareSection').style.display = 'block';
+
+      // Δημιουργία QR code
+      document.getElementById('qrcode').innerHTML = '';
+      new QRCode(document.getElementById('qrcode'), {
+        text: baseUrl + urlParams,
+        width: 128,
+        height: 128
+      });
+
+      // Κώδικας ενσωμάτωσης
+      const embedSnippet = `<iframe src="${baseUrl + urlParams}" width="400" height="600" frameborder="0"></iframe>`;
+      document.getElementById('embedCode').value = embedSnippet;
+
+      // Event handlers share buttons
+      document.getElementById('shareTwitter').onclick = () =>
+        window.open(`https://twitter.com/intent/tweet?text=${shareText}&url=${pageUrl}`);
+      document.getElementById('shareFacebook').onclick = () =>
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`);
+      document.getElementById('shareWhatsApp').onclick = () =>
+        window.open(`https://wa.me/?text=${shareText}%20${pageUrl}`);
+      document.getElementById('shareEmail').onclick = () =>
+        window.open(`mailto:?subject=Δες την κατανάλωση νερού μου&body=${shareText}%20${pageUrl}`);
+
+      // Copy to clipboard helpers
+      const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text).then(() => {
+          alert('Αντιγράφηκε στο πρόχειρο!');
+        });
+      };
+      document.getElementById('copyLink').onclick = () =>
+        copyToClipboard(baseUrl + urlParams);
+      document.getElementById('copySummary').onclick = () =>
+        copyToClipboard(
+          `Η μέση κατανάλωσή μου είναι ${perPersonPerDay.toFixed(1)} λίτρα/ημέρα. Δοκίμασέ το: ${baseUrl + urlParams}`
+        );
+    });
+
+    // Φόρτωση παραμέτρων URL, αν υπάρχουν
+    window.addEventListener('load', () => {
+      const params = new URLSearchParams(location.search);
+      if (params.has('total') && params.has('period') && params.has('people')) {
+        document.getElementById('total').value = params.get('total');
+        document.getElementById('period').value = params.get('period');
+        document.getElementById('people').value = params.get('people');
+        document.getElementById('calc').click();
+      }
     });
   </script>
 </body>
