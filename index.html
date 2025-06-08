@@ -99,15 +99,15 @@
   <div class="container">
     <h1>Πόσο νερό καταναλώνεις στο σπίτι σου;</h1>
   <strong>Για να συμπληρώσετε τον πιο κάτω πίνακα, χρειάζεται να βρείτε το τιμολόγιο του οργανισμού που σας παρέχει νερό</strong>
-    <label for="total">Συνολική κατανάλωση νερού (m³):</label>
-    <input type="number" id="total" placeholder="π.χ. 30" min="0" step="0.01">
+    <label for="total">Συνολική κατανάλωση νερού (σε m³):</label>
+    <input type="number" id="total" placeholder="π.χ. 30" min="0" step="0.1">
 
     <label for="period">Περίοδος κατανάλωσης (σε μήνες):</label>
     <select id="period">
       <option value="1">1 μήνας</option>
       <option value="2">2 μήνες</option>
-      <option value="3">3 μήνες</option>
-      <option value="4">4 μήνες</option>
+      <option value="3">3 μήνες (ΕΟΑ Λ/σια, Λ/κας, Πάφου, Π/μνι)</option>
+      <option value="4">4 μήνες (ΕΟΑ Λ/σου)</option>
     </select>
 
     <label for="people">Αριθμός ατόμων στο σπίτι:</label>
@@ -153,32 +153,32 @@
       const totalM3 = parseFloat(document.getElementById('total').value);
       const months = parseInt(document.getElementById('period').value);
       const people = parseInt(document.getElementById('people').value);
-      const avgCyprus = 160;
+      const avgCyprus = 140;
       if (!totalM3 || !months || !people) {
         alert('Παρακαλώ συμπληρώστε σωστά όλα τα πεδία.');
         return;
       }
       const totalLitres = totalM3 * 1000;
-      const days = months * 30;
+      const days = months * 30.4;
       const perPersonPerDay = totalLitres / days / people;
       const pctAbove = ((perPersonPerDay - avgCyprus) / avgCyprus) * 100;
       const pctBelow = ((avgCyprus - perPersonPerDay) / avgCyprus) * 100;
       const reductionNeeded = perPersonPerDay - avgCyprus;
 
       let message = `<strong>Μέση κατανάλωση ανά άτομο/ημέρα:</strong> ${perPersonPerDay.toFixed(1)} λίτρα`;
-      message += `<br/><strong>Διαφορά από το μέσο όρο (160 λίτρα):</strong> `;
+      message += `<br/><strong>Διαφορά από το μέσο όρο (140 λίτρα):</strong> `;
       if (perPersonPerDay < avgCyprus) {
         message += `Κάτω κατά ${pctBelow.toFixed(1)}%`;
       } else {
         message += `Πάνω κατά ${pctAbove.toFixed(1)}%`;
       }
       message += `<br/><br/>`;
-      if (perPersonPerDay < 150) {
-        message += `Εξαιρετική δουλειά! Είστε κάτω από τον μέσο όρο της Κύπρου, και καταναλώνετε λιγότερο από στόχο για 140-150 λίτρα/ημέρα/άτομο. Συνεχίστε έτσι!`;
+      if (perPersonPerDay <= 126) {
+        message += `Εξαιρετική δουλειά! Είστε κατά 10% κάτω από τον μέσο όρο της Κύπρου, και καταναλώνετε λιγότερο από στόχο για 126 λίτρα/ημέρα/άτομο. Συνεχίστε έτσι!`;
       } else {
-        message += `Είστε ${(pctAbove).toFixed(1)}% πάνω από τον μέσο όρο. Στοχεύστε να μειώσετε κατά ${(reductionNeeded).toFixed(1)} λίτρα/ημέρα/άτομο.`;
+        message += `Είστε ${(pctAbove).toFixed(1)}% πάνω από τον μέσο όρο. Στοχεύστε να μειώσετε κατά ${(reductionNeeded).toFixed(1)} λίτρα/ημέρα/άτομο για να φτάσετε τον μέσο όρο.`;
       }
-      message += `<br/><br/>Αν όλοι μείωναν την κατανάλωση κατά 15 λίτρα (1 λεπτό λιγότερο στο μπάνιο!), θα εξοικονομούσαμε 5.500.000 m³ ετησίως, που ισοδυναμεί σε μια μονάδα αφαλάτωσης με ετήσιο κόστος €6,5 εκατ.!`;
+      message += `<br/><br/>Αν όλοι μείωναν την κατανάλωση κατά 15 λίτρα (π.χ., 1 λεπτό λιγότερο στο μπάνιο), θα εξοικονομούσαμε 5.500.000 m³ ετησίως, που ισοδυναμεί σε μια μονάδα αφαλάτωσης με ετήσιο κόστος €6,5 εκατ.!`;
       const resultDiv = document.getElementById('result');
       resultDiv.innerHTML = message;
       resultDiv.style.display = 'block';
