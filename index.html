@@ -121,12 +121,12 @@
 
       const base = `${location.origin}${location.pathname}`;
       const params = `?total=${totalM3}&period=${months}&people=${people}`;
-      const url = base + params;
+      const url = base;
       document.getElementById('shareSection').style.display = 'block';
 
-      let summary = `Η κατανάλωσή μου: ${perDay.toFixed(1)} λίτρα/ημέρα ` +
-                    (perDay < avg ? `(Κάτω ${Math.abs(diffPct).toFixed(1)}% απ' τον μέσο όρο)` : `(Πάνω ${diffPct.toFixed(1)}% απ' τον μέσο όρο)`) +
-                    `. Δοκίμασέ το: ${url}`;
+      let summary = `Μόλις υπολόγισα την κατανάλωσή νερού μου: ${perDay.toFixed(1)} λίτρα/ημέρα ` +
+                    (perDay < avg ? `(Κάτω ${Math.abs(diffPct).toFixed(1)}% από τον μέσο όρο των 140 λίτρων/ημέρα)` : `(Πάνω ${diffPct.toFixed(1)}% από τον μέσο όρο των 140 λίτρων/ημέρα)`) +
+                    `. Δοκίμασέ το και εσύ: ${url}`;
       const enc = encodeURIComponent(summary);
 
       document.getElementById('shareTwitter').onclick = () => window.open(`https://twitter.com/intent/tweet?text=${enc}`, '_blank');
