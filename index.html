@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Υπολογιστής Κατανάλωσης Νερού</title>
+  <title>Stagona - Υπολογιστής Κατανάλωσης Νερού</title>
   <!-- Font Awesome via CDNJS -->
   <link
     rel="stylesheet"
@@ -11,94 +11,31 @@
     referrerpolicy="no-referrer"
   />
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f0f8ff;
-      color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 1rem;
-    }
-    .container {
-      background: #fff;
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      max-width: 500px;
-      width: 100%;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 1.5rem;
-      color: #0066cc;
-    }
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: bold;
-    }
-    input, select {
-      width: 100%;
-      padding: 0.6rem;
-      margin-top: 0.3rem;
-      border: 1px solid #ccc;
-      border-radius: 0.5rem;
-      box-sizing: border-box;
-    }
-    button {
-      margin-top: 1.5rem;
-      width: 100%;
-      padding: 0.8rem;
-      background: #0066cc;
-      color: #fff;
-      font-size: 1rem;
-      border: none;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background: #004a99;
-    }
-    .result, .share-section {
-      margin-top: 1.5rem;
-      padding: 1rem;
-      background: #e6f2ff;
-      border-radius: 0.5rem;
-      line-height: 1.4;
-    }
-    .share-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-    .share-button {
-      flex: 1 1 calc(33.333% - 0.5rem);
-      text-align: center;
-      padding: 0.75rem 0;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .share-button i {
-      font-size: 1.5rem;
-      color: #0066cc;
-    }
-    .share-button:hover {
-      background: #f0f0f0;
-    }
+    body {font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f8ff; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 1rem;}
+    .container {background: #fff; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 500px; width: 100%;}
+    .app-header {display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 1.5rem;}
+    .app-logo {height: 48px; width: auto;}
+    .app-title {font-size: 2rem; color: #0066cc; margin: 0;}
+    h2 {text-align: center; margin-bottom: 1rem; color: #0066cc; font-size: 1.5rem;}
+    label {display: block; margin-top: 1rem; font-weight: bold;}
+    input, select {width: 100%; padding: 0.6rem; margin-top: 0.3rem; border: 1px solid #ccc; border-radius: 0.5rem; box-sizing: border-box;}
+    button {margin-top: 1.5rem; width: 100%; padding: 0.8rem; background: #0066cc; color: #fff; font-size: 1rem; border: none; border-radius: 0.5rem; cursor: pointer; transition: background 0.3s;}
+    button:hover {background: #004a99;}
+    .result, .share-section {margin-top: 1.5rem; padding: 1rem; background: #e6f2ff; border-radius: 0.5rem; line-height: 1.4;}
+    .share-buttons {display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;}
+    .share-button {flex: 1 1 calc(25% - 0.5rem); text-align: center; padding: 0.75rem 0; background: #fff; border: 1px solid #ccc; border-radius: 0.5rem; cursor: pointer; transition: background 0.3s;}
+    .share-button i {font-size: 1.5rem; color: #0066cc;}
+    .share-button:hover {background: #f0f0f0;}
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Πόσο νερό καταναλώνεις στο σπίτι σου;</h1>
-  <strong>Για να συμπληρώσετε τον πιο κάτω πίνακα, χρειάζεται να βρείτε το τιμολόγιο του οργανισμού που σας παρέχει νερό</strong>
+    <div class="app-header">
+      <img src="logo.png" alt="Stagona logo" class="app-logo" />
+    </div>
+    <h2>Πόσο νερό καταναλώνεις στο σπίτι σου;</h2>
+    <strong>Για να συμπληρώσετε τον πιο κάτω πίνακα, χρειάζεται να βρείτε το τιμολόγιο του οργανισμού που σας παρέχει νερό.</strong>
+
     <label for="total">Συνολική κατανάλωση νερού (σε m³):</label>
     <input type="number" id="total" placeholder="π.χ. 30" min="0" step="0.1">
 
@@ -113,37 +50,19 @@
     <label for="people">Αριθμός ατόμων στο σπίτι:</label>
     <input type="number" id="people" placeholder="π.χ. 4" min="1" step="1">
 
-    <button id="calc">Υπολόγισε πόσο νερό καταναλώνεις</button>
+    <button id="calc">Υπολόγισε την κατανάλωση</button>
 
     <div class="result" id="result" style="display: none;"></div>
 
     <div class="share-section" id="shareSection" style="display: none;">
       <strong>Μοιραστείτε το αποτέλεσμα:</strong>
       <div class="share-buttons">
-        <div class="share-button" id="shareTwitter" title="Twitter">
-          <i class="fab fa-twitter" aria-hidden="true"></i>
-          <span class="sr-only">Twitter</span>
-        </div>
-        <div class="share-button" id="shareFacebook" title="Facebook">
-          <i class="fab fa-facebook" aria-hidden="true"></i>
-          <span class="sr-only">Facebook</span>
-        </div>
-        <div class="share-button" id="shareWhatsApp" title="WhatsApp">
-          <i class="fab fa-whatsapp" aria-hidden="true"></i>
-          <span class="sr-only">WhatsApp</span>
-        </div>
-        <div class="share-button" id="shareEmail" title="Email">
-          <i class="fas fa-envelope" aria-hidden="true"></i>
-          <span class="sr-only">Email</span>
-        </div>
-        <div class="share-button" id="copyLink" title="Αντέγραψε σύνδεσμο">
-          <i class="fas fa-link" aria-hidden="true"></i>
-          <span class="sr-only">Copy link</span>
-        </div>
-        <div class="share-button" id="copySummary" title="Αντέγραψε περίληψη">
-          <i class="fas fa-clipboard" aria-hidden="true"></i>
-          <span class="sr-only">Copy summary</span>
-        </div>
+        <div class="share-button" id="shareTwitter" title="Twitter"><i class="fab fa-twitter"></i></div>
+        <div class="share-button" id="shareFacebook" title="Facebook"><i class="fab fa-facebook"></i></div>
+        <div class="share-button" id="shareWhatsApp" title="WhatsApp"><i class="fab fa-whatsapp"></i></div>
+        <div class="share-button" id="shareViber" title="Viber"><i class="fab fa-viber"></i></div>
+        <div class="share-button" id="shareEmail" title="Email"><i class="fas fa-envelope"></i></div>
+        <div class="share-button" id="copySummary" title="Αντέγραψε περίληψη"><i class="fas fa-clipboard"></i></div>
       </div>
     </div>
   </div>
@@ -153,62 +72,69 @@
       const totalM3 = parseFloat(document.getElementById('total').value);
       const months = parseInt(document.getElementById('period').value);
       const people = parseInt(document.getElementById('people').value);
-      const avgCyprus = 140;
+      const avg = 140;
+
       if (!totalM3 || !months || !people) {
         alert('Παρακαλώ συμπληρώστε σωστά όλα τα πεδία.');
         return;
       }
+
       const totalLitres = totalM3 * 1000;
       const days = months * 30.4;
-      const perPersonPerDay = totalLitres / days / people;
-      const pctAbove = ((perPersonPerDay - avgCyprus) / avgCyprus) * 100;
-      const pctBelow = ((avgCyprus - perPersonPerDay) / avgCyprus) * 100;
-      const reductionNeeded = perPersonPerDay - avgCyprus;
+      const perDay = totalLitres / days / people;
+      const diffPct = ((perDay - avg) / avg) * 100;
 
-      let message = `<strong>Μέση κατανάλωση ανά άτομο/ημέρα:</strong> ${perPersonPerDay.toFixed(1)} λίτρα`;
-      message += `<br/><strong>Διαφορά από το μέσο όρο (140 λίτρα):</strong> `;
-      if (perPersonPerDay < avgCyprus) {
-        message += `Κάτω κατά ${pctBelow.toFixed(1)}%`;
-      } else {
-        message += `Πάνω κατά ${pctAbove.toFixed(1)}%`;
-      }
-      message += `<br/><br/>`;
-      if (perPersonPerDay <= 126) {
-        message += `Εξαιρετική δουλειά! Είστε κατά 10% κάτω από τον μέσο όρο της Κύπρου, και καταναλώνετε λιγότερο από στόχο για 126 λίτρα/ημέρα/άτομο. Συνεχίστε έτσι!`;
-      } else {
-        message += `Είστε ${(pctAbove).toFixed(1)}% πάνω από τον μέσο όρο. Στοχεύστε να μειώσετε κατά ${(reductionNeeded).toFixed(1)} λίτρα/ημέρα/άτομο για να φτάσετε τον μέσο όρο.`;
-      }
-      message += `<br/><br/>Αν όλοι μείωναν την κατανάλωση κατά 15 λίτρα (π.χ., 1 λεπτό λιγότερο στο μπάνιο), θα εξοικονομούσαμε 5.500.000 m³ ετησίως, που ισοδυναμεί σε μια μονάδα αφαλάτωσης με ετήσιο κόστος €6,5 εκατ.!`;
-      const resultDiv = document.getElementById('result');
-      resultDiv.innerHTML = message;
-      resultDiv.style.display = 'block';
+      let msg = `<strong>Μέση κατανάλωση ανά άτομο/ημέρα:</strong> ${perDay.toFixed(1)} λίτρα`;
+      msg += `<br/><strong>Διαφορά από το μέσο όρο (140 λίτρα):</strong> ` +
+             (perDay < avg ? `Κάτω κατά ${Math.abs(diffPct).toFixed(1)}%` : `Πάνω κατά ${diffPct.toFixed(1)}%`);
+      msg += `<br/><br/>`;
 
-      const baseUrl = `${location.origin}${location.pathname}`;
-      const urlParams = `?total=${totalM3}&period=${months}&people=${people}`;
-      const pageUrlRaw = baseUrl + urlParams;
+      // Εκτενέστερες πληροφορίες ανά ζώνη
+      if (diffPct < -20) {
+        msg += `Εξαιρετικά! Καταναλώνετε 20% λιγότερο νερό από τον μέσο όρο. ` +
+               `Αν όλοι οι καταναλωτές είχαν αυτή την κατανάλωση, θα εξοικονομούσαμε περίπου 10 εκατ. m³ νερού ετησίως, ` +
+               `που θα αρκούσε για να υδροδοτηθούν 200,000 άτομα για ένα χρόνο (που αντιστοιχεί στο πληθυσμό της Επαρχίας Λάρνακας και Αμμοχώστου)! Συνεχίστε έτσι και βοηθήστε να εδρεωθεί η υδατική συνείδηση στην Κύπρο!`;
+      } else if (diffPct >= -20 && diffPct < -10) {
+        msg += `Μπράβο! Καταναλώνετε 10% λιγότερο νερό από τον μέσο όρο. ` +
+               `Εάν όλοι οι καταναλωτές είχαν αυτή την κατανάλωση, θα εξοικονομούσαμε περίπου 5 εκατ. m³ νερού ετησίως, ` +
+               `που θα αρκούσε για να υδροδοτηθούν  100,000 άτομα για ένα χρόνο (που αντιστοιχεί στο πληθυσμό της Επαρχίας Πάφου)! Συνεχίστε έτσι, και με κάποιες μικρές αλλαγές, όπως πιο σύντομα ντους και πλήρης χρήση πλυντηρίου, ` +
+               `θα σας φέρουν ακόμη πιο κοντά στους κορυφαίους καταναλωτές!`;
+      } else if (diffPct >= -10 && diffPct < 0) {
+        msg += `Πολύ καλά: είστε ελαφρώς κάτω από τον μέσο όρο. ` +
+               `Αν όλοι είχαμε αυτή την κατανάλωση, θα εξοικονομούσαμε σχεδόν 3 εκατ. m³ ετησίως, που θα αρκούσε για να υδροδοτηθούν 50,000 άτομα για ένα χρόνο (που αντιστοιχεί στο πληθυσμό της Επαρχίας Αμμοχώστου)! Συνεχίστε έτσι, και με κάποιες μικρές αλλαγές, όπως πιο σύντομα ντους και πλήρης χρήση πλυντηρίου, ` +
+               `θα σας φέρουν ακόμη πιο κοντά στους κορυφαίους καταναλωτές!`;
+      } else if (diffPct >= 0 && diffPct < 10) {
+        msg += `Είστε πολύ κοντά στο μέσο όρο! ` +
+               `Μειώνοντας μόλις 15 λίτρα/ημέρα (π.χ. 1-2 λεπτά λιγότερο στο ντους), θα μπορούσατε να φτάσετε το μέσο όρο!`;
+      } else if (diffPct >= 10 && diffPct < 20) {
+        msg += `Προσοχή: βρίσκεστε 10% πάνω από τον μέσο όρο. ` +
+               `Μπορείτε να φτάσετε το μέσο όρο, αν μειώσετε κατά 2 λεπτά το καθημερινό ντους.`;
+      } else {
+        msg += `Προειδοποίηση: Είστε μέσα στους λίγους καταναλωτές με 20% πάνω από τον μέσο όρο. Ο μέσος καταναλωτής στην Κύπρο καταναλώνει 140 λίτρα/ημέρα. ` +
+               `Ξεκινήστε άμεσα με μικρές αλλαγές (2 λεπτά λιγότερο ντους, και αποφυγή χρήσης/μείωσης τρεχούμενου νερού για πότισμα. ` +
+               `Ελέγξτε για διαρροές στο στο σπίτι σας.`;
+      }
+
+      const result = document.getElementById('result');
+      result.innerHTML = msg;
+      result.style.display = 'block';
+
+      const base = `${location.origin}${location.pathname}`;
+      const params = `?total=${totalM3}&period=${months}&people=${people}`;
+      const url = base + params;
       document.getElementById('shareSection').style.display = 'block';
 
-      // Share text now includes percentage difference
-      let shareSummary = `Η κατανάλωσή μου: ${perPersonPerDay.toFixed(1)} λίτρα/ημέρα `;
-      if (perPersonPerDay < avgCyprus) {
-        shareSummary += `(Κάτω ${pctBelow.toFixed(1)}% απ' τον μέσο όρο)`;
-      } else {
-        shareSummary += `(Πάνω ${pctAbove.toFixed(1)}% απ' τον μέσο όρο)`;
-      }
-      shareSummary += `. Δοκίμασέ το: ${pageUrlRaw}`;
-      const shareText = encodeURIComponent(shareSummary);
+      let summary = `Η κατανάλωσή μου: ${perDay.toFixed(1)} λίτρα/ημέρα ` +
+                    (perDay < avg ? `(Κάτω ${Math.abs(diffPct).toFixed(1)}% απ' τον μέσο όρο)` : `(Πάνω ${diffPct.toFixed(1)}% απ' τον μέσο όρο)`) +
+                    `. Δοκίμασέ το: ${url}`;
+      const enc = encodeURIComponent(summary);
 
-      document.getElementById('shareTwitter').onclick = () =>
-        window.open(`https://twitter.com/intent/tweet?text=${shareText}`, '_blank', 'noopener');
-      document.getElementById('shareFacebook').onclick = () =>
-        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrlRaw)}&quote=${shareText}`, '_blank', 'noopener');
-      document.getElementById('shareWhatsApp').onclick = () =>
-        window.open(`https://wa.me/?text=${shareText}`, '_blank', 'noopener');
-      document.getElementById('shareEmail').onclick = () =>
-        window.open(`mailto:?subject=Κατανάλωση νερού&body=${shareText}`, '_blank');
-      const copyToClipboard = (text) => navigator.clipboard.writeText(text).then(() => alert('Αντιγράφηκε!'));
-      document.getElementById('copyLink').onclick = () => copyToClipboard(pageUrlRaw);
-      document.getElementById('copySummary').onclick = () => copyToClipboard(shareSummary);
+      document.getElementById('shareTwitter').onclick = () => window.open(`https://twitter.com/intent/tweet?text=${enc}`, '_blank');
+      document.getElementById('shareFacebook').onclick = () => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${enc}`, '_blank');
+      document.getElementById('shareWhatsApp').onclick = () => window.open(`https://wa.me/?text=${enc}`, '_blank');
+      document.getElementById('shareViber').onclick = () => window.open(`viber://forward?text=${enc}`, '_blank');
+      document.getElementById('shareEmail').onclick = () => window.open(`mailto:?subject=Κατανάλωση νερού&body=${enc}`, '_blank');
+      document.getElementById('copySummary').onclick = () => navigator.clipboard.writeText(summary).then(() => alert('Αντιγράφηκε!'));
     });
   </script>
 </body>
