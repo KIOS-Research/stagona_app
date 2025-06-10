@@ -12,8 +12,8 @@
   />
   <style>
     body {font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f8ff; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 1rem;}
-    .container {background: #fff; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 500px; width: 100%;}
-    .app-header {display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 1.5rem;}
+    .container {background: #fff; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 500px; width: 100%; position: relative;}
+    .app-header {display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-bottom: 1.5rem; position: relative;}
     .app-logo {height: 96px; width: auto;}
     .app-title {font-size: 2rem; color: #0066cc; margin: 0;}
     h2 {text-align: center; margin-bottom: 1rem; color: #0066cc; font-size: 1.5rem;}
@@ -26,12 +26,88 @@
     .share-button {flex: 1 1 calc(25% - 0.5rem); text-align: center; padding: 0.75rem 0; background: #fff; border: 1px solid #ccc; border-radius: 0.5rem; cursor: pointer; transition: background 0.3s;}
     .share-button i {font-size: 1.5rem; color: #0066cc;}
     .share-button:hover {background: #f0f0f0;}
+    .footer {margin-top: 2rem; text-align: center; font-size: 0.9rem; color: #666; border-top: 1px solid #eee; padding-top: 1rem;}
+    .footer a {color: #0066cc; text-decoration: none;}
+    .footer a:hover {text-decoration: underline;}
+    
+    /* Modal styles */
+    .info-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: none;
+      border: none;
+      color: #0066cc;
+      font-size: 1.25rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      transition: color 0.3s;
+      z-index: 10;
+      line-height: 1;
+    }
+    .info-button:hover {
+      color: #004a99;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      color: #666;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0.5rem;
+    }
+    .modal-close:hover {
+      color: #333;
+    }
+    .modal-logo {
+      display: block;
+      margin: 0 auto 1.5rem;
+      height: 120px;
+      width: auto;
+    }
+    .modal-section {
+      margin-bottom: 1.5rem;
+    }
+    .modal-section h3 {
+      color: #0066cc;
+      margin-bottom: 0.5rem;
+    }
+    .modal-section p {
+      margin: 0.5rem 0;
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="app-header">
       <img src="logo.png" alt="Stagona Logo" class="app-logo" />
+      <button class="info-button" id="infoButton" title="About"><i class="fas fa-info-circle"></i></button>
     </div>
     <h2>Πόσο νερό καταναλώνεις στο σπίτι σου;</h2>
     <strong>Για να συμπληρώσετε τον πιο κάτω πίνακα, χρειάζεται να βρείτε το τιμολόγιο του οργανισμού που σας παρέχει νερό.</strong>
@@ -63,6 +139,45 @@
         <div class="share-button" id="shareViber" title="Viber"><i class="fab fa-viber"></i></div>
         <div class="share-button" id="shareEmail" title="Email"><i class="fas fa-envelope"></i></div>
         <div class="share-button" id="copySummary" title="Αντέγραψε περίληψη"><i class="fas fa-clipboard"></i></div>
+      </div>
+    </div>
+    <div class="footer">
+      Created by <a href="https://www.kios.ucy.ac.cy/eliades" target="_blank">Demetrios Eliades</a>. Copyright (C) <a href="https://www.kios.ucy.ac.cy" target="_blank">KIOS Research and Innovation Center of Excellence</a>, <a href="https://www.ucy.ac.cy" target="_blank">University of Cyprus</a>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="aboutModal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <img src="logo.png" alt="Stagona Logo" class="modal-logo">
+      
+      <div class="modal-section">
+        <h3>About Stagona</h3>
+        <p>Stagona is a water consumption calculator designed to help households in Cyprus understand and optimize their water usage. The app compares your water consumption with the national average and provides personalized recommendations for water conservation.</p>
+      </div>
+
+      <div class="modal-section">
+        <h3>How to Use</h3>
+        <p>1. Find your water bill or consumption statement</p>
+        <p>2. Enter your total water consumption in cubic meters (m³)</p>
+        <p>3. Select your billing period</p>
+        <p>4. Enter the number of people in your household</p>
+        <p>5. Click "Calculate" to see your results</p>
+      </div>
+
+      <div class="modal-section">
+        <h3>Water Conservation Tips</h3>
+        <p>• Take shorter showers (aim for 5 minutes or less)</p>
+        <p>• Fix any leaking taps or pipes</p>
+        <p>• Use full loads in washing machines and dishwashers</p>
+        <p>• Install water-saving devices in taps and showers</p>
+        <p>• Collect rainwater for garden use</p>
+      </div>
+
+      <div class="modal-section">
+        <h3>Version</h3>
+        <p>1.0.0</p>
       </div>
     </div>
   </div>
@@ -136,6 +251,25 @@
       document.getElementById('shareEmail').onclick = () => window.open(`mailto:?subject=Κατανάλωση νερού&body=${enc}`, '_blank');
       document.getElementById('copySummary').onclick = () => navigator.clipboard.writeText(summary).then(() => alert('Αντιγράφηκε!'));
     });
+
+    // Modal functionality
+    const modal = document.getElementById('aboutModal');
+    const infoButton = document.getElementById('infoButton');
+    const modalClose = document.getElementById('modalClose');
+
+    infoButton.onclick = () => {
+      modal.style.display = 'flex';
+    }
+
+    modalClose.onclick = () => {
+      modal.style.display = 'none';
+    }
+
+    window.onclick = (event) => {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    }
   </script>
 </body>
 </html>
