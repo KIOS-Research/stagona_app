@@ -101,13 +101,22 @@
       margin: 0.5rem 0;
       line-height: 1.5;
     }
+
+    .info-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 1.5rem;
+    color: #0066cc;
+    cursor: pointer;
+}
   </style>
 </head>
 <body>
   <div class="container">
     <div class="app-header">
       <img src="logo.png" alt="Stagona Logo" class="app-logo" />
-      <button class="info-button" id="infoButton" title="About"><i class="fas fa-info-circle"></i></button>
+      <i class="fas fa-info-circle info-icon" id="infoButton" title="Πληροφορίες"></i>
     </div>
     <h2>Πόσο νερό καταναλώνεις στο σπίτι σου;</h2>
     <strong>Για να συμπληρώσετε τον πιο κάτω πίνακα, χρειάζεται να βρείτε το τιμολόγιο του οργανισμού που σας παρέχει νερό.</strong>
@@ -150,33 +159,32 @@
   <div class="modal" id="aboutModal">
     <div class="modal-content">
       <button class="modal-close" id="modalClose">&times;</button>
-      <img src="logo.png" alt="Stagona Logo" class="modal-logo">
       
       <div class="modal-section">
-        <h3>About Stagona</h3>
-        <p>Stagona is a water consumption calculator designed to help households in Cyprus understand and optimize their water usage. The app compares your water consumption with the national average and provides personalized recommendations for water conservation.</p>
+        <h3>Σχετικά με το Stagona App</h3>
+        <p>Υπολογιστής κατανάλωσης νερού σχεδιασμένος για να βοηθά τα νοικοκυριά στην Κύπρο να κατανοήσουν και να βελτιστοποιήσουν την κατανάλωση νερού τους. Η εφαρμογή συγκρίνει την κατανάλωση νερού σας με τον  μέσο όρο και παρέχει συστάσεις για την εξοικονόμηση νερού.</p>
       </div>
 
       <div class="modal-section">
-        <h3>How to Use</h3>
-        <p>1. Find your water bill or consumption statement</p>
-        <p>2. Enter your total water consumption in cubic meters (m³)</p>
-        <p>3. Select your billing period</p>
-        <p>4. Enter the number of people in your household</p>
-        <p>5. Click "Calculate" to see your results</p>
+        <h3>Πώς να το χρησιμοποιήσετε</h3>
+        <p>1. Βρείτε τον λογαριασμό κατανάλωσης νερού σας</p>
+        <p>2. Εισάγετε τη συνολική κατανάλωση νερού σας σε κυβικά μέτρα (m³) όπως αναγράφεται στον λογαριασμό</p>
+        <p>3. Επιλέξτε την ορθή περίοδο χρέωσης</p>
+        <p>4. Εισάγετε τον αριθμό των ατόμων έχουν ως μόνιμη κατοικία τους το νοικοκυριό</p>
+        <p>5. Κάντε κλικ στο "Υπολόγισε" για να δείτε τα αποτελέσματα</p>
       </div>
 
       <div class="modal-section">
-        <h3>Water Conservation Tips</h3>
-        <p>• Take shorter showers (aim for 5 minutes or less)</p>
-        <p>• Fix any leaking taps or pipes</p>
-        <p>• Use full loads in washing machines and dishwashers</p>
-        <p>• Install water-saving devices in taps and showers</p>
-        <p>• Collect rainwater for garden use</p>
+        <h3>Συμβουλές εξοικονόμησης νερού</h3>
+        <p>• Κάντε πιο σύντομα ντους (στοχεύστε για 5 λεπτά ή λιγότερο)</p>
+        <p>• Επισκευάστε τρύπες σε βρύσες ή σωλήνες</p>
+        <p>• Χρησιμοποιήστε πλήρη φορτίο στα πλυντήρια και στα πλυντήρια πιάτων</p>
+        <p>• Εγκαταστήστε εξοικονομητές νερού στις βρύσες και στα ντους</p>
+        <p>• Συλλέξτε νερό βροχής για κήπο</p>
       </div>
 
       <div class="modal-section">
-        <h3>Version</h3>
+        <h3>Έκδοση</h3>
         <p>1.0.0</p>
       </div>
     </div>
