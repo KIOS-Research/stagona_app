@@ -103,39 +103,57 @@
     }
 
     .info-icon {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 1.5rem;
-    color: #0066cc;
-    cursor: pointer;
-}
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 1.5rem;
+      color: #0066cc;
+      cursor: pointer;
+    }
+    .lang-toggle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-size: 1rem;
+      color: #0066cc;
+      cursor: pointer;
+      padding: 0.5rem;
+      background: none;
+      border: 1px solid #0066cc;
+      border-radius: 0.5rem;
+      transition: all 0.3s;
+    }
+    .lang-toggle:hover {
+      background: #0066cc;
+      color: white;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="app-header">
+      <i class="lang-toggle" id="langToggle" title="English">English</i>
       <img src="logo.png" alt="Stagona Logo" class="app-logo" />
       <i class="fas fa-info-circle info-icon" id="infoButton" title="Πληροφορίες"></i>
     </div>
-    <h2>Σταγονό-μέτρο</h2>
-    <strong>Εσύ γνωρίζεις πόσα λίτρα νερό καταναλώνεις καθημερινά στο σπίτι σου; Βρες ένα πρόσφατο τιμολόγιο από τον οργανισμό υδροδότησής σου, και συμπλήρωσε τα πιο κάτω στοιχεία.</strong>
+    <h2 data-el="title">Σταγονό-μέτρο</h2>
+    <strong data-el="intro">Εσύ γνωρίζεις πόσα λίτρα νερό καταναλώνεις καθημερινά στο σπίτι σου; Βρες ένα πρόσφατο τιμολόγιο από τον οργανισμό υδροδότησής σου, και συμπληρώσε τα πιο κάτω στοιχεία.</strong>
 
-    <label for="total">Συνολική κατανάλωση νερού (σε m³):</label>
+    <label for="total" data-el="total-label">Συνολική κατανάλωση νερού (σε m³):</label>
     <input type="number" id="total" placeholder="π.χ. 30" min="0" step="0.1">
 
-    <label for="period">Περίοδος κατανάλωσης (σε μήνες):</label>
+    <label for="period" data-el="period-label">Περίοδος κατανάλωσης (σε μήνες):</label>
     <select id="period">
-      <option value="1">1 μήνας</option>
-      <option value="2">2 μήνες</option>
-      <option value="3">3 μήνες (ΕΟΑ Λ/σια, Λ/κας, Πάφου, Αμ/στου)</option>
-      <option value="4">4 μήνες (ΕΟΑ Λ/σου)</option>
+      <option value="1" data-el="period-1">1 μήνας</option>
+      <option value="2" data-el="period-2">2 μήνες</option>
+      <option value="3" data-el="period-3">3 μήνες (ΕΟΑ Λ/σια, Λ/κας, Πάφου, Αμ/στου)</option>
+      <option value="4" data-el="period-4">4 μήνες (ΕΟΑ Λ/σου)</option>
     </select>
 
-    <label for="people">Αριθμός ατόμων που μένουν μόνιμα στο σπίτι:</label>
+    <label for="people" data-el="people-label">Αριθμός ατόμων που μένουν μόνιμα στο σπίτι:</label>
     <input type="number" id="people" placeholder="π.χ. 4" min="1" step="1">
 
-    <button id="calc">Υπολόγισε</button>
+    <button id="calc" data-el="calc-button">Υπολόγισε</button>
 
     <div class="result" id="result" style="display: none;"></div>
 
@@ -162,25 +180,25 @@
       
       <div class="modal-section">
         <br/><br/>
-        <h3>Σχετικά με το Stagona App</h3>
-        <p>Υπολογιστής σχεδιασμένος για να βοηθά τα νοικοκυριά στην Κύπρο να κατανοήσουν και να βελτιστοποιήσουν την κατανάλωση νερού τους. Η εφαρμογή συγκρίνει την κατανάλωση νερού σας με τον  μέσο όρο και παρέχει συστάσεις για την εξοικονόμηση νερού.</p>
+        <h3 data-el="about-title">Σχετικά με το Stagona App</h3>
+        <p data-el="about-desc">Υπολογιστής σχεδιασμένος για να βοηθά τα νοικοκυριά στην Κύπρο να κατανοήσουν και να βελτιστοποιήσουν την κατανάλωση νερού τους. Η εφαρμογή συγκρίνει την κατανάλωση νερού σας με τον  μέσο όρο και παρέχει συστάσεις για την εξοικονόμηση νερού.</p>
       </div>
 
       <div class="modal-section">
-        <h3>Πώς να το χρησιμοποιήσετε</h3>
-        <p>1. Βρείτε τον λογαριασμό κατανάλωσης νερού σας</p>
-        <p>2. Εισάγετε τη συνολική κατανάλωση νερού σας σε κυβικά μέτρα (m³) όπως αναγράφεται στον λογαριασμό</p>
-        <p>3. Επιλέγετε την ορθή περίοδο χρέωσης</p>
-        <p>4. Εισάγετε τον αριθμό των ατόμων έχουν ως μόνιμη κατοικία τους το νοικοκυριό</p>
-        <p>5. Κάντε κλικ στο "Υπολόγισε" για να δείτε τα αποτελέσματα</p>
+        <h3 data-el="how-to-title">Πώς να το χρησιμοποιήσετε</h3>
+        <p data-el="how-to-1">1. Βρείτε τον λογαριασμό κατανάλωσης νερού σας</p>
+        <p data-el="how-to-2">2. Εισάγετε τη συνολική κατανάλωση νερού σας σε κυβικά μέτρα (m³) όπως αναγράφεται στον λογαριασμό</p>
+        <p data-el="how-to-3">3. Επιλέγετε την ορθή περίοδο χρέωσης</p>
+        <p data-el="how-to-4">4. Εισάγετε τον αριθμό των ατόμων έχουν ως μόνιμη κατοικία τους το νοικοκυριό</p>
+        <p data-el="how-to-5">5. Κάντε κλικ στο "Υπολόγισε" για να δείτε τα αποτελέσματα</p>
       </div>
 
       <div class="modal-section">
-        <h3>Συμβουλές εξοικονόμησης νερού</h3>
-        <p>• Κάντε πιο σύντομα ντους (στοχεύστε για 5 λεπτά ή λιγότερο)</p>
-        <p>• Εντοπίστε και επισκευάστε τυχόν διαρροές</p>
-        <p>• Χρησιμοποιήστε πλήρη φορτίο στα πλυντήρια και στα πλυντήρια πιάτων</p>
-        <p>• Συλλέξτε νερό σε κουβάδες για επαναχρησιμοποίηση</p>
+        <h3 data-el="tips-title">Συμβουλές εξοικονόμησης νερού</h3>
+        <p data-el="tip-1">• Κάντε πιο σύντομα ντους (στοχεύστε για 5 λεπτά ή λιγότερο)</p>
+        <p data-el="tip-2">• Εντοπίστε και επισκευάστε τυχόν διαρροές</p>
+        <p data-el="tip-3">• Χρησιμοποιήστε πλήρη φορτίο στα πλυντήρια και στα πλυντήρια πιάτων</p>
+        <p data-el="tip-4">• Συλλέξτε νερό σε κουβάδες για επαναχρησιμοποίηση</p>
       </div>
 
       <div class="modal-section">
@@ -191,6 +209,183 @@
   </div>
 
   <script>
+    // Translations object
+    const translations = {
+      el: {
+        title: "Σταγονό-μέτρο",
+        intro: "Εσύ γνωρίζεις πόσα λίτρα νερό καταναλώνεις καθημερινά στο σπίτι σου; Βρες ένα πρόσφατο τιμολόγιο από τον οργανισμό υδροδότησής σου, και συμπληρώσε τα πιο κάτω στοιχεία.",
+        "total-label": "Συνολική κατανάλωση νερού (σε m³):",
+        "period-label": "Περίοδος κατανάλωσης (σε μήνες):",
+        "period-1": "1 μήνας",
+        "period-2": "2 μήνες",
+        "period-3": "3 μήνες (ΕΟΑ Λ/σια, Λ/κας, Πάφου, Αμ/στου)",
+        "period-4": "4 μήνες (ΕΟΑ Λ/σου)",
+        "people-label": "Αριθμός ατόμων που μένουν μόνιμα στο σπίτι:",
+        "calc-button": "Υπολόγισε",
+        "about-title": "Σχετικά με το Stagona App",
+        "about-desc": "Υπολογιστής σχεδιασμένος για να βοηθά τα νοικοκυριά στην Κύπρο να κατανοήσουν και να βελτιστοποιήσουν την κατανάλωση νερού τους. Η εφαρμογή συγκρίνει την κατανάλωση νερού σας με τον  μέσο όρο και παρέχει συστάσεις για την εξοικονόμηση νερού.",
+        "how-to-title": "Πώς να το χρησιμοποιήσετε",
+        "how-to-1": "1. Βρείτε τον λογαριασμό κατανάλωσης νερού σας",
+        "how-to-2": "2. Εισάγετε τη συνολική κατανάλωση νερού σας σε κυβικά μέτρα (m³) όπως αναγράφεται στον λογαριασμό",
+        "how-to-3": "3. Επιλέγετε την ορθή περίοδο χρέωσης",
+        "how-to-4": "4. Εισάγετε τον αριθμό των ατόμων έχουν ως μόνιμη κατοικία τους το νοικοκυριό",
+        "how-to-5": "5. Κάντε κλικ στο \"Υπολόγισε\" για να δείτε τα αποτελέσματα",
+        "tips-title": "Συμβουλές εξοικονόμησης νερού",
+        "tip-1": "• Κάντε πιο σύντομα ντους (στοχεύστε για 5 λεπτά ή λιγότερο)",
+        "tip-2": "• Εντοπίστε και επισκευάστε τυχόν διαρροές",
+        "tip-3": "• Χρησιμοποιήστε πλήρη φορτίο στα πλυντήρια και στα πλυντήρια πιάτων",
+        "tip-4": "• Συλλέξτε νερό σε κουβάδες για επαναχρησιμοποίηση",
+        "result-title": "Μέση κατανάλωση ανά άτομο/ημέρα:",
+        "result-diff": "Διαφορά από το μέσο όρο (140 λίτρα):",
+        "result-below": "Κάτω κατά",
+        "result-above": "Πάνω κατά",
+        "result-excellent": "Εξαιρετικά! Καταναλώνετε 20% λιγότερο νερό από τον μέσο όρο.",
+        "result-excellent-desc": "Αν όλοι οι καταναλωτές είχαν αυτή την κατανάλωση, θα εξοικονομούσαμε περίπου 10 εκατ. m³ νερού ετησίως, που θα αρκούσε για να υδροδοτηθούν 200,000 άτομα για ένα χρόνο (που αντιστοιχεί στο πληθυσμό της Επαρχίας Λάρνακας και Αμμοχώστου)! Συνεχίστε έτσι και βοηθήστε να εδραιωθεί η υδατική συνείδηση στην Κύπρο!",
+        "result-good": "Μπράβο! Καταναλώνετε 10% λιγότερο νερό από τον μέσο όρο.",
+        "result-good-desc": "Εάν όλοι οι καταναλωτές είχαν αυτή την κατανάλωση, θα εξοικονομούσαμε περίπου 5 εκατ. m³ νερού ετησίως, που θα αρκούσε για να υδροδοτηθούν 100,000 άτομα για ένα χρόνο (που αντιστοιχεί στο πληθυσμό της Επαρχίας Πάφου)! Συνεχίστε έτσι, και με κάποιες μικρές αλλαγές, όπως πιο σύντομα ντους κατά 1-2 λεπτά, και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στους κορυφαίους καταναλωτές!",
+        "result-average": "Πολύ καλά! είστε ελαφρώς κάτω από τον μέσο όρο.",
+        "result-average-desc": "Αν όλοι είχαμε αυτή την κατανάλωση, θα εξοικονομούσαμε σχεδόν 2.5 εκατ. m³ ετησίως, που θα αρκούσε για να υδροδοτηθούν 50,000 άτομα για ένα χρόνο (που αντιστοιχεί στο πληθυσμό της Επαρχίας Αμμοχώστου)! Συνεχίστε έτσι, και με κάποιες μικρές αλλαγές, όπως πιο σύντομα ντους κατά 2-3 λεπτά, και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στους κορυφαίους καταναλωτές!",
+        "result-slightly-high": "Είστε πολύ κοντά στο μέσο όρο!",
+        "result-slightly-high-desc": "Μειώνοντας μόλις 15 λίτρα/ημέρα (π.χ. 1-2 λεπτά λιγότερο στο ντους), θα μπορούσατε να φτάσετε το μέσο όρο!",
+        "result-high": "Προσοχή! βρίσκεστε 10% πάνω από τον μέσο όρο.",
+        "result-high-desc": "Μπορείτε να φτάσετε το μέσο όρο, αν μειώσετε κατά 2-3 λεπτά το καθημερινό ντους, και αποφυγή χρήσης/μείωσης τρεχούμενου νερού για πότισμα.",
+        "result-very-high": "Προειδοποίηση: Βρίσκεστε μέσα στους λίγους καταναλωτές με 20% πάνω από τον μέσο όρο.",
+        "result-very-high-desc": "Ο μέσος καταναλωτής στην Κύπρο καταναλώνει 140 λίτρα/ημέρα. Ξεκινήστε άμεσα με μικρές αλλαγές για να φτάσετε τον μέσο όρο. μειώσετε κατά 2-3 λεπτά το καθημερινό ντους, και αποφυγή χρήσης/μείωσης τρεχούμενου νερού για πότισμα. Ελέγξτε για τυχών διαρροές στο στο σπίτι σας, παρακολουθώντας την κατανάλωση στον μετρητή σας τις ώρες που απουσιάζετε από το σπίτι.",
+        "share-title": "Μοιραστείτε το αποτέλεσμα:",
+        "copy-success": "Αντιγράφηκε!"
+      },
+      en: {
+        title: "Water Consumption Calculator",
+        intro: "Do you know how many liters of water you consume daily in your home? Find a recent bill from your water supplier and fill in the details below.",
+        "total-label": "Total water consumption (in m³):",
+        "period-label": "Consumption period (in months):",
+        "period-1": "1 month",
+        "period-2": "2 months",
+        "period-3": "3 months (WDD Larnaca, Limassol, Paphos, Famagusta)",
+        "period-4": "4 months (WDD Nicosia)",
+        "people-label": "Number of permanent residents:",
+        "calc-button": "Calculate",
+        "about-title": "About Stagona App",
+        "about-desc": "A calculator designed to help households in Cyprus understand and optimize their water consumption. The app compares your water consumption with the average and provides recommendations for water saving.",
+        "how-to-title": "How to use it",
+        "how-to-1": "1. Find your water consumption bill",
+        "how-to-2": "2. Enter your total water consumption in cubic meters (m³) as shown on the bill",
+        "how-to-3": "3. Select the correct billing period",
+        "how-to-4": "4. Enter the number of permanent residents in the household",
+        "how-to-5": "5. Click \"Calculate\" to see the results",
+        "tips-title": "Water saving tips",
+        "tip-1": "• Take shorter showers (aim for 5 minutes or less)",
+        "tip-2": "• Find and fix any leaks",
+        "tip-3": "• Use full loads in washing machines and dishwashers",
+        "tip-4": "• Collect water in buckets for reuse",
+        "result-title": "Average consumption per person/day:",
+        "result-diff": "Difference from average (140 liters):",
+        "result-below": "Below by",
+        "result-above": "Above by",
+        "result-excellent": "Excellent! You consume 20% less water than the average.",
+        "result-excellent-desc": "If all consumers had this consumption, we would save about 10 million m³ of water annually, which would be enough to supply 200,000 people for a year (equivalent to the population of Larnaca and Famagusta Districts)! Keep it up and help establish water consciousness in Cyprus!",
+        "result-good": "Well done! You consume 10% less water than the average.",
+        "result-good-desc": "If all consumers had this consumption, we would save about 5 million m³ of water annually, which would be enough to supply 100,000 people for a year (equivalent to the population of Paphos District)! Keep it up, and with some small changes, such as shorter showers by 1-2 minutes, and using full loads in washing machines, you'll get even closer to the top consumers!",
+        "result-average": "Very good! You're slightly below average.",
+        "result-average-desc": "If everyone had this consumption, we would save almost 2.5 million m³ annually, which would be enough to supply 50,000 people for a year (equivalent to the population of Famagusta District)! Keep it up, and with some small changes, such as shorter showers by 2-3 minutes, and using full loads in washing machines, you'll get even closer to the top consumers!",
+        "result-slightly-high": "You're very close to the average!",
+        "result-slightly-high-desc": "By reducing just 15 liters/day (e.g., 1-2 minutes less in the shower), you could reach the average!",
+        "result-high": "Attention! You're 10% above the average.",
+        "result-high-desc": "You can reach the average by reducing your daily shower by 2-3 minutes and avoiding/reducing running water for irrigation.",
+        "result-very-high": "Warning: You're among the few consumers who are 20% above the average.",
+        "result-very-high-desc": "The average consumer in Cyprus consumes 140 liters/day. Start immediately with small changes to reach the average. Reduce your daily shower by 2-3 minutes and avoid/reduce running water for irrigation. Check for any leaks in your home by monitoring your meter during hours when you're away from home.",
+        "share-title": "Share your result:",
+        "copy-success": "Copied!"
+      }
+    };
+
+    let currentLang = 'el';
+
+    // Function to update text content
+    function updateLanguage(lang) {
+      const elements = document.querySelectorAll('[data-el]');
+      elements.forEach(element => {
+        const key = element.getAttribute('data-el');
+        if (translations[lang][key]) {
+          if (element.tagName === 'INPUT' || element.tagName === 'SELECT') {
+            element.placeholder = translations[lang][key];
+          } else {
+            element.textContent = translations[lang][key];
+          }
+        }
+      });
+      document.getElementById('langToggle').textContent = lang === 'el' ? 'English' : 'Ελληνικά';
+      document.getElementById('langToggle').title = lang === 'el' ? 'English' : 'Ελληνικά';
+      currentLang = lang;
+
+      // Update existing results if they are displayed
+      const result = document.getElementById('result');
+      if (result.style.display !== 'none') {
+        const totalM3 = parseFloat(document.getElementById('total').value);
+        const months = parseInt(document.getElementById('period').value);
+        const people = parseInt(document.getElementById('people').value);
+        const avg = 140;
+
+        const totalLitres = totalM3 * 1000;
+        const days = months * 30.4;
+        const perDay = totalLitres / days / people;
+        const diffPct = ((perDay - avg) / avg) * 100;
+
+        let msg = `<strong>${translations[lang]['result-title']}</strong> ${perDay.toFixed(1)} λίτρα`;
+        msg += `<br/><strong>${translations[lang]['result-diff']}</strong> ` +
+               (perDay < avg ? 
+                 `${translations[lang]['result-below']} ${Math.abs(diffPct).toFixed(1)}%` : 
+                 `${translations[lang]['result-above']} ${diffPct.toFixed(1)}%`);
+        msg += `<br/><br/>`;
+
+        if (diffPct < -20) {
+          msg += `${translations[lang]['result-excellent']}<br/><br/>${translations[lang]['result-excellent-desc']}`;
+        } else if (diffPct >= -20 && diffPct < -10) {
+          msg += `${translations[lang]['result-good']}<br/><br/>${translations[lang]['result-good-desc']}`;
+        } else if (diffPct >= -10 && diffPct < 0) {
+          msg += `${translations[lang]['result-average']}<br/><br/>${translations[lang]['result-average-desc']}`;
+        } else if (diffPct >= 0 && diffPct < 10) {
+          msg += `${translations[lang]['result-slightly-high']}<br/><br/>${translations[lang]['result-slightly-high-desc']}`;
+        } else if (diffPct >= 10 && diffPct < 20) {
+          msg += `${translations[lang]['result-high']}<br/><br/>${translations[lang]['result-high-desc']}`;
+        } else {
+          msg += `${translations[lang]['result-very-high']}<br/><br/>${translations[lang]['result-very-high-desc']}`;
+        }
+
+        result.innerHTML = msg;
+
+        // Update share section if it's visible
+        const shareSection = document.getElementById('shareSection');
+        if (shareSection.style.display !== 'none') {
+          const base = `${location.origin}${location.pathname}`;
+          const url = base;
+          
+          let summary = lang === 'el' ?
+            `Μόλις υπολόγισα την κατανάλωσή νερού μου: ${perDay.toFixed(1)} λίτρα/ημέρα ` +
+            (perDay < avg ? `(κάτω ${Math.abs(diffPct).toFixed(1)}% από τον μέσο όρο των 140 λίτρων/ημέρα)` : `(πάνω ${diffPct.toFixed(1)}% από τον μέσο όρο των 140 λίτρων/ημέρα)`) +
+            `. Δοκίμασέ το και εσύ: ${url}` :
+            `I just calculated my water consumption: ${perDay.toFixed(1)} liters/day ` +
+            (perDay < avg ? `(below average by ${Math.abs(diffPct).toFixed(1)}% from the average of 140 liters/day)` : `(above average by ${diffPct.toFixed(1)}% from the average of 140 liters/day)`) +
+            `. Try it yourself: ${url}`;
+
+          const enc = encodeURIComponent(summary);
+
+          document.getElementById('shareTwitter').onclick = () => window.open(`https://twitter.com/intent/tweet?text=${enc}`, '_blank');
+          document.getElementById('shareFacebook').onclick = () => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${enc}`, '_blank');
+          document.getElementById('shareWhatsApp').onclick = () => window.open(`https://wa.me/?text=${enc}`, '_blank');
+          document.getElementById('shareViber').onclick = () => window.open(`viber://forward?text=${enc}`, '_blank');
+          document.getElementById('shareEmail').onclick = () => window.open(`mailto:?subject=${lang === 'el' ? 'Κατανάλωση νερού' : 'Water Consumption'}&body=${enc}`, '_blank');
+          document.getElementById('copySummary').onclick = () => navigator.clipboard.writeText(summary).then(() => alert(translations[lang]['copy-success']));
+        }
+      }
+    }
+
+    // Language toggle button click handler
+    document.getElementById('langToggle').addEventListener('click', () => {
+      const newLang = currentLang === 'el' ? 'en' : 'el';
+      updateLanguage(newLang);
+    });
+
     document.getElementById('calc').addEventListener('click', () => {
       const totalM3 = parseFloat(document.getElementById('total').value);
       const months = parseInt(document.getElementById('period').value);
@@ -198,7 +393,7 @@
       const avg = 140;
 
       if (!totalM3 || !months || !people) {
-        alert('Παρακαλώ συμπληρώστε σωστά όλα τα πεδία.');
+        alert(currentLang === 'el' ? 'Παρακαλώ συμπληρώστε σωστά όλα τα πεδία.' : 'Please fill in all fields correctly.');
         return;
       }
 
@@ -207,35 +402,25 @@
       const perDay = totalLitres / days / people;
       const diffPct = ((perDay - avg) / avg) * 100;
 
-      let msg = `<strong>Μέση κατανάλωση ανά άτομο/ημέρα:</strong> ${perDay.toFixed(1)} λίτρα`;
-      msg += `<br/><strong>Διαφορά από το μέσο όρο (140 λίτρα):</strong> ` +
-             (perDay < avg ? `Κάτω κατά ${Math.abs(diffPct).toFixed(1)}%` : `Πάνω κατά ${diffPct.toFixed(1)}%`);
+      let msg = `<strong>${translations[currentLang]['result-title']}</strong> ${perDay.toFixed(1)} λίτρα`;
+      msg += `<br/><strong>${translations[currentLang]['result-diff']}</strong> ` +
+             (perDay < avg ? 
+               `${translations[currentLang]['result-below']} ${Math.abs(diffPct).toFixed(1)}%` : 
+               `${translations[currentLang]['result-above']} ${diffPct.toFixed(1)}%`);
       msg += `<br/><br/>`;
 
-      // Εκτενέστερες πληροφορίες ανά ζώνη
       if (diffPct < -20) {
-        msg += `Εξαιρετικά! Καταναλώνετε 20% λιγότερο νερό από τον μέσο όρο.<br/><br/> ` +
-               `Αν όλοι οι καταναλωτές είχαν αυτή την κατανάλωση, θα εξοικονομούσαμε περίπου 10 εκατ. m³ νερού ετησίως, ` +
-               `που θα αρκούσε για να υδροδοτηθούν 200,000 άτομα για ένα χρόνο (που αντιστοιχεί στο πληθυσμό της Επαρχίας Λάρνακας και Αμμοχώστου)! Συνεχίστε έτσι και βοηθήστε να εδραιωθεί η υδατική συνείδηση στην Κύπρο!`;
+        msg += `${translations[currentLang]['result-excellent']}<br/><br/>${translations[currentLang]['result-excellent-desc']}`;
       } else if (diffPct >= -20 && diffPct < -10) {
-        msg += `Μπράβο! Καταναλώνετε 10% λιγότερο νερό από τον μέσο όρο.<br/><br/> ` +
-               `Εάν όλοι οι καταναλωτές είχαν αυτή την κατανάλωση, θα εξοικονομούσαμε περίπου 5 εκατ. m³ νερού ετησίως, ` +
-               `που θα αρκούσε για να υδροδοτηθούν  100,000 άτομα για ένα χρόνο (που αντιστοιχεί στο πληθυσμό της Επαρχίας Πάφου)! Συνεχίστε έτσι, και με κάποιες μικρές αλλαγές, όπως πιο σύντομα ντους κατά 1-2 λεπτά, και χρήση πλυντηρίου με πλήρες γέμισμα, ` +
-               `θα σας φέρουν ακόμη πιο κοντά στους κορυφαίους καταναλωτές!`;
+        msg += `${translations[currentLang]['result-good']}<br/><br/>${translations[currentLang]['result-good-desc']}`;
       } else if (diffPct >= -10 && diffPct < 0) {
-        msg += `Πολύ καλά! είστε ελαφρώς κάτω από τον μέσο όρο.<br/><br/> ` +
-               `Αν όλοι είχαμε αυτή την κατανάλωση, θα εξοικονομούσαμε σχεδόν 2.5 εκατ. m³ ετησίως, που θα αρκούσε για να υδροδοτηθούν 50,000 άτομα για ένα χρόνο (που αντιστοιχεί στο πληθυσμό της Επαρχίας Αμμοχώστου)! Συνεχίστε έτσι, και με κάποιες μικρές αλλαγές, όπως πιο σύντομα ντους κατά 2-3 λεπτά, και χρήση πλυντηρίου με πλήρες γέμισμα, ` +
-               `θα σας φέρουν ακόμη πιο κοντά στους κορυφαίους καταναλωτές!`;
+        msg += `${translations[currentLang]['result-average']}<br/><br/>${translations[currentLang]['result-average-desc']}`;
       } else if (diffPct >= 0 && diffPct < 10) {
-        msg += `Είστε πολύ κοντά στο μέσο όρο!<br/><br/> ` +
-               `Μειώνοντας μόλις 15 λίτρα/ημέρα (π.χ. 1-2 λεπτά λιγότερο στο ντους), θα μπορούσατε να φτάσετε το μέσο όρο!`;
+        msg += `${translations[currentLang]['result-slightly-high']}<br/><br/>${translations[currentLang]['result-slightly-high-desc']}`;
       } else if (diffPct >= 10 && diffPct < 20) {
-        msg += `Προσοχή! βρίσκεστε 10% πάνω από τον μέσο όρο.<br/><br/> ` +
-               `Μπορείτε να φτάσετε το μέσο όρο, αν μειώσετε κατά 2-3 λεπτά το καθημερινό ντους, και αποφυγή χρήσης/μείωσης τρεχούμενου νερού για πότισμα.`;
+        msg += `${translations[currentLang]['result-high']}<br/><br/>${translations[currentLang]['result-high-desc']}`;
       } else {
-        msg += `Προειδοποίηση: Βρίσκεστε μέσα στους λίγους καταναλωτές με 20% πάνω από τον μέσο όρο. <br/><br/> Ο μέσος καταναλωτής στην Κύπρο καταναλώνει 140 λίτρα/ημέρα. ` +
-               `Ξεκινήστε άμεσα με μικρές αλλαγές για να φτάσετε τον μέσο όρο. μειώσετε κατά 2-3 λεπτά το καθημερινό ντους, και αποφυγή χρήσης/μείωσης τρεχούμενου νερού για πότισμα. ` +
-               `Ελέγξτε για τυχών διαρροές στο στο σπίτι σας, παρακολουθώντας την κατανάλωση στον μετρητή σας τις ώρες που απουσιάζετε από το σπίτι.`;
+        msg += `${translations[currentLang]['result-very-high']}<br/><br/>${translations[currentLang]['result-very-high-desc']}`;
       }
 
       const result = document.getElementById('result');
@@ -247,17 +432,22 @@
       const url = base;
       document.getElementById('shareSection').style.display = 'block';
 
-      let summary = `Μόλις υπολόγισα την κατανάλωσή νερού μου: ${perDay.toFixed(1)} λίτρα/ημέρα ` +
-                    (perDay < avg ? `(κάτω ${Math.abs(diffPct).toFixed(1)}% από τον μέσο όρο των 140 λίτρων/ημέρα)` : `(πάνω ${diffPct.toFixed(1)}% από τον μέσο όρο των 140 λίτρων/ημέρα)`) +
-                    `. Δοκίμασέ το και εσύ: ${url}`;
+      let summary = currentLang === 'el' ?
+        `Μόλις υπολόγισα την κατανάλωσή νερού μου: ${perDay.toFixed(1)} λίτρα/ημέρα ` +
+        (perDay < avg ? `(κάτω ${Math.abs(diffPct).toFixed(1)}% από τον μέσο όρο των 140 λίτρων/ημέρα)` : `(πάνω ${diffPct.toFixed(1)}% από τον μέσο όρο των 140 λίτρων/ημέρα)`) +
+        `. Δοκίμασέ το και εσύ: ${url}` :
+        `I just calculated my water consumption: ${perDay.toFixed(1)} liters/day ` +
+        (perDay < avg ? `(below average by ${Math.abs(diffPct).toFixed(1)}% from the average of 140 liters/day)` : `(above average by ${diffPct.toFixed(1)}% from the average of 140 liters/day)`) +
+        `. Try it yourself: ${url}`;
+
       const enc = encodeURIComponent(summary);
 
       document.getElementById('shareTwitter').onclick = () => window.open(`https://twitter.com/intent/tweet?text=${enc}`, '_blank');
       document.getElementById('shareFacebook').onclick = () => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${enc}`, '_blank');
       document.getElementById('shareWhatsApp').onclick = () => window.open(`https://wa.me/?text=${enc}`, '_blank');
       document.getElementById('shareViber').onclick = () => window.open(`viber://forward?text=${enc}`, '_blank');
-      document.getElementById('shareEmail').onclick = () => window.open(`mailto:?subject=Κατανάλωση νερού&body=${enc}`, '_blank');
-      document.getElementById('copySummary').onclick = () => navigator.clipboard.writeText(summary).then(() => alert('Αντιγράφηκε!'));
+      document.getElementById('shareEmail').onclick = () => window.open(`mailto:?subject=${currentLang === 'el' ? 'Κατανάλωση νερού' : 'Water Consumption'}&body=${enc}`, '_blank');
+      document.getElementById('copySummary').onclick = () => navigator.clipboard.writeText(summary).then(() => alert(translations[currentLang]['copy-success']));
     });
 
     // Modal functionality
