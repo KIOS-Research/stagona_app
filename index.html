@@ -151,7 +151,8 @@
     <input type="number" id="total" placeholder="π.χ. 30" min="0" step="0.1">
 
     <label for="period" data-el="period-label">Περίοδος κατανάλωσης (σε μήνες):</label>
-    <select id="period">
+    <select id="period" required>
+      <option value="" disabled selected data-el="period-select">Επιλέξτε περίοδο</option>
       <option value="1" data-el="period-1">1 μήνας</option>
       <option value="2" data-el="period-2">2 μήνες</option>
       <option value="3" data-el="period-3">3 μήνες (ΕΟΑ Λ/σια, Λ/κας, Πάφου, Αμ/στου)</option>
@@ -271,9 +272,9 @@
         "period-label": "Consumption period (in months):",
         "period-1": "1 month",
         "period-2": "2 months",
-        "period-3": "3 months (WDD Larnaca, Limassol, Paphos, Famagusta)",
+        "period-3": "3 months (EOA Larnaca, Limassol, Paphos, Famagusta)",
         "period-4": "4 months (WDD Nicosia)",
-        "people-label": "Number of permanent residents:",
+        "people-label": "Number of people living in the house:",
         "calc-button": "Calculate",
         "about-title": "About Stagona App",
         "about-desc": "A calculator designed to help households in Cyprus understand and optimize their water consumption. The app compares your water consumption with the average and provides recommendations for water saving.",
@@ -293,7 +294,7 @@
         "result-below": "Below by",
         "result-above": "Above by",
         "result-excellent": "Excellent! You consume 20% less water than the average.",
-        "result-excellent-desc": "If all consumers had this consumption, we would save about 10 million m³ of water annually, which would be enough to supply 200,000 people for a year (equivalent to the population of Larnaca and Famagusta Districts)! Keep it up and help establish water consciousness in Cyprus!",
+        "result-excellent-desc": "If all consumers had this consumption, we would save about 10 million m³ of water annually, which would be enough to supply 200,000 people for a year (equivalent to the population of Larnaca and Famagusta Districts)! Keep it up, and help establish water consciousness in Cyprus!",
         "result-good": "Well done! You consume 10% less water than the average.",
         "result-good-desc": "If all consumers had this consumption, we would save about 5 million m³ of water annually, which would be enough to supply 100,000 people for a year (equivalent to the population of Paphos District)! Keep it up, and with some small changes, such as shorter showers by 1-2 minutes, and using full loads in washing machines, you'll get even closer to the top consumers!",
         "result-average": "Very good! You're slightly below average.",
@@ -304,7 +305,7 @@
         "result-high-desc": "You can reach the average by reducing your daily shower by 2-3 minutes and avoiding/reducing running water for irrigation.",
         "result-very-high": "Warning: You're among the few consumers who are 20% above the average.",
         "result-very-high-desc": "The average consumer in Cyprus consumes 140 liters/day. Start immediately with small changes to reach the average. Reduce your daily shower by 2-3 minutes and avoid/reduce running water for irrigation. Check for any leaks in your home by monitoring your meter during hours when you're away from home.",
-        "share-title": "Share your result:",
+        "share-title": "Share your result with friends and family:",
         "copy-success": "Copied!"
       }
     };
