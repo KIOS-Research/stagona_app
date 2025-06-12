@@ -439,8 +439,8 @@
                 "tip-4": "• Συλλέξτε νερό σε κουβάδες για επαναχρησιμοποίηση",
                 "result-title": "Μέση κατανάλωση ανά άτομο/ημέρα:",
                 "result-diff": "Διαφορά από το μέσο όρο (140 λίτρα):",
-                "result-below": "Κάτω κατά",
-                "result-above": "Πάνω κατά",
+                "result-below": "κάτω από μέσο όρο",
+                "result-above": "πάνω από μέσο όρο",
                 "result-excellent": "Εξαιρετικά! Καταναλώνετε 20% λιγότερο νερό από τον μέσο όρο.",
                 "result-excellent-desc": "Αν όλοι οι καταναλωτές είχαν αυτή την κατανάλωση, θα εξοικονομούσαμε περίπου 10 εκατ. m³ νερού ετησίως, που θα αρκούσε για να υδροδοτηθούν 200,000 άτομα για ένα χρόνο (που αντιστοιχεί στο πληθυσμό της Επαρχίας Λάρνακας και Αμμοχώστου)! Συνεχίστε έτσι και βοηθήστε να εδραιωθεί η υδατική συνείδηση στην Κύπρο!",
                 "result-good": "Μπράβο! Καταναλώνετε 10% λιγότερο νερό από τον μέσο όρο.",
@@ -495,8 +495,8 @@
                 "tip-4": "• Collect water in buckets for reuse",
                 "result-title": "Average consumption per person/day:",
                 "result-diff": "Difference from average (140 liters):",
-                "result-below": "Below by",
-                "result-above": "Above by",
+                "result-below": "below average",
+                "result-above": "above average",
                 "result-excellent": "Excellent! You consume 20% less water than the average.",
                 "result-excellent-desc": "If all consumers had this consumption, we would save about 10 million m³ of water annually, which would be enough to supply 200,000 people for a year (equivalent to the population of Larnaca and Ammochostos Districts)! Keep it up, and help establish water consciousness in Cyprus!",
                 "result-good": "Well done! You consume 10% less water than the average.",
@@ -569,8 +569,8 @@
             <div class="result-box">
               <p class="result-diff">${
                 perDay < avg
-                  ? `${translations[lang]["result-below"]} ${Math.abs(diffPct).toFixed(1)}%`
-                  : `${translations[lang]["result-above"]} ${diffPct.toFixed(1)}%`
+                  ? `${Math.abs(diffPct).toFixed(1)}% ${translations[lang]["result-below"]}`
+                  : `${diffPct.toFixed(1)}% ${translations[lang]["result-above"]}`
               }</p>
               <p class="result-diff-label">${translations[lang]["result-diff"]}</p>
             </div>
@@ -604,23 +604,15 @@
                     1
                   )} λίτρα/ημέρα ` +
                   (perDay < avg
-                    ? `(κάτω ${Math.abs(diffPct).toFixed(
-                        1
-                      )}% από τον μέσο όρο των 140 λίτρων/ημέρα)`
-                    : `(πάνω ${diffPct.toFixed(
-                        1
-                      )}% από τον μέσο όρο των 140 λίτρων/ημέρα)`) +
+                    ? `(${Math.abs(diffPct).toFixed(1)}% ${translations[currentLang]["result-below"]} των 140 λίτρων/ημέρα)`
+                    : `(${diffPct.toFixed(1)}% ${translations[currentLang]["result-above"]} των 140 λίτρων/ημέρα)`) +
                   `. Δοκίμασέ το και εσύ: ${url}`
                 : `I just calculated my water consumption: ${perDay.toFixed(
                     1
                   )} liters/day ` +
                   (perDay < avg
-                    ? `(below average by ${Math.abs(diffPct).toFixed(
-                        1
-                      )}% from the average of 140 liters/day)`
-                    : `(above average by ${diffPct.toFixed(
-                        1
-                      )}% from the average of 140 liters/day)`) +
+                    ? `(${Math.abs(diffPct).toFixed(1)}% ${translations[currentLang]["result-below"]} of 140 liters/day)`
+                    : `(${diffPct.toFixed(1)}% ${translations[currentLang]["result-above"]} of 140 liters/day)`) +
                   `. Try it yourself: ${url}`;
 
             const enc = encodeURIComponent(summary);
@@ -696,8 +688,8 @@
           <div class="result-box">
             <p class="result-diff">${
               perDay < avg
-                ? `${translations[currentLang]["result-below"]} ${Math.abs(diffPct).toFixed(1)}%`
-                : `${translations[currentLang]["result-above"]} ${diffPct.toFixed(1)}%`
+                ? `${Math.abs(diffPct).toFixed(1)}% ${translations[currentLang]["result-below"]}`
+                : `${diffPct.toFixed(1)}% ${translations[currentLang]["result-above"]}`
             }</p>
             <p class="result-diff-label">${translations[currentLang]["result-diff"]}</p>
           </div>
@@ -732,23 +724,15 @@
                 1
               )} λίτρα/ημέρα ` +
               (perDay < avg
-                ? `(κάτω ${Math.abs(diffPct).toFixed(
-                    1
-                  )}% από τον μέσο όρο των 140 λίτρων/ημέρα)`
-                : `(πάνω ${diffPct.toFixed(
-                    1
-                  )}% από τον μέσο όρο των 140 λίτρων/ημέρα)`) +
+                ? `(${Math.abs(diffPct).toFixed(1)}% ${translations[currentLang]["result-below"]} των 140 λίτρων/ημέρα)`
+                : `(${diffPct.toFixed(1)}% ${translations[currentLang]["result-above"]} των 140 λίτρων/ημέρα)`) +
               `. Δοκίμασέ το και εσύ: ${url}`
             : `I just calculated my water consumption: ${perDay.toFixed(
                 1
               )} liters/day ` +
               (perDay < avg
-                ? `(below average by ${Math.abs(diffPct).toFixed(
-                    1
-                  )}% from the average of 140 liters/day)`
-                : `(above average by ${diffPct.toFixed(
-                    1
-                  )}% from the average of 140 liters/day)`) +
+                ? `(${Math.abs(diffPct).toFixed(1)}% ${translations[currentLang]["result-below"]} of 140 liters/day)`
+                : `(${diffPct.toFixed(1)}% ${translations[currentLang]["result-above"]} of 140 liters/day)`) +
               `. Try it yourself: ${url}`;
 
         const enc = encodeURIComponent(summary);
