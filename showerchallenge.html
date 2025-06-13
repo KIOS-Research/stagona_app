@@ -507,8 +507,8 @@
                 personalUnit: "(Liters)",
                 percentLabel: "% of Daily",
                 percentUnit: "(140 L)",
-                servedLabel: "Water Saved",
-                servedUnit: "(People served)",
+                servedLabel: "Additional poplulation",
+                servedUnit: "(people with more water)",
                 refreshBtn: "Start Over",
                 languageToggle: "Ελληνικά",
                 showerBox: (mins, usage, percentage) =>
@@ -539,18 +539,18 @@
                 minutes: "λεπ",
                 liters: "Λ",
                 exploreLabel: "Προσαρμόστε τη διάρκεια του ντους σας:",
-                personalLabel: "Προσωπική",
+                personalLabel: "Χρήση ντους",
                 personalUnit: "(Λίτρα)",
                 percentLabel: "% Ημερήσιας",
                 percentUnit: "(140 Λ)",
-                servedLabel: "Νερό που Αποθηκεύτηκε",
-                servedUnit: "(Άτομα που εξυπηρετούνται)",
+                servedLabel: "Επιπλέον πληθυσμός",
+                servedUnit: "(άτομα με περισσότερο νερό)",
                 refreshBtn: "Ξεκινήστε Ξανά",
                 languageToggle: "English",
                 showerBox: (mins, usage, percentage) =>
                     `Είπατε "${mins} λεπτά ντους": Αυτό αντιστοιχεί σε ${usage} λίτρα (${percentage}% του ημερήσιου μέσου όρου των 140 λίτρων στην Κύπρο)`,
                 consumptionBox: (guess) =>
-                    `Είπατε "${guess} λίτρα ημερήσιας κατανάλωσης": Ο μέσος όρος στην Κύπρο είναι 140 λίτρα, και το 65% χρησιμοποιείται για το ντους (περίπου 90 λίτρα, ή 9 λεπτά)                    ).`,
+                    `Είπατε "${guess} λίτρα ημερήσιας κατανάλωσης": Ο μέσος όρος στην Κύπρο είναι 140 λίτρα, και το 65% χρησιμοποιείται για το ντους (περίπου 90 λίτρα, ή 9 λεπτά)`,
                 promptBox: (mins) => {
                     if (mins <= 5) return "Μπράβο! Είστε ήρωας του νερού - συνεχίστε έτσι!";
                     if (mins <= 10) return "Καλή δουλειά! Προσπαθήστε να μειώσετε μερικά λεπτά από το ντους σας!";
