@@ -823,8 +823,9 @@
             // Update gauges
             updateAll(mins);
 
-            // Enable explore slider
+            // Enable explore slider and set its initial value
             exploreMin.disabled = false;
+            exploreMin.value = mins;
             exploreVal.textContent = mins;
             resultsDiv.style.display = 'block';
         });
