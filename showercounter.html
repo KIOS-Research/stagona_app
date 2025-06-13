@@ -393,8 +393,8 @@
 
         <div class="water-access-container">
             <div class="water-access-box">
-                <div id="water-access-people" class="water-access-value">0</div>
-                <div class="water-access-label">Additional People with Access to Water for a Day</div>
+                <div id="water-access-days" class="water-access-value">0.0</div>
+                <div class="water-access-label">Additional Days with Access to Water</div>
             </div>
             <div class="water-access-box">
                 <div id="water-access-volume" class="water-access-value">0 L</div>
@@ -451,7 +451,7 @@
         const closeModal = document.getElementById('close-modal');
         const tableBody = document.getElementById('table-body');
         const statsDiv = document.getElementById('stats');
-        const waterAccessPeople = document.getElementById('water-access-people');
+        const waterAccessDays = document.getElementById('water-access-days');
         const waterAccessVolume = document.getElementById('water-access-volume');
         const ctx = document.getElementById('chart').getContext('2d');
         const aboutBtn = document.getElementById('about-btn');
@@ -520,11 +520,11 @@
                 return total + Math.max(0, savedWater); // Only count positive savings
             }, 0);
 
-            // Calculate number of people who could have access
-            const peopleWithAccess = Math.round(totalWaterSaved / dailyWaterNeed);
+            // Calculate number of days with access
+            const daysWithAccess = totalWaterSaved / dailyWaterNeed;
 
             // Update both displays
-            waterAccessPeople.textContent = peopleWithAccess;
+            waterAccessDays.textContent = daysWithAccess.toFixed(1);
             waterAccessVolume.textContent = `${totalWaterSaved.toFixed(0)} L`;
         }
 
@@ -584,6 +584,22 @@
                     renderTable();
                 }
             }));
+        }
+
+        function beep(times) {
+            const audioContext = new(window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 800; // frequency in Hz
+            gainNode.gain.value = 0.1; // volume
+
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.1); // beep duration in seconds
         }
 
         counterBtn.addEventListener('click', () => {
