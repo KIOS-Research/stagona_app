@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shower Water Counter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+         :root {
+            --primary: #0066cc;
+            --secondary: #4caf50;
+            --danger: #e53935;
+            --bg-gradient: linear-gradient(135deg, #e0f7fa 0%, #80deea 100%);
+            --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font);
+            background: var(--bg-gradient);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1rem;
+        }
+        
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 500px;
+            position: relative;
+            margin-bottom: 2rem;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        
+        .app-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .app-header h1 {
+            color: var(--primary);
+            margin: 0 0 0.5rem 0;
+            font-size: 2rem;
+        }
+        
+        .app-subtitle {
+            color: #666;
+            font-size: 1rem;
+            margin: 0 0 1.5rem 0;
+            line-height: 1.5;
+            display: none;
+            /* Initially hidden */
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        .app-subtitle.visible {
+            display: block;
+        }
+        
+        #controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        #config-btn,
+        #view-btn {
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: var(--primary);
+            color: #fff;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+        
+        #config-btn:hover,
+        #view-btn:hover {
+            background: #004a99;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        #counter-btn {
+            width: 200px;
+            height: 200px;
+            background: var(--primary);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff;
+            margin: 2rem auto;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            touch-action: manipulation;
+        }
+        
+        #counter-btn:hover {
+            background: #004a99;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        #counter-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        #graph-container {
+            width: 100%;
+            margin: 2rem 0;
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        #stats {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin: 1rem 0;
+            width: 100%;
+        }
+        
+        #stats p {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+        }
+        
+        .modal-content {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+            transition: color 0.3s, transform 0.2s;
+            padding: 0.5rem;
+            z-index: 10;
+        }
+        
+        .close:hover {
+            color: #004a99;
+            transform: scale(1.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        th,
+        td {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+        
+        th {
+            background: #f8f9fa;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .action-btn {
+            margin: 0 0.25rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+        }
+        
+        .edit-btn {
+            background: #ffc107;
+        }
+        
+        .edit-btn:hover {
+            background: #e0a800;
+            transform: translateY(-1px);
+        }
+        
+        .delete-btn {
+            background: var(--danger);
+        }
+        
+        .delete-btn:hover {
+            background: #c62828;
+            transform: translateY(-1px);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        /* Modal styles */
+        
+        .info-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: none;
+            border: none;
+            color: #0066cc;
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            transition: color 0.3s;
+            z-index: 10;
+            line-height: 1;
+        }
+        
+        .info-button:hover {
+            color: #004a99;
+        }
+        
+        .modal-logo {
+            display: block;
+            margin: 0 auto 1.5rem;
+            height: 120px;
+            width: auto;
+        }
+        
+        .modal-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-section h3 {
+            color: #0066cc;
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal-section p {
+            margin: 0.5rem 0;
+            line-height: 1.5;
+        }
+        
+        .info-icon {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 1.5rem;
+            color: #0066cc;
+            cursor: pointer;
+        }
+        
+        .lang-toggle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 1rem;
+            color: #0066cc;
+            cursor: pointer;
+            padding: 0.5rem;
+            background: none;
+            border: 1px solid #0066cc;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        .lang-toggle:hover {
+            background: #0066cc;
+            color: white;
+        }
+        
+        .water-access-box {
+            background: transparent;
+            color: var(--primary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            text-align: center;
+            box-shadow: none;
+            border: 2px solid var(--primary);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .water-access-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+            color: var(--primary);
+        }
+        
+        .water-access-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            color: var(--primary);
+        }
+        
+        .about-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color 0.3s, transform 0.2s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .about-btn:hover {
+            color: #004a99;
+            transform: scale(1.1);
+        }
+        
+        .about-btn i {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <button class="about-btn" id="about-btn">
+            <i class="fas fa-info-circle"></i>
+        </button>
+        <div class="app-header">
+            <h1>Shower Water Counter</h1>
+            <p class="app-subtitle">Track your water usage while in the shower to achieve your water saving targets. Click Start to begin timing your shower. The app will wait for 10 seconds before starting to count the liters. It will beep every 10 liters to help you monitor
+                your usage. To customize the rate of the counter, measure the volume of water that flows out of the shower head in 1 minute and enter it in the Rate field.</p>
+            <div id="controls">
+                <button id="config-btn">Rate: 10 L/min</button>
+                <button id="view-btn">View Entries</button>
+            </div>
+        </div>
+
+        <button id="counter-btn">Start</button>
+
+        <div class="water-access-box">
+            <div id="water-access-value" class="water-access-value">0</div>
+            <div class="water-access-label">Additional People with Access to Water for a Day</div>
+        </div>
+
+        <div id="graph-container">
+            <canvas id="chart"></canvas>
+        </div>
+        <div id="stats">
+            <p>Average (30d): 0 L</p>
+            <p>Median (30d): 0 L</p>
+            <p>Max (30d): 0 L</p>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span id="close-modal" class="close">&times;</span>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date (dd/mm)</th>
+                        <th>Volume (L)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">
+        Created by
+        <a href="https://www.kios.ucy.ac.cy/eliades" target="_blank">Demetrios Eliades</a>. Copyright (C)
+        <a href="https://www.kios.ucy.ac.cy" target="_blank">KIOS Research and Innovation Center of Excellence</a>,
+        <a href="https://www.ucy.ac.cy" target="_blank">University of Cyprus</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // load rate from storage or default
+        let rate = parseFloat(localStorage.getItem('showerRate')) || 10;
+        let running = false,
+            startTime = 0;
+        let timerInterval, delayInterval, nextBeepThreshold = 10;
+        let entries = [];
+
+        const counterBtn = document.getElementById('counter-btn');
+        const configBtn = document.getElementById('config-btn');
+        const viewBtn = document.getElementById('view-btn');
+        const modal = document.getElementById('modal');
+        const closeModal = document.getElementById('close-modal');
+        const tableBody = document.getElementById('table-body');
+        const statsDiv = document.getElementById('stats');
+        const waterAccessValue = document.getElementById('water-access-value');
+        const ctx = document.getElementById('chart').getContext('2d');
+        const aboutBtn = document.getElementById('about-btn');
+        const subtitle = document.querySelector('.app-subtitle');
+
+        function formatDate(d) {
+            return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0');
+        }
+        const chartData = {
+            labels: [],
+            datasets: [{
+                label: 'Liters per Shower',
+                data: [],
+                fill: false,
+                borderWidth: 2
+            }]
+        };
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: chartData,
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // show configured rate
+        configBtn.textContent = `Rate: ${rate} L/min`;
+
+        function saveRate() {
+            localStorage.setItem('showerRate', rate);
+        }
+
+        function saveEntries() {
+            localStorage.setItem('showerEntries', JSON.stringify(entries));
+        }
+
+        function loadEntries() {
+            const stored = localStorage.getItem('showerEntries');
+            if (stored) {
+                entries = JSON.parse(stored).map(e => ({
+                    datetime: new Date(e.datetime),
+                    volume: e.volume
+                }));
+            }
+            entries.forEach(e => {
+                chartData.labels.push(formatDate(e.datetime));
+                chartData.datasets[0].data.push(e.volume);
+            });
+            chart.update();
+            updateStats();
+            updateWaterAccess();
+        }
+
+        function updateWaterAccess() {
+            const dailyWaterNeed = 140; // liters per person per day
+            const waterEfficiency = 0.65; // 65% efficiency
+
+            // Calculate total water saved from all entries
+            const totalWaterSaved = entries.reduce((total, entry) => {
+                const savedWater = dailyWaterNeed * waterEfficiency - entry.volume;
+                return total + Math.max(0, savedWater); // Only count positive savings
+            }, 0);
+
+            // Calculate number of people who could have access
+            const peopleWithAccess = Math.round(totalWaterSaved / dailyWaterNeed);
+            waterAccessValue.textContent = peopleWithAccess;
+        }
+
+        function updateDisplay() {
+            const liters = rate * (Date.now() - startTime) / 60000;
+            counterBtn.textContent = `${liters.toFixed(2)} L`;
+            if (liters >= nextBeepThreshold) {
+                const times = nextBeepThreshold / 10;
+                for (let i = 0; i < times; i++) setTimeout(() => beep(times), i * 300);
+                nextBeepThreshold += 10;
+            }
+        }
+
+        function updateStats() {
+            const cutoff = Date.now() - 30 * 24 * 60 * 60 * 1000;
+            const recent = entries.filter(e => e.datetime.getTime() >= cutoff).map(e => e.volume);
+            if (!recent.length) return statsDiv.innerHTML = '<p>Average (30d): 0 L</p><p>Median (30d): 0 L</p><p>Max (30d): 0 L</p>';
+            const sum = recent.reduce((a, b) => a + b, 0);
+            const avg = (sum / recent.length).toFixed(2);
+            const sorted = recent.slice().sort((a, b) => a - b);
+            const mid = Math.floor(sorted.length / 2);
+            const median = ((sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2)).toFixed(2);
+            const max = Math.max(...recent).toFixed(2);
+            statsDiv.innerHTML = `<p>Average (30d): ${avg} L</p><p>Median (30d): ${median} L</p><p>Max (30d): ${max} L</p>`;
+        }
+
+        function renderTable() {
+            tableBody.innerHTML = '';
+            entries.forEach((e, i) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${formatDate(e.datetime)}</td><td>${e.volume.toFixed(2)}</td><td>` +
+                    `<button class="action-btn edit-btn" data-index="${i}">Edit</button>` +
+                    `<button class="action-btn delete-btn" data-index="${i}">Delete</button></td>`;
+                tableBody.appendChild(tr);
+            });
+            tableBody.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', () => {
+                const idx = btn.dataset.index;
+                entries.splice(idx, 1);
+                chartData.labels.splice(idx, 1);
+                chartData.datasets[0].data.splice(idx, 1);
+                chart.update();
+                updateStats();
+                saveEntries();
+                updateWaterAccess();
+                renderTable();
+            }));
+            tableBody.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', () => {
+                const idx = btn.dataset.index;
+                const nv = parseFloat(prompt('New volume (L):', entries[idx].volume));
+                if (!isNaN(nv) && nv >= 0) {
+                    entries[idx].volume = nv;
+                    chartData.datasets[0].data[idx] = nv;
+                    chart.update();
+                    updateStats();
+                    saveEntries();
+                    updateWaterAccess();
+                    renderTable();
+                }
+            }));
+        }
+
+        counterBtn.addEventListener('click', () => {
+            if (!running) {
+                counterBtn.disabled = true;
+                let d = 10;
+                counterBtn.textContent = `Starting in ${d}s`;
+                delayInterval = setInterval(() => {
+                    d--;
+                    if (d > 0) counterBtn.textContent = `Starting in ${d}s`;
+                    else {
+                        clearInterval(delayInterval);
+                        counterBtn.disabled = false;
+                        running = true;
+                        startTime = Date.now();
+                        nextBeepThreshold = 10;
+                        counterBtn.textContent = '0.00 L';
+                        timerInterval = setInterval(updateDisplay, 100);
+                    }
+                }, 1000);
+            } else {
+                clearInterval(delayInterval);
+                running = false;
+                clearInterval(timerInterval);
+                updateDisplay();
+                const litres = parseFloat(counterBtn.textContent);
+                if (confirm(`Record volume of ${litres.toFixed(2)} liters?`)) {
+                    const now = new Date();
+                    entries.push({
+                        datetime: now,
+                        volume: litres
+                    });
+                    chartData.labels.push(formatDate(now));
+                    chartData.datasets[0].data.push(litres);
+                    chart.update();
+                    updateStats();
+                    saveEntries();
+                    updateWaterAccess();
+                }
+                counterBtn.textContent = 'Start';
+            }
+        });
+
+        configBtn.addEventListener('click', () => {
+            const v = parseFloat(prompt('Enter new rate (liters per minute):', rate));
+            if (!isNaN(v) && v > 0 && v <= 20) {
+                rate = v;
+                configBtn.textContent = `Rate: ${rate} L/min`;
+                saveRate();
+            } else {
+                alert('Please enter a rate between 0 and 20 liters per minute.');
+            }
+        });
+
+        viewBtn.addEventListener('click', () => {
+            modal.style.display = 'flex';
+            renderTable();
+        });
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        aboutBtn.addEventListener('click', () => {
+            subtitle.classList.toggle('visible');
+        });
+
+        // init
+        loadEntries();
+    </script>
+</body>
+
+</html>
