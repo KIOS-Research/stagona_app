@@ -37,7 +37,8 @@
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            width: 500px;
+            max-width: 500px;
+            width: 100%;
             position: relative;
             margin-bottom: 2rem;
             animation: fadeIn 0.8s ease-in-out;
@@ -390,9 +391,15 @@
 
         <button id="counter-btn">Start</button>
 
-        <div class="water-access-box">
-            <div id="water-access-value" class="water-access-value">0</div>
-            <div class="water-access-label">Additional People with Access to Water for a Day</div>
+        <div class="water-access-container">
+            <div class="water-access-box">
+                <div id="water-access-people" class="water-access-value">0</div>
+                <div class="water-access-label">Additional People with Access to Water for a Day</div>
+            </div>
+            <div class="water-access-box">
+                <div id="water-access-volume" class="water-access-value">0 L</div>
+                <div class="water-access-label">Total Volume of Water Saved</div>
+            </div>
         </div>
 
         <div id="graph-container">
@@ -444,7 +451,8 @@
         const closeModal = document.getElementById('close-modal');
         const tableBody = document.getElementById('table-body');
         const statsDiv = document.getElementById('stats');
-        const waterAccessValue = document.getElementById('water-access-value');
+        const waterAccessPeople = document.getElementById('water-access-people');
+        const waterAccessVolume = document.getElementById('water-access-volume');
         const ctx = document.getElementById('chart').getContext('2d');
         const aboutBtn = document.getElementById('about-btn');
         const subtitle = document.querySelector('.app-subtitle');
@@ -514,7 +522,10 @@
 
             // Calculate number of people who could have access
             const peopleWithAccess = Math.round(totalWaterSaved / dailyWaterNeed);
-            waterAccessValue.textContent = peopleWithAccess;
+
+            // Update both displays
+            waterAccessPeople.textContent = peopleWithAccess;
+            waterAccessVolume.textContent = `${totalWaterSaved.toFixed(0)} L`;
         }
 
         function updateDisplay() {
