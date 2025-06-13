@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shower Challenge</title>
     <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
          :root {
             --primary: #0066cc;
@@ -25,8 +26,8 @@
             font-family: var(--font);
             background: var(--bg-gradient);
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
             min-height: 100vh;
         }
         
@@ -38,6 +39,20 @@
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, .1);
             position: relative;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .header img {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
         }
         
         .language-toggle {
@@ -201,6 +216,18 @@
             border-color: var(--accent);
         }
         
+        .hero-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
         .input-section {
             transition: opacity 0.3s, transform 0.3s;
         }
@@ -277,11 +304,108 @@
                 transform: scale(1);
             }
         }
+        
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .close-modal:hover {
+            color: var(--primary);
+        }
+        
+        .chart-container {
+            margin: 2rem 0;
+            height: 300px;
+        }
+        
+        .stats-btn {
+            background: var(--accent);
+            color: #333;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .stats-btn:hover {
+            background: #e6b800;
+        }
+        
+        .data-links {
+            text-align: center;
+            margin-top: 1rem;
+            padding: 1rem;
+        }
+        
+        .data-links a {
+            color: var(--primary);
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .data-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .data-links a.delete {
+            color: var(--danger);
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
+        <div class="header">
+            <img src="ucy_logo.png" alt="UCY Logo">
+            <img src="kios_logo.png" alt="KIOS Logo">
+        </div>
         <button class="language-toggle" id="languageToggle">Ελληνικά</button>
         <h1 id="title">Shower Challenge</h1>
         <div class="input-section" id="inputSection">
@@ -304,7 +428,12 @@
             <div class="box" id="promptBox"></div>
         </div>
 
+        <button class="stats-btn" id="statsBtn">View Statistics</button>
+
+
         <div class="results" id="results">
+
+            <div class="hero-header" id="heroHeader">How can I become a water hero?</div>
             <div class="question">
                 <label for="exploreMin" id="exploreLabel">Adjust your shower length:</label>
                 <input type="range" id="exploreMin" min="0" max="20" step="1" value="11" disabled>
@@ -330,6 +459,32 @@
             <div class="badge-container" id="badges"></div>
             <button class="btn refresh" id="refreshBtn" onclick="window.location.reload()">Start Over</button>
         </div>
+
+    </div>
+
+    <div class="modal" id="statsModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2 id="statsTitle">Water Usage Statistics</h2>
+            <div class="chart-container">
+                <canvas id="showerHistogram"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="consumptionHistogram"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Created by
+        <a href="https://www.kios.ucy.ac.cy/eliades" target="_blank">Demetrios Eliades</a>. Copyright (C)
+        <a href="https://www.kios.ucy.ac.cy" target="_blank">KIOS Research and Innovation Center of Excellence</a>,
+        <a href="https://www.ucy.ac.cy" target="_blank">University of Cyprus</a>
+    </div>
+
+    <div class="data-links">
+        <a href="#" id="downloadData">Download Statistics (CSV)</a>
+        <a href="#" id="clearData" class="delete">Clear All Data</a>
     </div>
 
     <script>
@@ -341,13 +496,14 @@
         const translations = {
             en: {
                 title: "Shower Challenge",
+                heroHeader: "How can I become a water hero?",
                 showerLabel: "How many minutes do you shower every day?",
                 guessLabel: "How many liters do you think you use in your house per day?",
                 getScoreBtn: "Get Your Score!",
                 minutes: "min",
                 liters: "L",
                 exploreLabel: "Adjust your shower length:",
-                personalLabel: "Personal",
+                personalLabel: "Shower usage",
                 personalUnit: "(Liters)",
                 percentLabel: "% of Daily",
                 percentUnit: "(140 L)",
@@ -356,21 +512,27 @@
                 refreshBtn: "Start Over",
                 languageToggle: "Ελληνικά",
                 showerBox: (mins, usage, percentage) =>
-                    `${mins} minutes shower corresponds to ${usage} liters (${percentage}% of daily average)`,
+                    `You said "${mins} minutes shower": This corresponds to ${usage} liters (${percentage}% of the daily average of 140 liters in Cyprus)`,
                 consumptionBox: (guess) =>
-                    `You indicated ${guess} liters daily consumption. The average in Cyprus is 140 liters! 60% corresponds to showering.`,
+                    `You said "${guess} liters daily consumption": The average in Cyprus is 140 liters, and 65% is used for showering (about 90 liters, or 9 minutes).`,
                 promptBox: (mins) => {
-                    if (mins <= 5) return "Great job! You are a water hero—keep it up!";
-                    if (mins <= 10) return "Nice work! Try cutting 1 minute!";
-                    return "Try to shorten your shower.";
+                    if (mins <= 5) return "Great job! You are a water hero - keep it up!";
+                    if (mins <= 10) return "Nice work! Try cutting a few minutes from your shower!";
+                    return "Oh oh! You need to try shortening your shower.";
                 },
                 badges: {
                     waterMinder: "Water Minder",
                     megaWaterSaver: "Mega Water Saver"
-                }
+                },
+                downloadData: "Download Statistics (CSV)",
+                clearData: "Clear All Data",
+                confirmClear: "Are you sure you want to delete all statistics? This action cannot be undone.",
+                noData: "No data available to download.",
+                dataCleared: "All statistics have been cleared."
             },
             el: {
                 title: "Πρόκληση Ντους",
+                heroHeader: "Πώς μπορώ να γίνω ήρωας του νερού;",
                 showerLabel: "Πόσα λεπτά κάνετε ντους κάθε μέρα;",
                 guessLabel: "Πόσα λίτρα νομίζετε ότι χρησιμοποιείτε στο σπίτι σας την ημέρα;",
                 getScoreBtn: "Πάρτε τη Βαθμολογία σας!",
@@ -386,18 +548,23 @@
                 refreshBtn: "Ξεκινήστε Ξανά",
                 languageToggle: "English",
                 showerBox: (mins, usage, percentage) =>
-                    `${mins} λεπτά ντους αντιστοιχούν σε ${usage} λίτρα (${percentage}% του ημερήσιου μέσου όρου)`,
+                    `Είπατε "${mins} λεπτά ντους": Αυτό αντιστοιχεί σε ${usage} λίτρα (${percentage}% του ημερήσιου μέσου όρου των 140 λίτρων στην Κύπρο)`,
                 consumptionBox: (guess) =>
-                    `Υποδείξατε ${guess} λίτρα ημερήσιας κατανάλωσης. Ο μέσος όρος στην Κύπρο είναι 140 λίτρα! Το 60% αντιστοιχεί στο ντους.`,
+                    `Είπατε "${guess} λίτρα ημερήσιας κατανάλωσης": Ο μέσος όρος στην Κύπρο είναι 140 λίτρα, και το 65% χρησιμοποιείται για το ντους (περίπου 90 λίτρα, ή 9 λεπτά)                    ).`,
                 promptBox: (mins) => {
-                    if (mins <= 5) return "Μπράβο! Είστε ήρωας του νερού—συνεχίστε έτσι!";
-                    if (mins <= 10) return "Καλή δουλειά! Προσπαθήστε να μειώσετε 1 λεπτό!";
-                    return "Προσπαθήστε να μειώσετε τη διάρκεια του ντους σας.";
+                    if (mins <= 5) return "Μπράβο! Είστε ήρωας του νερού - συνεχίστε έτσι!";
+                    if (mins <= 10) return "Καλή δουλειά! Προσπαθήστε να μειώσετε μερικά λεπτά από το ντους σας!";
+                    return "Ωχ! Πρέπει να προσπαθήσετε να μειώσετε τη διάρκεια του ντους σας.";
                 },
                 badges: {
                     waterMinder: "Φύλακας Νερού",
                     megaWaterSaver: "Μεγάλος Εξοικονομητής Νερού"
-                }
+                },
+                downloadData: "Λήψη Στατιστικών (CSV)",
+                clearData: "Διαγραφή Όλων των Δεδομένων",
+                confirmClear: "Είστε βέβαιοι ότι θέλετε να διαγράψετε όλα τα στατιστικά; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.",
+                noData: "Δεν υπάρχουν διαθέσιμα δεδομένα για λήψη.",
+                dataCleared: "Όλα τα στατιστικά έχουν διαγραφεί."
             }
         };
 
@@ -406,6 +573,7 @@
         function updateLanguage() {
             const t = translations[currentLang];
             document.getElementById('title').textContent = t.title;
+            document.getElementById('heroHeader').textContent = t.heroHeader;
             document.getElementById('showerLabel').textContent = t.showerLabel;
             document.getElementById('guessLabel').textContent = t.guessLabel;
             document.getElementById('getScoreBtn').textContent = t.getScoreBtn;
@@ -418,6 +586,8 @@
             document.getElementById('servedLabel').innerHTML = t.servedLabel + '<br><small>' + t.servedUnit + '</small>';
             document.getElementById('refreshBtn').textContent = t.refreshBtn;
             document.getElementById('languageToggle').textContent = t.languageToggle;
+            document.getElementById('downloadData').textContent = t.downloadData;
+            document.getElementById('clearData').textContent = t.clearData;
 
             // Update response boxes if they exist
             if (showerBox.textContent) {
@@ -495,7 +665,146 @@
             if (mins <= 3) badgesDiv.innerHTML += `<div class="badge">${translations[currentLang].badges.megaWaterSaver}</div>`;
         }
 
+        // Initialize data storage
+        let responses = JSON.parse(localStorage.getItem('showerResponses') || '[]');
+
+        // Function to store response
+        function storeResponse(showerMinutes, consumptionGuess) {
+            responses.push({
+                showerMinutes: parseInt(showerMinutes),
+                consumptionGuess: parseInt(consumptionGuess),
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('showerResponses', JSON.stringify(responses));
+        }
+
+        // Function to create histogram data
+        function createHistogramData(data, min, max, step, fixedBins = false) {
+            const bins = {};
+            if (fixedBins) {
+                // Create 30 bins of size 10
+                for (let i = 0; i < 300; i += 10) {
+                    bins[i] = 0;
+                }
+                data.forEach(value => {
+                    const bin = Math.floor(value / 10) * 10;
+                    if (bin in bins) {
+                        bins[bin]++;
+                    }
+                });
+            } else {
+                // Original dynamic binning
+                for (let i = min; i <= max; i += step) {
+                    bins[i] = 0;
+                }
+                data.forEach(value => {
+                    const bin = Math.floor(value / step) * step;
+                    bins[bin]++;
+                });
+            }
+            return bins;
+        }
+
+        // Function to create histogram
+        function createHistogram(canvasId, data, userValue, title, xLabel, fixedBins = false) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            const bins = createHistogramData(data, 0, Math.max(...data), 1, fixedBins);
+
+            // Calculate the bin for the user's value
+            const userBin = fixedBins ? Math.floor(userValue / 10) * 10 : Math.floor(userValue);
+
+            const datasets = [{
+                label: 'Frequency',
+                data: Object.values(bins),
+                backgroundColor: Object.keys(bins).map(bin => {
+                    const binValue = parseInt(bin);
+                    return binValue === userBin ? 'rgba(255, 0, 0, 0.7)' : 'rgba(0, 102, 204, 0.7)';
+                }),
+                borderColor: 'rgba(0, 102, 204, 1)',
+                borderWidth: 1
+            }];
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(bins),
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: title
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const binValue = parseInt(context.label);
+                                    const isUserBin = binValue === userBin;
+                                    return [
+                                        `Range: ${binValue}-${binValue + (fixedBins ? 9 : 0)}`,
+                                        `Count: ${context.raw}`,
+                                        isUserBin ? '(Your value)' : ''
+                                    ].filter(Boolean);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Responses'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: xLabel
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Function to show statistics
+        function showStatistics() {
+            const modal = document.getElementById('statsModal');
+            modal.style.display = 'block';
+
+            // Create histograms
+            const showerData = responses.map(r => r.showerMinutes);
+            const consumptionData = responses.map(r => r.consumptionGuess);
+            const currentShower = parseInt(showerMin.value);
+            const currentConsumption = parseInt(guessLiters.value);
+
+            createHistogram('showerHistogram', showerData, currentShower,
+                'Distribution of Shower Duration', 'Minutes');
+            createHistogram('consumptionHistogram', consumptionData, currentConsumption,
+                'Distribution of Estimated Daily Water Consumption', 'Liters', true);
+        }
+
+        // Event Listeners
+        document.getElementById('statsBtn').addEventListener('click', showStatistics);
+        document.getElementById('closeModal').addEventListener('click', () => {
+            document.getElementById('statsModal').style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            const modal = document.getElementById('statsModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
         getScoreBtn.addEventListener('click', () => {
+            // Store the response
+            storeResponse(showerMin.value, guessLiters.value);
+
             // Hide input section and show response section
             inputSection.classList.add('hidden');
             responseSection.classList.add('visible');
@@ -553,6 +862,55 @@
 
             // Initialize language
             updateLanguage();
+        });
+
+        // Function to download data as CSV
+        function downloadCSV() {
+            const headers = ['Timestamp', 'Shower Minutes', 'Consumption Guess (Liters)'];
+            const csvContent = [
+                headers.join(','),
+                ...responses.map(r => [
+                    r.timestamp,
+                    r.showerMinutes,
+                    r.consumptionGuess
+                ].join(','))
+            ].join('\n');
+
+            const blob = new Blob([csvContent], {
+                type: 'text/csv;charset=utf-8;'
+            });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `shower_statistics_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Function to clear all data
+        function clearData() {
+            if (confirm('Are you sure you want to delete all statistics? This action cannot be undone.')) {
+                responses = [];
+                localStorage.removeItem('showerResponses');
+                alert('All statistics have been cleared.');
+            }
+        }
+
+        // Add event listeners for the new links
+        document.getElementById('downloadData').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (responses.length === 0) {
+                alert('No data available to download.');
+                return;
+            }
+            downloadCSV();
+        });
+
+        document.getElementById('clearData').addEventListener('click', (e) => {
+            e.preventDefault();
+            clearData();
         });
     </script>
 </body>
