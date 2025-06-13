@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shower Challenge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --primary: #0066cc;
+            --accent: #ffca28;
+            --danger: #e53935;
+            --bg-gradient: linear-gradient(135deg, #e0f7fa 0%, #80deea 100%);
+            --font: 'Segoe UI', sans-serif;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 1rem;
+            font-family: var(--font);
+            background: var(--bg-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, .1);
+            position: relative;
+        }
+        
+        .language-toggle {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+        
+        .language-toggle:hover {
+            background: #004a99;
+        }
+        
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 2rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+        
+        .question {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: .5rem;
+            font-weight: 500;
+        }
+        
+        input[type=range],
+        input[type=number] {
+            width: 100%;
+            margin-bottom: .5rem;
+        }
+        
+        input[type=number] {
+            padding: .5rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+        }
+        
+        input[type=range] {
+            -webkit-appearance: none;
+            height: 8px;
+            background: #ddd;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            margin: 0;
+        }
+        
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            margin-top: -4px;
+        }
+        
+        .slider-value {
+            text-align: right;
+            font-size: 1rem;
+            color: var(--primary);
+            margin-top: -.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: .8rem;
+            background: var(--primary);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background .3s, transform .2s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+            margin-bottom: 1rem;
+        }
+        
+        .btn:hover {
+            background: #004a99;
+            transform: translateY(-2px);
+        }
+        
+        .results {
+            display: none;
+            margin-top: 1rem;
+        }
+        
+        .gauges {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .gauge {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+        }
+        
+        .gauge-bar {
+            height: 16px;
+            background: var(--primary);
+            border-radius: 8px;
+            transition: width .5s;
+            margin-bottom: .5rem;
+        }
+        
+        .badge-container {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: var(--accent);
+            color: #333;
+            padding: .5rem 1rem;
+            border-radius: 12px;
+            margin: .25rem;
+            font-weight: 500;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+        }
+        
+        .box {
+            background: #f9f9f9;
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+        
+        .box.alert {
+            border-color: var(--danger);
+        }
+        
+        .box.success {
+            border-color: var(--accent);
+        }
+        
+        .input-section {
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        
+        .input-section.hidden {
+            display: none;
+        }
+        
+        .response-section {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .response-section.visible {
+            display: block;
+        }
+        
+        .gauges {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .gauge {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+        }
+        
+        .gauge-bar {
+            height: 16px;
+            background: var(--primary);
+            border-radius: 8px;
+            transition: width .5s;
+            margin-bottom: .5rem;
+        }
+        
+        .badge-container {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: var(--accent);
+            color: #333;
+            padding: .5rem 1rem;
+            border-radius: 12px;
+            margin: .25rem;
+            font-weight: 500;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+        }
+        
+        .btn.refresh {
+            background: var(--accent);
+            color: #333;
+            margin-top: 2rem;
+        }
+        
+        .btn.refresh:hover {
+            background: #e6b800;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <button class="language-toggle" id="languageToggle">Ελληνικά</button>
+        <h1 id="title">Shower Challenge</h1>
+        <div class="input-section" id="inputSection">
+            <div class="question">
+                <label for="showerMin" id="showerLabel">How many minutes do you shower every day?</label>
+                <input type="range" id="showerMin" min="0" max="20" step="1" value="0">
+                <div class="slider-value"><span id="showerVal">0</span> <span id="minutesText">min</span></div>
+            </div>
+            <div class="question">
+                <label for="guessLiters" id="guessLabel">How many liters do you think you use in your house per day?</label>
+                <input type="range" id="guessLiters" min="0" max="300" step="10" value="0">
+                <div class="slider-value"><span id="guessVal">0</span> <span id="litersText">L</span></div>
+            </div>
+            <button class="btn" id="getScoreBtn">Get Your Score!</button>
+        </div>
+
+        <div class="response-section" id="responseSection">
+            <div class="box" id="showerBox"></div>
+            <div class="box" id="consumptionBox"></div>
+            <div class="box" id="promptBox"></div>
+        </div>
+
+        <div class="results" id="results">
+            <div class="question">
+                <label for="exploreMin" id="exploreLabel">Adjust your shower length:</label>
+                <input type="range" id="exploreMin" min="0" max="20" step="1" value="11" disabled>
+                <div class="slider-value"><span id="exploreVal">11</span> <span id="exploreMinutesText">min</span></div>
+            </div>
+            <div class="gauges" id="gaugesSection">
+                <div class="gauge">
+                    <div id="personalLabel">Personal<br><small id="personalUnit">(Liters)</small></div>
+                    <div class="gauge-bar" id="personalBar" style="width:0%;"></div>
+                    <div id="personalVal">0 L</div>
+                </div>
+                <div class="gauge">
+                    <div id="percentLabel">% of Daily<br><small id="percentUnit">(140 L)</small></div>
+                    <div class="gauge-bar" id="percentBar" style="width:0%;"></div>
+                    <div id="percentVal">0%</div>
+                </div>
+                <div class="gauge">
+                    <div id="servedLabel">Water Saved<br><small id="servedUnit">(People served)</small></div>
+                    <div class="gauge-bar" id="servedBar" style="width:0%;"></div>
+                    <div id="peopleServedVal">0</div>
+                </div>
+            </div>
+            <div class="badge-container" id="badges"></div>
+            <button class="btn refresh" id="refreshBtn" onclick="window.location.reload()">Start Over</button>
+        </div>
+    </div>
+
+    <script>
+        const RATE = 9,
+            POP = 1000000,
+            AVERAGE = 140,
+            BASE_SHOWER = AVERAGE * 0.65;
+
+        const translations = {
+            en: {
+                title: "Shower Challenge",
+                showerLabel: "How many minutes do you shower every day?",
+                guessLabel: "How many liters do you think you use in your house per day?",
+                getScoreBtn: "Get Your Score!",
+                minutes: "min",
+                liters: "L",
+                exploreLabel: "Adjust your shower length:",
+                personalLabel: "Personal",
+                personalUnit: "(Liters)",
+                percentLabel: "% of Daily",
+                percentUnit: "(140 L)",
+                servedLabel: "Water Saved",
+                servedUnit: "(People served)",
+                refreshBtn: "Start Over",
+                languageToggle: "Ελληνικά",
+                showerBox: (mins, usage, percentage) =>
+                    `${mins} minutes shower corresponds to ${usage} liters (${percentage}% of daily average)`,
+                consumptionBox: (guess) =>
+                    `You indicated ${guess} liters daily consumption. The average in Cyprus is 140 liters! 60% corresponds to showering.`,
+                promptBox: (mins) => {
+                    if (mins <= 5) return "Great job! You are a water hero—keep it up!";
+                    if (mins <= 10) return "Nice work! Try cutting 1 minute!";
+                    return "Try to shorten your shower.";
+                },
+                badges: {
+                    waterMinder: "Water Minder",
+                    megaWaterSaver: "Mega Water Saver"
+                }
+            },
+            el: {
+                title: "Πρόκληση Ντους",
+                showerLabel: "Πόσα λεπτά κάνετε ντους κάθε μέρα;",
+                guessLabel: "Πόσα λίτρα νομίζετε ότι χρησιμοποιείτε στο σπίτι σας την ημέρα;",
+                getScoreBtn: "Πάρτε τη Βαθμολογία σας!",
+                minutes: "λεπ",
+                liters: "Λ",
+                exploreLabel: "Προσαρμόστε τη διάρκεια του ντους σας:",
+                personalLabel: "Προσωπική",
+                personalUnit: "(Λίτρα)",
+                percentLabel: "% Ημερήσιας",
+                percentUnit: "(140 Λ)",
+                servedLabel: "Νερό που Αποθηκεύτηκε",
+                servedUnit: "(Άτομα που εξυπηρετούνται)",
+                refreshBtn: "Ξεκινήστε Ξανά",
+                languageToggle: "English",
+                showerBox: (mins, usage, percentage) =>
+                    `${mins} λεπτά ντους αντιστοιχούν σε ${usage} λίτρα (${percentage}% του ημερήσιου μέσου όρου)`,
+                consumptionBox: (guess) =>
+                    `Υποδείξατε ${guess} λίτρα ημερήσιας κατανάλωσης. Ο μέσος όρος στην Κύπρο είναι 140 λίτρα! Το 60% αντιστοιχεί στο ντους.`,
+                promptBox: (mins) => {
+                    if (mins <= 5) return "Μπράβο! Είστε ήρωας του νερού—συνεχίστε έτσι!";
+                    if (mins <= 10) return "Καλή δουλειά! Προσπαθήστε να μειώσετε 1 λεπτό!";
+                    return "Προσπαθήστε να μειώσετε τη διάρκεια του ντους σας.";
+                },
+                badges: {
+                    waterMinder: "Φύλακας Νερού",
+                    megaWaterSaver: "Μεγάλος Εξοικονομητής Νερού"
+                }
+            }
+        };
+
+        let currentLang = 'en';
+
+        function updateLanguage() {
+            const t = translations[currentLang];
+            document.getElementById('title').textContent = t.title;
+            document.getElementById('showerLabel').textContent = t.showerLabel;
+            document.getElementById('guessLabel').textContent = t.guessLabel;
+            document.getElementById('getScoreBtn').textContent = t.getScoreBtn;
+            document.getElementById('minutesText').textContent = t.minutes;
+            document.getElementById('litersText').textContent = t.liters;
+            document.getElementById('exploreLabel').textContent = t.exploreLabel;
+            document.getElementById('exploreMinutesText').textContent = t.minutes;
+            document.getElementById('personalLabel').innerHTML = t.personalLabel + '<br><small>' + t.personalUnit + '</small>';
+            document.getElementById('percentLabel').innerHTML = t.percentLabel + '<br><small>' + t.percentUnit + '</small>';
+            document.getElementById('servedLabel').innerHTML = t.servedLabel + '<br><small>' + t.servedUnit + '</small>';
+            document.getElementById('refreshBtn').textContent = t.refreshBtn;
+            document.getElementById('languageToggle').textContent = t.languageToggle;
+
+            // Update response boxes if they exist
+            if (showerBox.textContent) {
+                const mins = +showerMin.value;
+                const usage = mins * RATE;
+                const guess = +guessLiters.value;
+                const showerPercentage = Math.round((usage / AVERAGE) * 100);
+
+                showerBox.textContent = t.showerBox(mins, usage, showerPercentage);
+                consumptionBox.textContent = t.consumptionBox(guess);
+                promptBox.textContent = t.promptBox(mins);
+            }
+
+            // Update badges if they exist
+            if (badgesDiv.innerHTML) {
+                const mins = +exploreMin.value;
+                badgesDiv.innerHTML = '';
+                if (mins <= 7 && mins > 3) badgesDiv.innerHTML += `<div class="badge">${t.badges.waterMinder}</div>`;
+                if (mins <= 3) badgesDiv.innerHTML += `<div class="badge">${t.badges.megaWaterSaver}</div>`;
+            }
+        }
+
+        // Function to get random integer between min and max (inclusive)
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        // Function to get random value in steps
+        function getRandomStep(min, max, step) {
+            const steps = Math.floor((max - min) / step);
+            return min + (getRandomInt(0, steps) * step);
+        }
+
+        const showerMin = document.getElementById('showerMin'),
+            showerVal = document.getElementById('showerVal'),
+            guessLiters = document.getElementById('guessLiters'),
+            guessVal = document.getElementById('guessVal'),
+            getScoreBtn = document.getElementById('getScoreBtn'),
+            resultsDiv = document.getElementById('results'),
+            personalBar = document.getElementById('personalBar'),
+            percentBar = document.getElementById('percentBar'),
+            servedBar = document.getElementById('servedBar'),
+            personalVal = document.getElementById('personalVal'),
+            percentVal = document.getElementById('percentVal'),
+            peopleServedVal = document.getElementById('peopleServedVal'),
+            badgesDiv = document.getElementById('badges'),
+            showerBox = document.getElementById('showerBox'),
+            consumptionBox = document.getElementById('consumptionBox'),
+            promptBox = document.getElementById('promptBox'),
+            exploreMin = document.getElementById('exploreMin'),
+            exploreVal = document.getElementById('exploreVal'),
+            inputSection = document.getElementById('inputSection'),
+            responseSection = document.getElementById('responseSection'),
+            languageToggle = document.getElementById('languageToggle');
+
+        function updateAll(mins) {
+            const personalUsage = mins * RATE;
+            const percent = Math.round(personalUsage / AVERAGE * 100);
+            const savedPerPerson = Math.max(BASE_SHOWER - personalUsage, 0);
+            const totalSaved = savedPerPerson * POP;
+            const peopleServed = Math.floor(totalSaved / AVERAGE);
+            // gauges
+            personalBar.style.width = Math.min(personalUsage / AVERAGE * 100, 100) + '%';
+            personalVal.textContent = personalUsage + ' ' + translations[currentLang].liters;
+            percentBar.style.width = Math.min(percent, 100) + '%';
+            percentVal.textContent = percent + '%';
+            const servedPct = Math.min(peopleServed / POP * 100, 100);
+            servedBar.style.width = servedPct + '%';
+            peopleServedVal.textContent = peopleServed.toLocaleString();
+            // badges
+            badgesDiv.innerHTML = '';
+            if (mins <= 7 && mins > 3) badgesDiv.innerHTML += `<div class="badge">${translations[currentLang].badges.waterMinder}</div>`;
+            if (mins <= 3) badgesDiv.innerHTML += `<div class="badge">${translations[currentLang].badges.megaWaterSaver}</div>`;
+        }
+
+        getScoreBtn.addEventListener('click', () => {
+            // Hide input section and show response section
+            inputSection.classList.add('hidden');
+            responseSection.classList.add('visible');
+
+            // Calculate values
+            const mins = +showerMin.value;
+            const usage = mins * RATE;
+            const guess = +guessLiters.value;
+            const showerPercentage = Math.round((usage / AVERAGE) * 100);
+
+            // Update response boxes
+            showerBox.textContent = translations[currentLang].showerBox(mins, usage, showerPercentage);
+            consumptionBox.textContent = translations[currentLang].consumptionBox(guess);
+            promptBox.textContent = translations[currentLang].promptBox(mins);
+
+            // Update gauges
+            updateAll(mins);
+
+            // Enable explore slider
+            exploreMin.disabled = false;
+            exploreVal.textContent = mins;
+            resultsDiv.style.display = 'block';
+        });
+
+        exploreMin.addEventListener('input', () => {
+            const mins = +exploreMin.value;
+            exploreVal.textContent = mins;
+            updateAll(mins);
+        });
+
+        showerMin.addEventListener('input', () => {
+            showerVal.textContent = showerMin.value;
+        });
+
+        guessLiters.addEventListener('input', () => {
+            guessVal.textContent = guessLiters.value;
+        });
+
+        languageToggle.addEventListener('click', () => {
+            currentLang = currentLang === 'en' ? 'el' : 'en';
+            updateLanguage();
+        });
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Set random initial values
+            const randomMinutes = getRandomInt(0, 20);
+            const randomLiters = getRandomStep(0, 300, 10);
+
+            showerMin.value = randomMinutes;
+            showerVal.textContent = randomMinutes;
+
+            guessLiters.value = randomLiters;
+            guessVal.textContent = randomLiters;
+
+            // Initialize language
+            updateLanguage();
+        });
+    </script>
+</body>
+
+</html>
