@@ -4,89 +4,142 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shower Sound Detector</title>
+    <title>Shower Monitor</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: sans-serif;
             text-align: center;
-            background: #e0f7fa;
-            padding: 2rem;
-        }
-        
-        h1 {
-            color: #0066cc;
+            margin-top: 3rem;
         }
         
         #status {
             font-size: 1.5rem;
             margin: 1rem 0;
-            color: #333;
         }
         
-        #start-btn {
-            padding: 1rem 2rem;
-            font-size: 1.2rem;
-            background: #0066cc;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
+        #usage {
+            margin-top: 0.5rem;
+            color: #555;
         }
         
-        #start-btn:hover {
-            background: #004a99;
+        button {
+            font-size: 1.1rem;
+            padding: 0.6rem 1.2rem;
         }
     </style>
 </head>
 
 <body>
-    <h1>Shower Sound Detector</h1>
-    <p>Click the button and allow microphone access.</p>
-    <button id="start-btn">Start Listening</button>
-    <div id="status">Waiting...</div>
+    <button id="start-btn">Start monitoring</button>
+    <div id="status">— idle —</div>
+    <div id="usage"></div>
 
     <script>
         const startBtn = document.getElementById('start-btn');
-        const status = document.getElementById('status');
+        const statusEl = document.getElementById('status');
+        const usageEl = document.getElementById('usage');
+
+        // ===== user-tunable thresholds & constants =====
+        const AMP_THRESHOLD = -45; // dBFS ≈ how loud the shower must be
+        const FLAT_THRESHOLD = 0.35; // 0-1 spectral flatness ratio
+        const FRAME_MS = 200; // analysis window
+        const DEBOUNCE_MS = 1000; // must be stable this long to switch
+        const LITRES_PER_MIN = 9; // typical efficient shower head
+
+        let ctx, analyser, freqData, timeData;
+        let showerOn = false;
+        let lastSwitchT = 0; // ctx.currentTime at last state flip
+        let usageSeconds = 0; // total seconds shower detected
+        let lastFrameTime = 0;
 
         startBtn.addEventListener('click', async() => {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({
                     audio: true
                 });
-                const context = new AudioContext();
-                const source = context.createMediaStreamSource(stream);
-                const analyser = context.createAnalyser();
-                analyser.fftSize = 256;
-
-                const bufferLength = analyser.frequencyBinCount;
-                const dataArray = new Uint8Array(bufferLength);
-
-                source.connect(analyser);
-
-                function detectShowerNoise() {
-                    analyser.getByteFrequencyData(dataArray);
-                    let sum = 0;
-                    for (let i = 0; i < dataArray.length; i++) {
-                        sum += dataArray[i];
-                    }
-                    const avg = sum / dataArray.length;
-                    if (avg > 50) {
-                        status.textContent = 'Shower Sound Detected!';
-                        status.style.color = 'green';
-                    } else {
-                        status.textContent = 'No Shower Sound';
-                        status.style.color = '#333';
-                    }
-                    requestAnimationFrame(detectShowerNoise);
-                }
-
-                detectShowerNoise();
+                ctx = new AudioContext({
+                    latencyHint: "interactive"
+                });
+                const src = ctx.createMediaStreamSource(stream);
+                analyser = ctx.createAnalyser();
+                analyser.fftSize = 2048;
+                analyser.smoothingTimeConstant = 0.0;
+                src.connect(analyser);
+                freqData = new Float32Array(analyser.frequencyBinCount);
+                timeData = new Uint8Array(analyser.fftSize);
+                lastSwitchT = ctx.currentTime;
+                lastFrameTime = ctx.currentTime;
+                statusEl.textContent = 'Listening…';
+                statusEl.style.color = '#333';
+                analyse(); // kick off loop
             } catch (err) {
-                status.textContent = 'Microphone access denied or unavailable.';
-                status.style.color = 'red';
+                statusEl.textContent = 'Mic access denied';
+                statusEl.style.color = 'red';
+                console.error(err);
             }
         });
+
+        function analyse() {
+            const now = ctx.currentTime;
+            if ((now - lastFrameTime) * 1000 >= FRAME_MS) {
+                lastFrameTime = now;
+
+                // --- extract features ---
+                analyser.getFloatFrequencyData(freqData);
+                analyser.getByteTimeDomainData(timeData);
+                const rms = calcRMS(timeData);
+                const flat = calcFlatness(freqData);
+
+                const ampOK = rms > AMP_THRESHOLD;
+                const flatOK = flat > FLAT_THRESHOLD;
+                const wantShower = ampOK && flatOK;
+
+                // --- debounced state machine ---
+                if (wantShower !== showerOn &&
+                    (now - lastSwitchT) * 1000 > DEBOUNCE_MS) {
+                    showerOn = wantShower;
+                    lastSwitchT = now;
+                    statusEl.textContent = showerOn ? '🚿 Shower ON' : '— Shower off';
+                    statusEl.style.color = showerOn ? 'green' : '#333';
+                }
+
+                // accumulate usage
+                if (showerOn) usageSeconds += FRAME_MS / 1000;
+
+                // update counter every couple of seconds
+                if (Math.floor(usageSeconds) % 2 === 0) {
+                    const litres = (usageSeconds / 60) * LITRES_PER_MIN;
+                    usageEl.textContent =
+                        `Today: ${(usageSeconds / 60).toFixed(1)} min ≈ ${litres.toFixed(1)} ℓ`;
+                }
+            }
+            requestAnimationFrame(analyse);
+        }
+
+        // ---------- helpers ----------
+        function calcRMS(uint8Array) {
+            let sum = 0;
+            for (let i = 0; i < uint8Array.length; i++) {
+                const centered = uint8Array[i] - 128; // centre at 0
+                sum += centered * centered;
+            }
+            const meanSquare = sum / uint8Array.length;
+            const rms = Math.sqrt(meanSquare) / 128; // 0−1
+            return 20 * Math.log10(rms + 1e-12); // dBFS
+        }
+
+        function calcFlatness(float32Array) {
+            let geoMeanLog = 0,
+                arithMean = 0;
+            for (let i = 0; i < float32Array.length; i++) {
+                const p = Math.pow(10, float32Array[i] / 10); // convert dB→linear
+                arithMean += p;
+                geoMeanLog += Math.log(p + 1e-18);
+            }
+            arithMean /= float32Array.length;
+            const geoMean = Math.exp(geoMeanLog / float32Array.length);
+            return geoMean / (arithMean + 1e-18);
+        }
     </script>
 </body>
 
