@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shower Sound Detector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #e0f7fa;
+            padding: 2rem;
+        }
+        
+        h1 {
+            color: #0066cc;
+        }
+        
+        #status {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            color: #333;
+        }
+        
+        #start-btn {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            background: #0066cc;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        #start-btn:hover {
+            background: #004a99;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Shower Sound Detector</h1>
+    <p>Click the button and allow microphone access.</p>
+    <button id="start-btn">Start Listening</button>
+    <div id="status">Waiting...</div>
+
+    <script>
+        const startBtn = document.getElementById('start-btn');
+        const status = document.getElementById('status');
+
+        startBtn.addEventListener('click', async() => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    audio: true
+                });
+                const context = new AudioContext();
+                const source = context.createMediaStreamSource(stream);
+                const analyser = context.createAnalyser();
+                analyser.fftSize = 256;
+
+                const bufferLength = analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+
+                source.connect(analyser);
+
+                function detectShowerNoise() {
+                    analyser.getByteFrequencyData(dataArray);
+                    let sum = 0;
+                    for (let i = 0; i < dataArray.length; i++) {
+                        sum += dataArray[i];
+                    }
+                    const avg = sum / dataArray.length;
+                    if (avg > 50) {
+                        status.textContent = 'Shower Sound Detected!';
+                        status.style.color = 'green';
+                    } else {
+                        status.textContent = 'No Shower Sound';
+                        status.style.color = '#333';
+                    }
+                    requestAnimationFrame(detectShowerNoise);
+                }
+
+                detectShowerNoise();
+            } catch (err) {
+                status.textContent = 'Microphone access denied or unavailable.';
+                status.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+
+</html>
