@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shower Sound Detector</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -55,6 +56,16 @@
         #stop-btn:hover {
             background: #990000;
         }
+        
+        .chart-container {
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 
@@ -66,14 +77,26 @@
     <div id="status">Waiting...</div>
     <div id="usage"></div>
 
+    <div class="chart-container">
+        <canvas id="spectrumChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <canvas id="metricsChart"></canvas>
+    </div>
+    <div id="calibration" style="margin: 20px auto; max-width: 800px; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <h3>Calibration Mode</h3>
+        <button id="calibrate-btn" class="button" style="background: #4CAF50;">Start Calibration</button>
+        <div id="calibration-results" style="margin-top: 10px; text-align: left;"></div>
+    </div>
+
     <script>
         // Constants
         const FS = 48000; // Sample rate [Hz]
         const FRAME_MS = 200; // Analysis window [ms]
         const N_SAMPLES = Math.round(FRAME_MS / 1000 * FS);
         const HPF_CUTOFF_HZ = 1000; // High-pass corner
-        const DB_THRESHOLD = -60.0; // Loudness cut-off [dBFS]
-        const FLAT_THRESHOLD = 0.35; // Flatness cut-off
+        const DB_THRESHOLD = -57.4; // Loudness cut-off [dBFS]
+        const FLAT_THRESHOLD = 0.30; // Flatness cut-off
         const DEBOUNCE_MS = 1000; // Min stable time to flip state
         const L_PER_MIN = 9.0; // Shower-head flow [L/min]
         const EPSILON = 1e-10; // Small number to avoid division by zero
@@ -82,6 +105,110 @@
         const stopBtn = document.getElementById('stop-btn');
         const status = document.getElementById('status');
         const usage = document.getElementById('usage');
+
+        // Chart initialization
+        const spectrumCtx = document.getElementById('spectrumChart').getContext('2d');
+        const metricsCtx = document.getElementById('metricsChart').getContext('2d');
+
+        const spectrumChart = new Chart(spectrumCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Frequency Spectrum',
+                    data: [],
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                animation: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Magnitude (dB)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Frequency (Hz)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Calibration state
+        let isCalibrating = false;
+        let calibrationData = {
+            loudness: [],
+            flatness: []
+        };
+        const calibrateBtn = document.getElementById('calibrate-btn');
+        const calibrationResults = document.getElementById('calibration-results');
+
+        // Update metrics chart configuration
+        const metricsChart = new Chart(metricsCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'RMS Loudness (dB)',
+                    data: [],
+                    borderColor: 'rgb(255, 99, 132)',
+                    yAxisID: 'y'
+                }, {
+                    label: 'Spectral Flatness',
+                    data: [],
+                    borderColor: 'rgb(54, 162, 235)',
+                    yAxisID: 'y1'
+                }, {
+                    label: 'RMS Threshold',
+                    data: [],
+                    borderColor: 'rgba(255, 99, 132, 0.3)',
+                    borderDash: [5, 5],
+                    yAxisID: 'y',
+                    pointRadius: 0
+                }, {
+                    label: 'Flatness Threshold',
+                    data: [],
+                    borderColor: 'rgba(54, 162, 235, 0.3)',
+                    borderDash: [5, 5],
+                    yAxisID: 'y1',
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                animation: false,
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'RMS (dB)'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Flatness'
+                        },
+                        min: 0,
+                        max: 1
+                    }
+                }
+            }
+        });
 
         // State variables
         let showerState = false;
@@ -94,6 +221,7 @@
         let mBins;
         let mediaStream;
         let isProcessing = false;
+        let chartUpdateCounter = 0;
 
         startBtn.addEventListener('click', async() => {
             try {
@@ -165,6 +293,67 @@
             usage.textContent = '';
         }
 
+        // Add calibration button handler
+        calibrateBtn.addEventListener('click', () => {
+            isCalibrating = !isCalibrating;
+            if (isCalibrating) {
+                calibrationData = {
+                    loudness: [],
+                    flatness: []
+                };
+                calibrateBtn.textContent = 'Stop Calibration';
+                calibrateBtn.style.background = '#f44336';
+                calibrationResults.innerHTML = 'Recording sound patterns...';
+            } else {
+                calibrateBtn.textContent = 'Start Calibration';
+                calibrateBtn.style.background = '#4CAF50';
+                analyzeCalibrationData();
+            }
+        });
+
+        function analyzeCalibrationData() {
+            if (calibrationData.loudness.length === 0) {
+                calibrationResults.innerHTML = 'No data collected. Please try again.';
+                return;
+            }
+
+            // Sort the data
+            const sortedLoudness = [...calibrationData.loudness].sort((a, b) => a - b);
+            const sortedFlatness = [...calibrationData.flatness].sort((a, b) => a - b);
+
+            // Calculate percentiles
+            const loudnessP95 = sortedLoudness[Math.floor(sortedLoudness.length * 0.95)];
+            const loudnessP5 = sortedLoudness[Math.floor(sortedLoudness.length * 0.05)];
+            const flatnessP95 = sortedFlatness[Math.floor(sortedFlatness.length * 0.95)];
+            const flatnessP5 = sortedFlatness[Math.floor(sortedFlatness.length * 0.05)];
+
+            // Suggest thresholds
+            const suggestedDbThreshold = Math.min(loudnessP95, -40); // Cap at -40 dB
+            const suggestedFlatThreshold = Math.max(flatnessP5, 0.3); // Floor at 0.3
+
+            // Update threshold lines
+            updateThresholdLines(suggestedDbThreshold, suggestedFlatThreshold);
+
+            // Display results
+            calibrationResults.innerHTML = `
+                <h4>Suggested Thresholds:</h4>
+                <p>RMS Threshold (dB): ${suggestedDbThreshold.toFixed(1)} dB</p>
+                <p>Spectral Flatness: ${suggestedFlatThreshold.toFixed(2)}</p>
+                <h4>Current Values:</h4>
+                <p>RMS Threshold (dB): ${DB_THRESHOLD.toFixed(1)} dB</p>
+                <p>Spectral Flatness: ${FLAT_THRESHOLD.toFixed(2)}</p>
+                <p><small>Note: These are suggestions based on the observed sound patterns. 
+                Adjust based on your specific needs and environment.</small></p>
+            `;
+        }
+
+        function updateThresholdLines(dbThreshold, flatThreshold) {
+            const labels = metricsChart.data.labels;
+            metricsChart.data.datasets[2].data = Array(labels.length).fill(dbThreshold);
+            metricsChart.data.datasets[3].data = Array(labels.length).fill(flatThreshold);
+            metricsChart.update();
+        }
+
         function detectShowerNoise() {
             if (!isProcessing) return;
 
@@ -179,7 +368,7 @@
             let logPSum = 0;
 
             for (let k = kCut; k < analyser.frequencyBinCount; k++) {
-                const pLin = Math.pow(10, freqBuf[k] / 10); // dB → linear power
+                const pLin = Math.pow(10, freqBuf[k] / 10);
                 pSumLin += pLin;
                 logPSum += Math.log(pLin + EPSILON);
             }
@@ -188,9 +377,19 @@
             const arithMean = pSumLin / mBins;
             const flatness = geoMean / (arithMean + EPSILON);
 
-            // Calculate RMS in dBFS
             const rmsLin = Math.sqrt(pSumLin / mBins);
             const loudnessDb = 20 * Math.log10(rmsLin + EPSILON);
+
+            // Collect calibration data
+            if (isCalibrating) {
+                calibrationData.loudness.push(loudnessDb);
+                calibrationData.flatness.push(flatness);
+            }
+
+            // Update charts every 5 frames
+            if (chartUpdateCounter++ % 5 === 0) {
+                updateCharts(freqBuf, loudnessDb, flatness);
+            }
 
             // Instantaneous decision
             const decision = (loudnessDb > DB_THRESHOLD) && (flatness > FLAT_THRESHOLD);
@@ -239,6 +438,33 @@
         function persistUsage() {
             const today = new Date().toISOString().split('T')[0];
             localStorage.setItem(today, usageSeconds.toString());
+        }
+
+        function updateCharts(freqBuf, loudnessDb, flatness) {
+            // Update spectrum chart
+            const freqLabels = Array.from({
+                    length: freqBuf.length
+                }, (_, i) =>
+                (i * FS / (2 * freqBuf.length)).toFixed(0));
+
+            spectrumChart.data.labels = freqLabels;
+            spectrumChart.data.datasets[0].data = Array.from(freqBuf);
+            spectrumChart.update();
+
+            // Update metrics chart
+            const now = new Date().toLocaleTimeString();
+            metricsChart.data.labels.push(now);
+            metricsChart.data.datasets[0].data.push(loudnessDb);
+            metricsChart.data.datasets[1].data.push(flatness);
+
+            // Keep only last 50 points
+            if (metricsChart.data.labels.length > 50) {
+                metricsChart.data.labels.shift();
+                metricsChart.data.datasets[0].data.shift();
+                metricsChart.data.datasets[1].data.shift();
+            }
+
+            metricsChart.update();
         }
     </script>
 </body>
