@@ -429,6 +429,18 @@
             width: auto;
             object-fit: contain;
         }
+
+        .email-link {
+            color: var(--primary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .email-link:hover {
+            color: #004a99;
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -459,8 +471,7 @@
 
         <button id="calc" data-el="calc-button"></button>
 
-        <p class="privacy-notice" data-el="privacy-notice"></p>
-
+   
         <div class="result" id="result" style="display: none"></div>
 
         <div class="share-section" id="shareSection" style="display: none">
@@ -486,6 +497,13 @@
                 </div>
             </div>
         </div>
+
+        <p class="privacy-notice" data-el="privacy-notice"></p>
+        <p class="privacy-notice">
+            <span data-el="contact-info-prefix"></span>
+            <a href="#" id="contactEmail" class="email-link">kios-dwic@ucy.onmicrosoft.com</a>
+        </p>   
+        
     </div>
 
     <!-- Notice Modal -->
@@ -502,7 +520,8 @@
         <a href="https://www.kios.ucy.ac.cy/eliades" target="_blank">Digital Water Innovations Cluster</a
         >, <a href="https://www.kios.ucy.ac.cy" target="_blank"
           >KIOS Research and Innovation Center of Excellence</a
-        >, <a href="https://www.ucy.ac.cy" target="_blank">University of Cyprus. </a> <br>Copyright © 2025 KIOS CoE, UCY. All rights reserved.
+        >, <a href="https://www.ucy.ac.cy" target="_blank">University of Cyprus. </a> <br>Copyright © 2025 KIOS CoE, UCY. All rights reserved.<br>
+        
     </div>
 
     <!-- Modal -->
@@ -616,7 +635,9 @@
                 "people-placeholder": "π.χ., 4",
                 "copy-summary": "Αντέγραψε περίληψη",
                 "version-title": "Έκδοση",
-                "version-number": "0.96"
+                "version-number": "0.96",
+                "contact-info": "Για βελτιώσεις και προτάσεις, παρακαλούμε επικοινωνήστε μαζί μας στο kios-dwic@ucy.onmicrosoft.com",
+                "contact-info-prefix": "Για βελτιώσεις και προτάσεις, παρακαλούμε επικοινωνήστε μαζί μας στο "
             },
             en: {
                 "app-title": "Stagona - Water Consumption Calculator",
@@ -678,7 +699,9 @@
                 "people-placeholder": "e.g., 4",
                 "copy-summary": "Copy summary",
                 "version-title": "Version",
-                "version-number": "0.96"
+                "version-number": "0.96",
+                "contact-info": "For improvements and recommendations, please contact us at kios-dwic@ucy.onmicrosoft.com",
+                "contact-info-prefix": "For improvements and recommendations, please contact us at "
             }
         };
 
@@ -963,6 +986,19 @@
           hideNotice();
         }
       };
+
+      // Add email copy functionality
+      document.getElementById('contactEmail').addEventListener('click', function(e) {
+        e.preventDefault();
+        const email = this.textContent;
+        navigator.clipboard.writeText(email).then(() => {
+          showNotice(translations[currentLang]["email-copied"]);
+        });
+      });
+
+      // Add new translations for the email copied message
+      translations.el["email-copied"] = "Το email αντιγράφηκε!";
+      translations.en["email-copied"] = "Email copied!";
 
       // Initialize the page in Greek
       updateLanguage("el");
