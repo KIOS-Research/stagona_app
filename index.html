@@ -414,6 +414,21 @@
             font-style: italic;
             line-height: 1.4;
         }
+
+        .modal-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            padding-top: 1rem;
+        }
+
+        .modal-logo {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+        }
     </style>
 </head>
 
@@ -494,6 +509,11 @@
     <div class="modal" id="aboutModal">
         <div class="modal-content">
             <i class="fas fa-times modal-close" id="modalClose"></i>
+            
+            <div class="modal-logos">
+                <img src="ucy_logo.png" alt="University of Cyprus Logo" class="modal-logo" />
+                <img src="kios_logo.png" alt="KIOS CoE Logo" class="modal-logo" />
+            </div>
 
             <div class="modal-section">
                 <br /><br />
