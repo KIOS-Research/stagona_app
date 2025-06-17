@@ -442,6 +442,18 @@
             text-decoration: underline;
         }
 
+        .privacy-link {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .privacy-link:hover {
+            color: #004a99;
+            text-decoration: underline;
+        }
+
         .about-link {
             color: var(--primary);
             text-decoration: none;
@@ -577,12 +589,14 @@
                 </div>
             </div>
         </div>
-
-        <p class="privacy-notice" data-el="privacy-notice"></p>
         <p class="privacy-notice">
             <span data-el="contact-info-prefix"></span>
             <a href="#" id="contactEmail" class="email-link">kios-dwic@ucy.onmicrosoft.com</a>
         </p>   
+        <p class="privacy-notice">
+            <a href="https://github.com/KIOS-Research/stagona_app/blob/main/privacy_policy.md" target="_blank" class="privacy-link">Privacy Policy:</a> <span data-el="privacy-notice"></span>
+        </p>
+
         
     </div>
 
@@ -649,7 +663,7 @@
 
             <div class="modal-section">
                 <h3 data-el="privacy-title"></h3>
-                <p data-el="privacy-desc"></p>
+                <span data-el="privacy-desc"></span> (<a href="https://github.com/KIOS-Research/stagona_app/blob/main/privacy_policy.md" target="_blank" class="privacy-link">Privacy Policy</a>)
             </div>
 
             <div class="modal-section">
@@ -689,11 +703,11 @@
                 "how-to-4": "4. Εισάγετε τον αριθμό των ατόμων που έχουν ως συνήθη κατοικία τους το νοικοκυριό",
                 "how-to-5": '5. Κάντε κλικ στο "Υπολόγισε" για να δείτε τα αποτελέσματα',
                 "tips-title": "Συμβουλές εξοικονόμησης νερού",
-                "tip-1": "• Κάντε πιο σύντομα ντους ή/και με χαμηλότερη πίεση. Στοχεύστε στα 5 λεπτά συνεχούς ροής, που αντιστοιχεί σε 45 λίτρα νερού. Κάθε λεπτό στο ντους απαιτεί περίπου 9 λίτρα νερού, και κατά μέσο όρο ένα ντους διαρκεί 10 λεπτά, που αντιστοιχεί στο 60% της συνολικής κατανάλωσης νερού. Συλλέξτε τυχόν κρύο νερό μέχρι να έρθει το ζεστό, σε κουβά.",
+                "tip-1": "• Κάντε πιο σύντομα ντους με χαμηλότερη πίεση. Στοχεύστε στα 5 λεπτά συνεχούς ροής, που αντιστοιχεί σε 45 λίτρα νερού. Κάθε λεπτό στο ντους απαιτεί περίπου 9 λίτρα νερού, και κατά μέσο όρο ένα ντους διαρκεί 10 λεπτά, που αντιστοιχεί στο 60% της συνολικής κατανάλωσης νερού. Συλλέξτε τυχόν κρύο νερό μέχρι να έρθει το ζεστό, σε κουβά.",
                 "tip-2": "• Εντοπίστε και επισκευάστε τυχόν διαρροές. Ελέγξτε την κατανάλωση στον μετρητή σας τις ώρες που απουσιάζετε από το σπίτι. Ελέγχετε τακτικά τους ηλιακούς θερμοσίφωνες και τις δεξαμενές για διαρροές",
                 "tip-3": "• Χρησιμοποιήστε πλήρη φορτίο στα πλυντήρια και στα πλυντήρια πιάτων",
                 "tip-4": "• Επιλέξτε φυτά που αντέχουν στην ξηρασία για τον κήπο (ξηρανθεκτικά είδη) και περιορίστε τις επιφάνειες γρασιδιών",
-                "tip-5": "• Κλείστε τη βρύση όταν βουρτσίζετε τα δόντια ή ξυρίζεστε. Να θυμάστε ότι κάθε λεπτό η ποσότητα νερού σε μια βρύση αντιστοιχεί σε 15 λίτρα, ή το 10% της ημερήσιας κατανάλωσης για ένα άτομο",
+                "tip-5": "• Κλείστε τη βρύση όταν βουρτσίζετε τα δόντια ή ξυρίζεστε. Να θυμάστε ότι κάθε λεπτό η ποσότητα νερού που φεύγει από μια βρύση αντιστοιχεί σε 15 λίτρα, ή το 10% της ημερήσιας κατανάλωσης για ένα άτομο",
                 "tip-6": "• Ποτίστε νωρίς το πρωί ή αργά το απόγευμα για να περιορίσετε την εξάτμιση. Αποφύγετε τη χρήση λαστίχου, καθώς αντιστοιχεί σε 15 λίτρα το λεπτό (το 10% της ημερήσιας κατανάλωσης νερού ανά άτομο στην Κύπρου)",            
                 "tip-7": "• Χρησιμοποιήστε κουβά και σφουγγάρι αντί για λάστιχο όταν πλένετε το αυτοκίνητο",    
                 "result-title": "Μέση κατανάλωση ανά άτομο/ημέρα",
@@ -722,7 +736,7 @@
                 "people-placeholder": "π.χ., 4",
                 "copy-summary": "Αντέγραψε περίληψη",
                 "version-title": "Έκδοση",
-                "version-number": "0.96",
+                "version-number": "0.99",
                 "contact-info": "Για βελτιώσεις και προτάσεις, παρακαλούμε επικοινωνήστε μαζί μας στο kios-dwic@ucy.onmicrosoft.com",
                 "contact-info-prefix": "Για βελτιώσεις και προτάσεις, παρακαλούμε επικοινωνήστε μαζί μας στο ",
                 "example-link": "[?]"
@@ -787,7 +801,7 @@
                 "people-placeholder": "e.g., 4",
                 "copy-summary": "Copy summary",
                 "version-title": "Version",
-                "version-number": "0.96",
+                "version-number": "0.99",
                 "contact-info": "For improvements and suggestions, please contact us at kios-dwic@ucy.onmicrosoft.com",
                 "contact-info-prefix": "For improvements and suggestions, please contact us at ",
                 "example-link": "[?]"
@@ -834,8 +848,8 @@
 
                 let msg = `
             <div class="result-box">
-              <p class="result-value">${perDay.toFixed(1)} ${translations[lang]["liters"]}</p>
-              <p class="result-label">${translations[lang]["result-title"]}</p>
+              <p class="result-value">${perDay.toFixed(1)} ${translations[currentLang]["liters"]}</p>
+              <p class="result-label">${translations[currentLang]["result-title"]}</p>
             </div>
             <div class="result-box">
               <p class="result-diff">${
