@@ -739,7 +739,8 @@
                 "version-number": "0.99",
                 "contact-info": "Για βελτιώσεις και προτάσεις, παρακαλούμε επικοινωνήστε μαζί μας στο kios-dwic@ucy.onmicrosoft.com",
                 "contact-info-prefix": "Για βελτιώσεις και προτάσεις, παρακαλούμε επικοινωνήστε μαζί μας στο ",
-                "example-link": "[?]"
+                "example-link": "[?]",
+                "email-copied": "Το email αντιγράφηκε!"
             },
             en: {
                 "app-title": "Stagona - Water Consumption Calculator",
@@ -804,7 +805,8 @@
                 "version-number": "0.99",
                 "contact-info": "For improvements and suggestions, please contact us at kios-dwic@ucy.onmicrosoft.com",
                 "contact-info-prefix": "For improvements and suggestions, please contact us at ",
-                "example-link": "[?]"
+                "example-link": "[?]",
+                "email-copied": "Email copied!"
             }
         };
 
@@ -919,13 +921,16 @@
               window.open(`https://wa.me/?text=${enc}`, "_blank");
             document.getElementById("shareViber").onclick = () =>
               window.open(`viber://forward?text=${enc}`, "_blank");
-            document.getElementById("shareEmail").onclick = () =>
-              window.open(
-                `mailto:?subject=${
-                  lang === "el" ? "Κατανάλωση νερού" : "Water Consumption"
-                }&body=${enc}`,
-                "_blank"
-              );
+            document.getElementById("shareEmail").onclick = () => {
+              try {
+                const subject = currentLang === "el" ? "Κατανάλωση νερού" : "Water Consumption";
+                const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${enc}`;
+                window.open(mailtoLink, "_blank");
+              } catch (err) {
+                console.error('Failed to open email client:', err);
+                showNotice(currentLang === "el" ? "Αποτυχία ανοίγματος email" : "Failed to open email client");
+              }
+            };
             document.getElementById("copySummary").onclick = () =>
               navigator.clipboard
                 .writeText(summary)
@@ -1037,13 +1042,16 @@
           window.open(`https://wa.me/?text=${enc}`, "_blank");
         document.getElementById("shareViber").onclick = () =>
           window.open(`viber://forward?text=${enc}`, "_blank");
-        document.getElementById("shareEmail").onclick = () =>
-          window.open(
-            `mailto:?subject=${
-              currentLang === "el" ? "Κατανάλωση νερού" : "Water Consumption"
-            }&body=${enc}`,
-            "_blank"
-          );
+        document.getElementById("shareEmail").onclick = () => {
+          try {
+            const subject = currentLang === "el" ? "Κατανάλωση νερού" : "Water Consumption";
+            const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${enc}`;
+            window.open(mailtoLink, "_blank");
+          } catch (err) {
+            console.error('Failed to open email client:', err);
+            showNotice(currentLang === "el" ? "Αποτυχία ανοίγματος email" : "Failed to open email client");
+          }
+        };
         document.getElementById("copySummary").onclick = () =>
           navigator.clipboard
             .writeText(summary)
@@ -1092,18 +1100,23 @@
         }
       };
 
-      // Add email copy functionality
+      // Add translations for the email copied message
+      translations.el["email-copied"] = "Το email αντιγράφηκε!";
+      translations.en["email-copied"] = "Email copied!";
+
+      // Add email copy functionality with error handling
       document.getElementById('contactEmail').addEventListener('click', function(e) {
         e.preventDefault();
         const email = this.textContent;
-        navigator.clipboard.writeText(email).then(() => {
-          showNotice(translations[currentLang]["email-copied"]);
-        });
+        navigator.clipboard.writeText(email)
+          .then(() => {
+            showNotice(translations[currentLang]["email-copied"]);
+          })
+          .catch(err => {
+            console.error('Failed to copy email:', err);
+            showNotice(currentLang === "el" ? "Αποτυχία αντιγραφής email" : "Failed to copy email");
+          });
       });
-
-      // Add new translations for the email copied message
-      translations.el["email-copied"] = "Το email αντιγράφηκε!";
-      translations.en["email-copied"] = "Email copied!";
 
       // Add event listener for about links
       document.addEventListener('click', function(e) {
