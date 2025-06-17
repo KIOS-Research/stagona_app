@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Stagona</title>
+    <title>Stagona App</title>
     <!-- Favicon -->
     <link rel="shortcut icon" href="logo.png" type="image/png">
     <!-- Font Awesome -->
@@ -29,6 +29,7 @@
             font-family: var(--font);
             color: #333;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
@@ -43,6 +44,7 @@
             max-width: 500px;
             width: 100%;
             animation: fadeIn 0.8s ease-in-out;
+            margin-bottom: 1rem;
         }
         
         .landing-logo {
@@ -87,6 +89,18 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
         
+        .store-button.disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .store-button.disabled:hover {
+            background: #cccccc;
+            transform: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+        
         .store-button i {
             font-size: 1.5rem;
         }
@@ -101,25 +115,54 @@
                 transform: scale(1);
             }
         }
+
+        .footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            padding-top: 1rem;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer a:hover {
+            color: #004a99;
+            text-decoration: underline;
+        }
     </style>
 </head>
 
 <body>
     <div class="landing-container">
         <img src="logo.png" alt="Stagona Logo" class="landing-logo" />
-        <h1>Stagona</h1>
+        <h1>Stagona App</h1>
         <div class="store-buttons">
             <a href="https://play.google.com/store/apps/details?id=com.stagona" class="store-button" target="_blank" rel="noopener">
                 <i class="fab fa-google-play"></i> Google Play
             </a>
-            <a href="https://apps.apple.com/app/id123456789" class="store-button" target="_blank" rel="noopener">
+            <a class="store-button disabled">
                 <i class="fab fa-apple"></i> App Store
             </a>
             <a href="https://eldemet.github.io/water-consumption-calculator" class="store-button" target="_blank" rel="noopener">
-                <i class="fas fa-globe"></i> Web Application
+                <i class="fas fa-globe"></i><i class="fab fa-apple"></i> Web Application
             </a>
         </div>
     </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <a href="https://www.kios.ucy.ac.cy/eliades" target="_blank">Digital Water Innovations Cluster</a
+        >, <a href="https://www.kios.ucy.ac.cy" target="_blank"
+            >KIOS Research and Innovation Center of Excellence</a
+        >, <a href="https://www.ucy.ac.cy" target="_blank">University of Cyprus. </a> <br>Copyright © 2025 KIOS CoE, UCY. All rights reserved.<br>
+    </div>
+
 </body>
 
 </html>
