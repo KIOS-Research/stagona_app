@@ -441,6 +441,84 @@
             color: #004a99;
             text-decoration: underline;
         }
+
+        .about-link {
+            color: var(--primary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .about-link:hover {
+            color: #004a99;
+            text-decoration: underline;
+        }
+
+        .example-link {
+            color: var(--primary);
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-left: 0.3rem;
+            transition: color 0.3s;
+            display: inline-block;
+        }
+
+        .example-link:hover {
+            color: #004a99;
+            text-decoration: underline;
+        }
+
+        .example-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .example-modal-content {
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            max-width: 90%;
+            max-height: 90vh;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .example-image {
+            max-width: 100%;
+            max-height: calc(90vh - 2rem);
+            object-fit: contain;
+        }
+
+        .example-modal-close {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            font-size: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+            transition: color 0.3s, transform 0.2s;
+            padding: 0.5rem;
+            z-index: 10;
+        }
+
+        .example-modal-close:hover {
+            color: #004a99;
+            transform: scale(1.1);
+        }
+
+        label[for="total"] {
+            display: inline-block;
+            margin-right: 0.2rem;
+        }
     </style>
 </head>
 
@@ -454,7 +532,9 @@
         <h2 data-el="title"></h2>
         <strong data-el="intro"></strong>
 
-        <label for="total" data-el="total-label"></label>
+        <div>
+            <label for="total"><span data-el="total-label"></span><a href="#" class="example-link" data-el="example-link"></a></label>
+        </div>
         <input type="number" id="total" data-el="total-placeholder" min="0" step="0.1" />
 
         <label for="period" data-el="period-label"></label>
@@ -506,6 +586,14 @@
         
     </div>
 
+    <!-- Example Modal -->
+    <div class="example-modal" id="exampleModal">
+        <div class="example-modal-content">
+            <i class="fas fa-times example-modal-close" id="exampleModalClose"></i>
+            <img src="eoanicosia.png" alt="EOA Nicosia Bill Example" class="example-image">
+        </div>
+    </div>
+
     <!-- Notice Modal -->
     <div class="notice-modal" id="noticeModal">
         <div class="notice-modal-content">
@@ -535,7 +623,6 @@
             </div>
 
             <div class="modal-section">
-                <br /><br />
                 <h3 data-el="about-title"></h3>
                 <p data-el="about-desc"></p>
             </div>
@@ -579,13 +666,13 @@
                 "app-title": "Stagona - Υπολογιστής Κατανάλωσης Νερού",
                 "info-title": "Πληροφορίες",
                 "title": "Σταγονό-μέτρο",
-                "intro": "Εσύ γνωρίζεις πόσα λίτρα νερό καταναλώνεις καθημερινά στο σπίτι σου; Βρες ένα πρόσφατο τιμολόγιο από τον οργανισμό υδροδότησής σου, και συμπληρώσε τα πιο κάτω στοιχεία.",
-                "total-label": "Συνολική κατανάλωση νερού (σε m³):",
+                "intro": "Εσύ γνωρίζεις πόσα λίτρα νερό καταναλώνεις καθημερινά στο σπίτι σου; Βρες ένα πρόσφατο τιμολόγιο από τον οργανισμό υδροδότησής σου, και συμπλήρωσε τα πιο κάτω στοιχεία.",
+                "total-label": "Συνολική κατανάλωση περιόδου (σε m³):",
                 "period-label": "Περίοδος κατανάλωσης (σε μήνες):",
                 "period-select": "Επιλέξτε περίοδο",
                 "period-1": "1 μήνας",
-                "period-2": "2 μήνες",
-                "period-3": "3 μήνες (ΕΟΑ Λ/σια, Λ/κας, Πάφου, Αμ/στου)",
+                "period-2": "2 μήνες (ΕΟΑ Λ/σιας)",
+                "period-3": "3 μήνες (ΕΟΑ Λ/κας, Πάφου, Αμ/στου)",
                 "period-4": "4 μήνες (ΕΟΑ Λ/σου)",
                 "people-label": "Αριθμός ατόμων που κατοικούν στο σπίτι:",
                 "calc-button": "Υπολόγισε",
@@ -599,14 +686,14 @@
                 "how-to-1": "1. Βρείτε τον λογαριασμό κατανάλωσης νερού σας",
                 "how-to-2": "2. Εισάγετε τη συνολική κατανάλωση νερού σας σε κυβικά μέτρα (m³) όπως αναγράφεται στον λογαριασμό",
                 "how-to-3": "3. Επιλέγετε την ορθή περίοδο χρέωσης",
-                "how-to-4": "4. Εισάγετε τον αριθμό των ατόμων έχουν ως συνήθη κατοικία τους το νοικοκυριό",
+                "how-to-4": "4. Εισάγετε τον αριθμό των ατόμων που έχουν ως συνήθη κατοικία τους το νοικοκυριό",
                 "how-to-5": '5. Κάντε κλικ στο "Υπολόγισε" για να δείτε τα αποτελέσματα',
                 "tips-title": "Συμβουλές εξοικονόμησης νερού",
                 "tip-1": "• Κάντε πιο σύντομα ντους ή/και με χαμηλότερη πίεση. Στοχεύστε στα 5 λεπτά συνεχούς ροής, που αντιστοιχεί σε 45 λίτρα νερού. Κάθε λεπτό στο ντους απαιτεί περίπου 9 λίτρα νερού, και κατά μέσο όρο ένα ντους διαρκεί 10 λεπτά, που αντιστοιχεί στο 60% της συνολικής κατανάλωσης νερού. Συλλέξτε τυχόν κρύο νερό μέχρι να έρθει το ζεστό, σε κουβά.",
                 "tip-2": "• Εντοπίστε και επισκευάστε τυχόν διαρροές. Ελέγξτε την κατανάλωση στον μετρητή σας τις ώρες που απουσιάζετε από το σπίτι. Ελέγχετε τακτικά τους ηλιακούς θερμοσίφωνες και τις δεξαμενές για διαρροές",
                 "tip-3": "• Χρησιμοποιήστε πλήρη φορτίο στα πλυντήρια και στα πλυντήρια πιάτων",
-                "tip-4": "• Επιλέξτε φυτά που αντέχουν στην ξηρασία για τον κήπο (ξηρανθεκτικά είδη) και περιορισμός γρασιδιών",
-                "tip-5": "• Κλείνετε τη βρύση όταν βουρτσίζετε τα δόντια ή ξυρίζεστε. Να θυμάστε ότι κάθε λεπτό η ποσότητα νερού σε μια βρύση αντιστοιχεί σε 15 λίτρα, ή το 10% της ημερήσιας κατανάλωσης για ένα άτομο",
+                "tip-4": "• Επιλέξτε φυτά που αντέχουν στην ξηρασία για τον κήπο (ξηρανθεκτικά είδη) και περιορίστε τις επιφάνειες γρασιδιών",
+                "tip-5": "• Κλείστε τη βρύση όταν βουρτσίζετε τα δόντια ή ξυρίζεστε. Να θυμάστε ότι κάθε λεπτό η ποσότητα νερού σε μια βρύση αντιστοιχεί σε 15 λίτρα, ή το 10% της ημερήσιας κατανάλωσης για ένα άτομο",
                 "tip-6": "• Ποτίστε νωρίς το πρωί ή αργά το απόγευμα για να περιορίσετε την εξάτμιση. Αποφύγετε τη χρήση λαστίχου, καθώς αντιστοιχεί σε 15 λίτρα το λεπτό (το 10% της ημερήσιας κατανάλωσης νερού ανά άτομο στην Κύπρου)",            
                 "tip-7": "• Χρησιμοποιήστε κουβά και σφουγγάρι αντί για λάστιχο όταν πλένετε το αυτοκίνητο",    
                 "result-title": "Μέση κατανάλωση ανά άτομο/ημέρα",
@@ -622,9 +709,9 @@
                 "result-slightly-high": "Προσέξτε! Είστε λίγο πάνω από το μέσο όρο.",
                 "result-slightly-high-desc": "Ξεπερνάτε τον μέσο όρο κατανάλωσης νερού στην Κύπρο, που αντιστοιχεί σε 140 λίτρα ανά άτομο ανά ημερα. Μειώνοντας το ντους μόλις κατά 2 λεπτά (20 λίτρα), μπορείτε να φτάσετε εύκολα τον μέσο όρο!  <br><br> Με κάποιες στοχευμένες αλλαγές, όπως αποφυγή χρήσης λαστίχου για πότισμα, και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στο στόχο της μείωσης κατά 10% της συνολικής κατανάλωσης (125 λίτρα/άτομο)!",
                 "result-high": "Προσοχή! Καταναλώνετε περισσότερο από το 10% της μέσης κατανάλωσης.",
-                "result-high-desc": "Ξεπερνάτε τον μέσο όρο κατανάλωσης νερού στην Κύπρο, που αντιστοιχεί σε 140 λίτρα ανά άτομο ανά ημερα. Μειώνοντας το ντους μόλις κατά 2-3 λεπτά (20-30 λίτρα), μπορείτε να φτάσετε εύκολα τον μέσο όρο!  <br><br> Με κάποιες στοχευμένες αλλαγές, όπως αποφυγή χρήσης λαστίχου για πότισμα, και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στο στόχο της μείωσης κατά 10% της συνολικής κατανάλωσης (125 λίτρα/άτομο)! Διαβάστε περισσότερες πληροφορίες πατώντας το About.",
+                "result-high-desc": "Ξεπερνάτε τον μέσο όρο κατανάλωσης νερού στην Κύπρο, που αντιστοιχεί σε 140 λίτρα ανά άτομο ανά ημερα. Μειώνοντας το ντους μόλις κατά 2-3 λεπτά (20-30 λίτρα), μπορείτε να φτάσετε εύκολα τον μέσο όρο!  <br><br> Με κάποιες στοχευμένες αλλαγές, όπως αποφυγή χρήσης λαστίχου για πότισμα, και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στο στόχο της μείωσης κατά 10% της συνολικής κατανάλωσης (125 λίτρα/άτομο)! <a href='#' class='about-link'>Μάθε περισσότερα πατώντας εδώ</a>.",
                 "result-very-high": "Προσοχή! Καταναλώνετε περισσότερο από το 20% της μέσης κατανάλωσης.",
-                "result-very-high-desc": "Ο μέσος καταναλωτής στην Κύπρο καταναλώνει 140 λίτρα/ημέρα. Ξεκινήστε άμεσα με μικρές αλλαγές για να φτάσετε τον μέσο όρο. μειώσετε κατά 2-3 λεπτά το καθημερινό ντους (20-30 λίτρα).  <br><br> Με κάποιες στοχευμένες αλλαγές, όπως αποφυγή χρήσης λαστίχου για πότισμα, έλεγχος για τυχών διαρροές (παρακολουθώντας την κατανάλωση στον μετρητή σας τις ώρες που απουσιάζετε από το σπίτι), και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στο στόχο της μείωσης κατά 10% της συνολικής κατανάλωσης (125 λίτρα/άτομο)! Διαβάστε περισσότερες πληροφορίες πατώντας το About.",
+                "result-very-high-desc": "Ο μέσος καταναλωτής στην Κύπρο καταναλώνει 140 λίτρα/ημέρα. Ξεκινήστε άμεσα με μικρές αλλαγές για να φτάσετε τον μέσο όρο. Μειώσετε κατά 2-3 λεπτά το καθημερινό ντους (20-30 λίτρα).  <br><br> Με κάποιες στοχευμένες αλλαγές, όπως αποφυγή χρήσης λαστίχου για πότισμα, έλεγχος για τυχών διαρροές (παρακολουθώντας την κατανάλωση στον μετρητή σας τις ώρες που απουσιάζετε από το σπίτι), και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στο στόχο της μείωσης κατά 10% της συνολικής κατανάλωσης (125 λίτρα/άτομο)! <a href='#' class='about-link'>Μάθε περισσότερα πατώντας εδώ</a>.",
                 "share-title": "Μοιραστείτε το αποτέλεσμα:",
                 "copy-success": "Αντιγράφηκε!",
                 "email-subject": "Κατανάλωση νερού",
@@ -637,40 +724,41 @@
                 "version-title": "Έκδοση",
                 "version-number": "0.96",
                 "contact-info": "Για βελτιώσεις και προτάσεις, παρακαλούμε επικοινωνήστε μαζί μας στο kios-dwic@ucy.onmicrosoft.com",
-                "contact-info-prefix": "Για βελτιώσεις και προτάσεις, παρακαλούμε επικοινωνήστε μαζί μας στο "
+                "contact-info-prefix": "Για βελτιώσεις και προτάσεις, παρακαλούμε επικοινωνήστε μαζί μας στο ",
+                "example-link": "[?]"
             },
             en: {
                 "app-title": "Stagona - Water Consumption Calculator",
                 "info-title": "Information",
-                "title": "Water Consumption Calculator",
-                "intro": "Do you know how many liters of water you consume daily in your home? Find a recent bill from your water supplier and fill in the details below.",
-                "total-label": "Total water consumption (in m³):",
+                "title": "Water Calculator",
+                "intro": "Do you know how many liters of water you consume daily in your household? Find a recent bill from your water utility organization and fill in the details below.",
+                "total-label": "Total period consumption (in m³):",
                 "period-label": "Consumption period (in months):",
                 "period-select": "Select period",
                 "period-1": "1 month",
-                "period-2": "2 months",
-                "period-3": "3 months (EOA Larnaca, Limassol, Paphos, Ammochostos)",
-                "period-4": "4 months (EOA Nicosia)",
-                "people-label": "Number of people living in the house:",
+                "period-2": "2 months (EOA Nicosia)",
+                "period-3": "3 months (EOA Larnaca, Paphos, Famagusta)",
+                "period-4": "4 months (EOA Limassol)",
+                "people-label": "Number of people residing in the house:",
                 "calc-button": "Calculate",
-                "privacy-notice": "The application does not collect and transmit data over the internet. All data are processed on the device.",
+                "privacy-notice": "The application does not collect or transmit data over the internet. All data is processed on your device.",
                 "privacy-title": "Privacy",
-                "privacy-desc": "The application does not collect and transmit data over the internet. All data are processed on the device.",
+                "privacy-desc": "The application does not collect or transmit data over the internet. All data is processed on your device.",
                 "liters": "liters",
                 "about-title": "About Stagona App",
-                "about-desc": "A calculator designed to help households in Cyprus understand and optimize their water consumption. The app compares your water consumption with the average and provides recommendations for water saving.",
+                "about-desc": "A calculator designed to help households in Cyprus understand and optimize their water consumption. The app compares your water consumption with the average and provides recommendations for water savings.",
                 "how-to-title": "How to use it",
                 "how-to-1": "1. Find your water consumption bill",
                 "how-to-2": "2. Enter your total water consumption in cubic meters (m³) as shown on the bill",
                 "how-to-3": "3. Select the correct billing period",
-                "how-to-4": "4. Enter the number of permanent residents in the household",
+                "how-to-4": "4. Enter the number of people who have this household as their regular residence",
                 "how-to-5": '5. Click "Calculate" to see the results',
                 "tips-title": "Water Saving Tips",
-                "tip-1": "• Take shorter showers and/or with lower pressure. Aim for 5 minutes of continuous flow, which corresponds to 45 liters of water. Each minute in the shower requires about 9 liters of water, and on average a shower lasts 10 minutes, which accounts for 60% of total water consumption. Collect any cold water in a bucket while waiting for hot water.",
-                "tip-2": "• Find and fix any leaks. Check your meter consumption during hours when you're away from home. Regularly check solar water heaters and tanks for leaks",
+                "tip-1": "• Take shorter showers with lower pressure. Aim for 5 minutes of continuous flow, which corresponds to 45-50 liters of water. Each minute in the shower requires about 9-10 liters of water, and on average a shower lasts 9-10 minutes, accounting for 60% of total water consumption. Collect any cold water in a bucket while waiting for hot water.",
+                "tip-2": "• Locate and repair any leaks. Check your meter consumption during hours when you're away from home. Regularly check solar water heaters and tanks for leaks.",
                 "tip-3": "• Use full loads in washing machines and dishwashers",
-                "tip-4": "• Choose drought-resistant plants for your garden (xerophytes) and limit grass areas",
-                "tip-5": "• Turn off the tap while brushing your teeth or shaving. Remember that each minute the amount of water from a tap corresponds to 15 liters, or 10% of daily consumption for one person",
+                "tip-4": "• Choose drought-resistant plants for your garden (drought-resistant species) and limit lawn areas",
+                "tip-5": "• Turn off the tap while brushing teeth or shaving. Remember that each minute the tap runs corresponds to 15 liters, or 10% of daily consumption per person",
                 "tip-6": "• Water early in the morning or late in the afternoon to reduce evaporation. Avoid using a hose, as it corresponds to 15 liters per minute (10% of daily water consumption per person in Cyprus)",
                 "tip-7": "• Use a bucket and sponge instead of a hose when washing your car",
                 "result-title": "Average consumption per person/day",
@@ -678,17 +766,17 @@
                 "result-below": "below average",
                 "result-above": "above average",
                 "result-excellent": "Excellent! You consume less than 20% of the average consumption.",
-                "result-excellent-desc": "If all citizens had this consumption, we would save about 10 million m³ of water annually, which would be enough to supply 200,000 people for a year (equivalent to the population of Larnaca and Ammochostos Districts)! <br><br> Keep it up, and help establish water consciousness in Cyprus!",
+                "result-excellent-desc": "If all citizens had this consumption, we would save about 10 million m³ of water annually, which would be enough to supply 200,000 people for a year (equivalent to the population of Larnaca and Famagusta Districts)! <br><br> Keep it up and help establish water consciousness in Cyprus!",
                 "result-good": "Very good! You consume 10% less water than the average.",
-                "result-good-desc": "If all citizens had this consumption, we would save about 5 million m³ of water annually, which would be enough to supply 100,000 people for a year (equivalent to the population of Paphos District)! <br><br> Keep it up, and with some small changes, such as shorter showers by 1-2 minutes, avoiding hose use for irrigation, and using full loads in washing machines, you'll get even closer to the top consumers!",
+                "result-good-desc": "If all citizens had this consumption, we would save about 5 million m³ of water annually, which would be enough to supply 100,000 people for a year (equivalent to the population of Paphos District)! <br><br> Keep it up, and with some small changes, such as reducing shower time by 1-2 minutes, avoiding hose use for watering, and using full loads in washing machines, you'll get even closer to being among the top consumers!",
                 "result-average": "Well done! You're slightly below average.",
-                "result-average-desc": "If everyone had this consumption, we would save almost 2.5 million m³ annually, which would be enough to supply 50,000 people for a year (equivalent to the population of Ammochostos District)! <br><br> Keep it up, and with some targeted changes, such as shorter showers by 2-3 minutes, avoiding hose use for irrigation, and using full loads in washing machines, you'll get even closer to the goal of reducing total consumption by 10% (125 liters/person)!",
+                "result-average-desc": "If everyone had this consumption, we would save almost 2.5 million m³ annually, which would be enough to supply 50,000 people for a year (equivalent to the population of Famagusta District)! <br><br> Keep it up, and with some targeted changes, such as reducing shower time by 2-3 minutes, avoiding hose use for watering, and using full loads in washing machines, you'll get even closer to the goal of reducing total consumption by 10% (125 liters/person)!",
                 "result-slightly-high": "Watch out! You're slightly above average.",
-                "result-slightly-high-desc": "You exceed the average water consumption in Cyprus, which corresponds to 140 liters per person per day. By reducing your shower time by just 2 minutes (20 liters), you can easily reach the average! <br><br> With some targeted changes, such as avoiding hose use for irrigation, and using full loads in washing machines, you'll get even closer to the goal of reducing total consumption by 10% (125 liters/person)!",
-                "result-high": "Attention! You consume more than 10% of the average consumption.",
-                "result-high-desc": "You exceed the average water consumption in Cyprus, which corresponds to 140 liters per person per day. By reducing your shower time by just 2-3 minutes (20-30 liters), you can easily reach the average! <br><br> With some targeted changes, such as avoiding hose use for irrigation, and using full loads in washing machines, you'll get even closer to the goal of reducing total consumption by 10% (125 liters/person)! Read more information by clicking About.",
-                "result-very-high": "Attention! You consume more than 20% of the average consumption.",
-                "result-very-high-desc": "The average consumer in Cyprus consumes 140 liters/day. Start immediately with small changes to reach the average. Reduce your daily shower by 2-3 minutes (20-30 liters). <br><br> With some targeted changes, such as avoiding hose use for irrigation, checking for leaks (by monitoring your meter during hours when you're away from home), and using full loads in washing machines, you'll get even closer to the goal of reducing total consumption by 10% (125 liters/person)! Read more information by clicking About.",
+                "result-slightly-high-desc": "You exceed the average water consumption in Cyprus, which corresponds to 140 liters per person per day. By reducing your shower time by just 2 minutes (20 liters), you can easily reach the average! <br><br> With some targeted changes, such as avoiding hose use for watering, and using full loads in washing machines, you'll get even closer to the goal of reducing total consumption by 10% (125 liters/person)!",
+                "result-high": "Attention! You consume more than 10% above the average consumption.",
+                "result-high-desc": "You exceed the average water consumption in Cyprus, which corresponds to 140 liters per person per day. By reducing your shower time by just 2-3 minutes (20-30 liters), you can easily reach the average! <br><br> With some targeted changes, such as avoiding hose use for watering, and using full loads in washing machines, you'll get even closer to the goal of reducing total consumption by 10% (125 liters/person)! <a href='#' class='about-link'>Learn more by pressing here</a>.",
+                "result-very-high": "Attention! You consume more than 20% above the average consumption.",
+                "result-very-high-desc": "The average consumer in Cyprus uses 140 liters/day. Start immediately with small changes to reach the average by reducing your daily shower by 2-3 minutes (20-30 liters). <br><br> With some targeted changes, such as avoiding hose use for watering, checking for leaks (by monitoring your meter during hours when you're away from home), and using full loads in washing machines, you'll get even closer to the goal of reducing total consumption by 10% (125 liters/person)! <a href='#' class='about-link'>Learn more by pressing here</a>.",
                 "share-title": "Share your result:",
                 "copy-success": "Copied!",
                 "email-subject": "Water Consumption",
@@ -700,8 +788,9 @@
                 "copy-summary": "Copy summary",
                 "version-title": "Version",
                 "version-number": "0.96",
-                "contact-info": "For improvements and recommendations, please contact us at kios-dwic@ucy.onmicrosoft.com",
-                "contact-info-prefix": "For improvements and recommendations, please contact us at "
+                "contact-info": "For improvements and suggestions, please contact us at kios-dwic@ucy.onmicrosoft.com",
+                "contact-info-prefix": "For improvements and suggestions, please contact us at ",
+                "example-link": "[?]"
             }
         };
 
@@ -999,6 +1088,35 @@
       // Add new translations for the email copied message
       translations.el["email-copied"] = "Το email αντιγράφηκε!";
       translations.en["email-copied"] = "Email copied!";
+
+      // Add event listener for about links
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('about-link')) {
+          e.preventDefault();
+          document.getElementById('aboutModal').style.display = 'flex';
+        }
+      });
+
+      // Example modal functionality
+      const exampleModal = document.getElementById('exampleModal');
+      const exampleModalClose = document.getElementById('exampleModalClose');
+
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('example-link')) {
+          e.preventDefault();
+          exampleModal.style.display = 'flex';
+        }
+      });
+
+      exampleModalClose.onclick = () => {
+        exampleModal.style.display = 'none';
+      };
+
+      exampleModal.onclick = (event) => {
+        if (event.target === exampleModal) {
+          exampleModal.style.display = 'none';
+        }
+      };
 
       // Initialize the page in Greek
       updateLanguage("el");
