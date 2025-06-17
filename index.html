@@ -880,7 +880,8 @@
           // Update share section if it's visible
           const shareSection = document.getElementById("shareSection");
           if (shareSection.style.display !== "none") {
-            const base = `${location.origin}${location.pathname}`;
+            //const base = `${location.origin}${location.pathname}`;
+            const base = `https://kios-research.github.io/stagona_app/landing.html`;
             const url = base;
 
             let summary =
@@ -998,7 +999,8 @@
         result.innerHTML = msg;
         result.style.display = "block";
 
-        const base = `${location.origin}${location.pathname}`;
+        //const base = `${location.origin}${location.pathname}`;
+        const base = `https://kios-research.github.io/stagona_app/landing.html`;
         const params = `?total=${totalM3}&period=${months}&people=${people}`;
         const url = base;
         document.getElementById("shareSection").style.display = "block";
