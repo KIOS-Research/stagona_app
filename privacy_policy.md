@@ -21,7 +21,7 @@ Where no data are processed, most GDPR rights (access, rectification, erasure, p
 If you have questions, contact **kios-dwic@ucy.onmicrosoft.com** and we will respond within **30 days**.
 
 **Right to complain:** You may lodge a complaint with your local supervisory authority or with the Office of the Commissioner for Personal Data Protection, Kypranoros 15, Nicosia 1061, Cyprus
-s (www.dataprotection.gov.cy).
+(www.dataprotection.gov.cy).
 
 ## 4. Children’s privacy  
 The App is suitable for all ages and does not knowingly collect any information from children under 16—or from anyone else.
