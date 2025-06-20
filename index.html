@@ -565,7 +565,7 @@
 
    
         <div class="result" id="result" style="display: none"></div>
-
+        <button id="tipsButton" type="button" style="margin: 1.5rem 0 0.5rem 0; background: var(--secondary); color: #fff; font-weight: bold; width: 100%;">💡 <span data-el="tips-title"></span></button>
         <div class="share-section" id="shareSection" style="display: none">
             <strong data-el="share-title"></strong>
             <div class="share-buttons">
@@ -651,17 +651,6 @@
             </div>
 
             <div class="modal-section">
-                <h3 data-el="tips-title"></h3>
-                <p data-el="tip-1"></p>
-                <p data-el="tip-2"></p>
-                <p data-el="tip-3"></p>
-                <p data-el="tip-4"></p>
-                <p data-el="tip-5"></p>
-                <p data-el="tip-6"></p>
-                <p data-el="tip-7"></p>
-            </div>
-
-            <div class="modal-section">
                 <h3 data-el="privacy-title"></h3>
                 <span data-el="privacy-desc"></span> (<a href="https://github.com/KIOS-Research/stagona_app/blob/main/privacy_policy.md" target="_blank" class="privacy-link">Privacy Policy</a>)
             </div>
@@ -673,26 +662,43 @@
         </div>
     </div>
 
+    <!-- Tips Modal -->
+    <div class="modal" id="tipsModal">
+        <div class="modal-content">
+            <i class="fas fa-times modal-close" id="tipsModalClose"></i>
+            <div class="modal-section">
+                <h3 data-el="tips-title"></h3>
+                <p data-el="tip-1"></p>
+                <p data-el="tip-2"></p>
+                <p data-el="tip-3"></p>
+                <p data-el="tip-4"></p>
+                <p data-el="tip-5"></p>
+                <p data-el="tip-6"></p>
+                <p data-el="tip-7"></p>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Translations object
         const translations = {
             el: {
                 "app-title": "Stagona - Υπολογιστής Κατανάλωσης Νερού",
                 "info-title": "Πληροφορίες",
-                "title": "Σταγονό-μέτρο",
-                "intro": "Εσύ γνωρίζεις πόσα λίτρα νερό καταναλώνεις καθημερινά στο σπίτι σου; Βρες ένα πρόσφατο τιμολόγιο από τον οργανισμό υδροδότησής σου, και συμπλήρωσε τα πιο κάτω στοιχεία.",
+                "title": "Σταγονο-μετρώ!",
+                "intro": "Πόσα λίτρα νερό καταναλώνεις καθημερινά στο σπίτι σου;<br><br>Βρες ένα πρόσφατο τιμολόγιο από τον οργανισμό υδροδότησής σου, και συμπλήρωσε τα πιο κάτω στοιχεία, για να το υπολογίσεις.",
                 "total-label": "Συνολική κατανάλωση περιόδου (σε m³):",
                 "period-label": "Περίοδος κατανάλωσης (σε μήνες):",
-                "period-select": "Επιλέξτε περίοδο",
+                "period-select": "Επιλέξτε περίοδο ή ΕΟΑ",
                 "period-1": "1 μήνας",
-                "period-2": "2 μήνες (ΕΟΑ Λ/σιας)",
-                "period-3": "3 μήνες (ΕΟΑ Λ/κας, Πάφου, Αμ/στου)",
-                "period-4": "4 μήνες (ΕΟΑ Λ/σου)",
+                "period-2": "2 μήνες (ΕΟΑ Λευκωσίας)",
+                "period-3": "3 μήνες (ΕΟΑ Λάρνακας, Πάφου, Αμμοχώστου)",
+                "period-4": "4 μήνες (ΕΟΑ Λεμεσού)",
                 "people-label": "Αριθμός ατόμων που κατοικούν στο σπίτι:",
                 "calc-button": "Υπολόγισε",
-                "privacy-notice": "Η εφαρμογή δεν συλλέγει και δεν μεταδίδει δεδομένα στο διαδίκτυο. Όλα τα δεδομένα επεξεργάζονται στην συσκευή σας.",
+                "privacy-notice": "Δεν συλλέγουμε προσωπικά δεδομένα μέσω της εφαρμογής, μόνο ανώνυμες στατιστικές του ιστοτόπου.",
                 "privacy-title": "Απόρρητο",
-                "privacy-desc": "Η εφαρμογή δεν συλλέγει και δεν μεταδίδει δεδομένα στο διαδίκτυο. Όλα τα δεδομένα επεξεργάζονται στην συσκευή σας.",
+                "privacy-desc": "Δεν συλλέγουμε προσωπικά δεδομένα μέσω της εφαρμογής, μόνο ανώνυμες στατιστικές του ιστοτόπου.",
                 "liters": "λίτρα",
                 "about-title": "Σχετικά με το Stagona App",
                 "about-desc": "Υπολογιστική σχεδιασμένη για να βοηθά τα νοικοκυριά στην Κύπρο να κατανοήσουν και να βελτιστοποιήσουν την κατανάλωση νερού τους. Η εφαρμογή συγκρίνει την κατανάλωση νερού σας με τον μέσο όρο και παρέχει συστάσεις για την εξοικονόμηση νερού.",
@@ -723,9 +729,9 @@
                 "result-slightly-high": "Προσέξτε! Είστε λίγο πάνω από το μέσο όρο.",
                 "result-slightly-high-desc": "Ξεπερνάτε τον μέσο όρο κατανάλωσης νερού στην Κύπρο, που αντιστοιχεί σε 140 λίτρα ανά άτομο ανά ημερα. Μειώνοντας το ντους μόλις κατά 2 λεπτά (20 λίτρα), μπορείτε να φτάσετε εύκολα τον μέσο όρο!  <br><br> Με κάποιες στοχευμένες αλλαγές, όπως αποφυγή χρήσης λαστίχου για πότισμα, και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στο στόχο της μείωσης κατά 10% της συνολικής κατανάλωσης (125 λίτρα/άτομο)!",
                 "result-high": "Προσοχή! Καταναλώνετε περισσότερο από το 10% της μέσης κατανάλωσης.",
-                "result-high-desc": "Ξεπερνάτε τον μέσο όρο κατανάλωσης νερού στην Κύπρο, που αντιστοιχεί σε 140 λίτρα ανά άτομο ανά ημερα. Μειώνοντας το ντους μόλις κατά 2-3 λεπτά (20-30 λίτρα), μπορείτε να φτάσετε εύκολα τον μέσο όρο!  <br><br> Με κάποιες στοχευμένες αλλαγές, όπως αποφυγή χρήσης λαστίχου για πότισμα, και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στο στόχο της μείωσης κατά 10% της συνολικής κατανάλωσης (125 λίτρα/άτομο)! <a href='#' class='about-link'>Μάθε περισσότερα πατώντας εδώ</a>.",
+                "result-high-desc": "Ξεπερνάτε τον μέσο όρο κατανάλωσης νερού στην Κύπρο, που αντιστοιχεί σε 140 λίτρα ανά άτομο ανά ημερα. Μειώνοντας το ντους μόλις κατά 2-3 λεπτά (20-30 λίτρα), μπορείτε να φτάσετε εύκολα τον μέσο όρο!  <br><br> Με κάποιες στοχευμένες αλλαγές, όπως αποφυγή χρήσης λαστίχου για πότισμα, και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στο στόχο της μείωσης κατά 10% της συνολικής κατανάλωσης (125 λίτρα/άτομο)!",
                 "result-very-high": "Προσοχή! Καταναλώνετε περισσότερο από το 20% της μέσης κατανάλωσης.",
-                "result-very-high-desc": "Ο μέσος καταναλωτής στην Κύπρο καταναλώνει 140 λίτρα/ημέρα. Ξεκινήστε άμεσα με μικρές αλλαγές για να φτάσετε τον μέσο όρο. Μειώσετε κατά 2-3 λεπτά το καθημερινό ντους (20-30 λίτρα).  <br><br> Με κάποιες στοχευμένες αλλαγές, όπως αποφυγή χρήσης λαστίχου για πότισμα, έλεγχος για τυχών διαρροές (παρακολουθώντας την κατανάλωση στον μετρητή σας τις ώρες που απουσιάζετε από το σπίτι), και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στο στόχο της μείωσης κατά 10% της συνολικής κατανάλωσης (125 λίτρα/άτομο)! <a href='#' class='about-link'>Μάθε περισσότερα πατώντας εδώ</a>.",
+                "result-very-high-desc": "Ο μέσος καταναλωτής στην Κύπρο καταναλώνει 140 λίτρα/ημέρα. Ξεκινήστε άμεσα με μικρές αλλαγές για να φτάσετε τον μέσο όρο. Μειώσετε κατά 2-3 λεπτά το καθημερινό ντους (20-30 λίτρα).  <br><br> Με κάποιες στοχευμένες αλλαγές, όπως αποφυγή χρήσης λαστίχου για πότισμα, έλεγχος για τυχόν διαρροές (παρακολουθώντας την κατανάλωση στον μετρητή σας τις ώρες που απουσιάζετε από το σπίτι), και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στο στόχο της μείωσης κατά 10% της συνολικής κατανάλωσης (125 λίτρα/άτομο)!",
                 "share-title": "Μοιραστείτε το αποτέλεσμα:",
                 "copy-success": "Αντιγράφηκε!",
                 "email-subject": "Κατανάλωση νερού",
@@ -739,7 +745,7 @@
                 "version-number": "0.99",
                 "contact-info": "Για βελτιώσεις και προτάσεις, παρακαλούμε επικοινωνήστε μαζί μας στο kios-dwic@ucy.onmicrosoft.com",
                 "contact-info-prefix": "Για βελτιώσεις και προτάσεις, παρακαλούμε επικοινωνήστε μαζί μας στο ",
-                "example-link": "[?]",
+                "example-link": "[παράδειγμα]",
                 "email-copied": "Το email αντιγράφηκε!"
             },
             en: {
@@ -749,16 +755,16 @@
                 "intro": "Do you know how many liters of water you consume daily in your household? Find a recent bill from your water utility organization and fill in the details below.",
                 "total-label": "Total period consumption (in m³):",
                 "period-label": "Consumption period (in months):",
-                "period-select": "Select period",
+                "period-select": "Select period or EOA",
                 "period-1": "1 month",
                 "period-2": "2 months (EOA Nicosia)",
                 "period-3": "3 months (EOA Larnaca, Paphos, Famagusta)",
                 "period-4": "4 months (EOA Limassol)",
                 "people-label": "Number of people residing in the house:",
                 "calc-button": "Calculate",
-                "privacy-notice": "The application does not collect or transmit data over the internet. All data is processed on your device.",
+                "privacy-notice": "We collect no personal data through the app, only anonymous website analytics. ",
                 "privacy-title": "Privacy",
-                "privacy-desc": "The application does not collect or transmit data over the internet. All data is processed on your device.",
+                "privacy-desc": "We collect no personal data through the app, only anonymous website analytics.",
                 "liters": "liters",
                 "about-title": "About Stagona App",
                 "about-desc": "A calculator designed to help households in Cyprus understand and optimize their water consumption. The app compares your water consumption with the average and provides recommendations for water savings.",
@@ -789,9 +795,9 @@
                 "result-slightly-high": "Watch out! You're slightly above average.",
                 "result-slightly-high-desc": "You exceed the average water consumption in Cyprus, which corresponds to 140 liters per person per day. By reducing your shower time by just 2 minutes (20 liters), you can easily reach the average! <br><br> With some targeted changes, such as avoiding hose use for watering, and using full loads in washing machines, you'll get even closer to the goal of reducing total consumption by 10% (125 liters/person)!",
                 "result-high": "Attention! You consume more than 10% above the average consumption.",
-                "result-high-desc": "You exceed the average water consumption in Cyprus, which corresponds to 140 liters per person per day. By reducing your shower time by just 2-3 minutes (20-30 liters), you can easily reach the average! <br><br> With some targeted changes, such as avoiding hose use for watering, and using full loads in washing machines, you'll get even closer to the goal of reducing total consumption by 10% (125 liters/person)! <a href='#' class='about-link'>Learn more by pressing here</a>.",
+                "result-high-desc": "You exceed the average water consumption in Cyprus, which corresponds to 140 liters per person per day. By reducing your shower time by just 2-3 minutes (20-30 liters), you can easily reach the average! <br><br> With some targeted changes, such as avoiding hose use for watering, and using full loads in washing machines, you'll get even closer to the goal of reducing total consumption by 10% (125 liters/person)!",
                 "result-very-high": "Attention! You consume more than 20% above the average consumption.",
-                "result-very-high-desc": "The average consumer in Cyprus uses 140 liters/day. Start immediately with small changes to reach the average by reducing your daily shower by 2-3 minutes (20-30 liters). <br><br> With some targeted changes, such as avoiding hose use for watering, checking for leaks (by monitoring your meter during hours when you're away from home), and using full loads in washing machines, you'll get even closer to the goal of reducing total consumption by 10% (125 liters/person)! <a href='#' class='about-link'>Learn more by pressing here</a>.",
+                "result-very-high-desc": "The average consumer in Cyprus uses 140 liters/day. Start immediately with small changes to reach the average by reducing your daily shower by 2-3 minutes (20-30 liters). <br><br> With some targeted changes, such as avoiding hose use for watering, checking for leaks (by monitoring your meter during hours when you're away from home), and using full loads in washing machines, you'll get even closer to the goal of reducing total consumption by 10% (125 liters/person)!",
                 "share-title": "Share your result:",
                 "copy-success": "Copied!",
                 "email-subject": "Water Consumption",
@@ -805,7 +811,7 @@
                 "version-number": "0.99",
                 "contact-info": "For improvements and suggestions, please contact us at kios-dwic@ucy.onmicrosoft.com",
                 "contact-info-prefix": "For improvements and suggestions, please contact us at ",
-                "example-link": "[?]",
+                "example-link": "[example]",
                 "email-copied": "Email copied!"
             }
         };
@@ -820,6 +826,8 @@
                 if (translations[lang][key]) {
                     if (element.tagName === "INPUT" || element.tagName === "SELECT") {
                         element.placeholder = translations[lang][key];
+                    } else if (key === "intro") {
+                        element.innerHTML = translations[lang][key];
                     } else {
                         element.textContent = translations[lang][key];
                         // Update title attribute for elements that have it
@@ -1149,6 +1157,24 @@
 
       // Initialize the page in Greek
       updateLanguage("el");
+
+      // Tips Modal functionality
+      const tipsModal = document.getElementById('tipsModal');
+      const tipsModalClose = document.getElementById('tipsModalClose');
+      const tipsButton = document.getElementById('tipsButton');
+      if (tipsButton) {
+        tipsButton.onclick = () => {
+          tipsModal.style.display = 'flex';
+        };
+      }
+      tipsModalClose.onclick = () => {
+        tipsModal.style.display = 'none';
+      };
+      tipsModal.onclick = (event) => {
+        if (event.target === tipsModal) {
+          tipsModal.style.display = 'none';
+        }
+      };
     </script>
 </body>
 
