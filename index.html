@@ -341,8 +341,8 @@
             background: #0066cc;
             color: white;
         }
-
         /* Notice Modal Styles */
+        
         .notice-modal {
             display: none;
             position: fixed;
@@ -355,7 +355,7 @@
             justify-content: center;
             align-items: center;
         }
-
+        
         .notice-modal-content {
             background-color: white;
             padding: 2rem;
@@ -366,7 +366,7 @@
             position: relative;
             animation: fadeIn 0.3s ease-in-out;
         }
-
+        
         .notice-modal-close {
             position: absolute;
             top: 1rem;
@@ -376,18 +376,18 @@
             cursor: pointer;
             transition: color 0.3s;
         }
-
+        
         .notice-modal-close:hover {
             color: var(--danger);
         }
-
+        
         .notice-modal-message {
             margin: 1rem 0;
             text-align: center;
             font-size: 1.1rem;
             line-height: 1.5;
         }
-
+        
         .notice-modal-button {
             display: block;
             width: 100%;
@@ -401,11 +401,11 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-
+        
         .notice-modal-button:hover {
             background-color: #0052a3;
         }
-
+        
         .privacy-notice {
             text-align: center;
             font-size: 0.9rem;
@@ -414,7 +414,7 @@
             font-style: italic;
             line-height: 1.4;
         }
-
+        
         .modal-logos {
             display: flex;
             justify-content: center;
@@ -423,49 +423,49 @@
             margin-bottom: 1.5rem;
             padding-top: 1rem;
         }
-
+        
         .modal-logo {
             height: 60px;
             width: auto;
             object-fit: contain;
         }
-
+        
         .email-link {
             color: var(--primary);
             text-decoration: none;
             cursor: pointer;
             transition: color 0.3s;
         }
-
+        
         .email-link:hover {
             color: #004a99;
             text-decoration: underline;
         }
-
+        
         .privacy-link {
             color: var(--primary);
             text-decoration: none;
             transition: color 0.3s;
             font-size: 0.9rem;
         }
-
+        
         .privacy-link:hover {
             color: #004a99;
             text-decoration: underline;
         }
-
+        
         .about-link {
             color: var(--primary);
             text-decoration: none;
             cursor: pointer;
             transition: color 0.3s;
         }
-
+        
         .about-link:hover {
             color: #004a99;
             text-decoration: underline;
         }
-
+        
         .example-link {
             color: var(--primary);
             text-decoration: none;
@@ -475,12 +475,12 @@
             transition: color 0.3s;
             display: inline-block;
         }
-
+        
         .example-link:hover {
             color: #004a99;
             text-decoration: underline;
         }
-
+        
         .example-modal {
             display: none;
             position: fixed;
@@ -493,7 +493,7 @@
             justify-content: center;
             align-items: center;
         }
-
+        
         .example-modal-content {
             background: white;
             padding: 1rem;
@@ -503,13 +503,13 @@
             position: relative;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
-
+        
         .example-image {
             max-width: 100%;
             max-height: calc(90vh - 2rem);
             object-fit: contain;
         }
-
+        
         .example-modal-close {
             position: absolute;
             top: 0.5rem;
@@ -521,15 +521,116 @@
             padding: 0.5rem;
             z-index: 10;
         }
-
+        
         .example-modal-close:hover {
             color: #004a99;
             transform: scale(1.1);
         }
-
+        
         label[for="total"] {
             display: inline-block;
             margin-right: 0.2rem;
+        }
+        
+        .gauge-track {
+            width: 100%;
+            height: 14px;
+            background: #eee;
+            border-radius: 7px;
+            margin-bottom: .4rem
+        }
+        
+        .gauge-fill {
+            height: 100%;
+            background: #4caf50;
+            border-radius: 7px;
+            transition: width .6s ease, background .6s ease
+        }
+        
+        .subtitle {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .scarcity-banner {
+            background: #ffefc5;
+            border-left: 6px solid #ff9800;
+            padding: .75rem 1rem;
+            border-radius: 8px;
+            font-size: .95rem;
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+        
+        .action-banner {
+            background: #e8f5e8;
+            border-left: 6px solid #4caf50;
+            padding: .75rem 1rem;
+            border-radius: 8px;
+            font-size: .95rem;
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+        
+        .info-icon {
+            cursor: pointer;
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+        }
+        
+        .info-icon-orange {
+            color: #ff9800;
+        }
+        
+        .info-icon-green {
+            color: #4caf50;
+        }
+        
+        .instructions-text {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            text-align: left;
+            line-height: 1.5;
+        }
+        
+        .how-it-works-image {
+            text-align: center;
+        }
+        
+        .how-it-works-image img {
+            max-width: 60%;
+            height: auto;
+        }
+        
+        .tips-button {
+            margin: 1.5rem 0 0.5rem 0;
+            background: var(--secondary);
+            color: #fff;
+            font-weight: bold;
+            width: 100%;
+        }
+        
+        .reminder-button {
+            margin: 0.5rem 0 1.5rem 0;
+            background: #ff9800;
+            color: #fff;
+            font-weight: bold;
+            width: 100%;
+        }
+        
+        .progress-reminder {
+            background: #e3f2fd;
+            border-left: 6px solid #2196f3;
+            padding: .75rem 1rem;
+            border-radius: 8px;
+            font-size: .9rem;
+            margin-top: 1.25rem;
+            text-align: left;
+            color: #1976d2;
         }
     </style>
 </head>
@@ -538,12 +639,32 @@
     <div class="container">
         <div class="app-header">
             <i class="lang-toggle" id="langToggle" title="English"></i>
-            <img src="logo.png" alt="Stagona Logo" class="app-logo" />
+            <img src="logo.png" alt="Stagona Water Consumption Calculator Logo" class="app-logo" />
             <i class="fas fa-info-circle info-icon" id="infoButton" title="About"></i>
         </div>
         <h2 data-el="title"></h2>
-        <strong data-el="intro"></strong>
+        <h3 class="subtitle">
+            <span data-el="intro-question"></span>
+        </h3>
 
+        <div id="scarcityBanner" class="scarcity-banner">
+            <span data-el="scarcity-msg"></span>
+            <i class="fas fa-info-circle info-icon info-icon-orange" id="stressInfo"></i>
+        </div>
+
+        <div id="actionBanner" class="action-banner">
+            <span data-el="action-msg"></span>
+            <i class="fas fa-info-circle info-icon info-icon-green" id="actionInfo"></i>
+        </div>
+
+
+
+        <div class="instructions-text">
+            <span data-el="intro-instructions"></span>
+        </div>
+        <div class="how-it-works-image">
+            <img src="howitworks.png" alt="How the Stagona water consumption calculator works">
+        </div>
         <div>
             <label for="total"><span data-el="total-label"></span><a href="#" class="example-link" data-el="example-link"></a></label>
         </div>
@@ -563,9 +684,15 @@
 
         <button id="calc" data-el="calc-button"></button>
 
-   
+
         <div class="result" id="result" style="display: none"></div>
-        <button id="tipsButton" type="button" style="margin: 1.5rem 0 0.5rem 0; background: var(--secondary); color: #fff; font-weight: bold; width: 100%;">💡 <span data-el="tips-title"></span></button>
+        <button id="tipsButton" type="button" class="tips-button">💡 <span data-el="tips-title"></span></button>
+
+        <div class="progress-reminder">
+            <span data-el="progress-reminder-msg"></span>
+        </div>
+        <button id="reminderButton" type="button" class="reminder-button">📅 <span data-el="reminder-title"></span></button>
+
         <div class="share-section" id="shareSection" style="display: none">
             <strong data-el="share-title"></strong>
             <div class="share-buttons">
@@ -592,19 +719,19 @@
         <p class="privacy-notice">
             <span data-el="contact-info-prefix"></span>
             <a href="#" id="contactEmail" class="email-link">kios-dwic@ucy.onmicrosoft.com</a>
-        </p>   
+        </p>
         <p class="privacy-notice">
             <a href="https://github.com/KIOS-Research/stagona_app/blob/main/privacy_policy.md" target="_blank" class="privacy-link">Privacy Policy:</a> <span data-el="privacy-notice"></span>
         </p>
 
-        
+
     </div>
 
     <!-- Example Modal -->
     <div class="example-modal" id="exampleModal">
         <div class="example-modal-content">
             <i class="fas fa-times example-modal-close" id="exampleModalClose"></i>
-            <img src="eoanicosia.png" alt="EOA Nicosia Bill Example" class="example-image">
+            <img src="eoanicosia.png" alt="Example water bill from EOA Nicosia showing consumption data" class="example-image">
         </div>
     </div>
 
@@ -623,17 +750,17 @@
         >, <a href="https://www.kios.ucy.ac.cy" target="_blank"
           >KIOS Research and Innovation Center of Excellence</a
         >, <a href="https://www.ucy.ac.cy" target="_blank">University of Cyprus. </a> <br>Copyright © 2025 KIOS CoE, UCY. All rights reserved.<br>
-        
+
     </div>
 
     <!-- Modal -->
     <div class="modal" id="aboutModal">
         <div class="modal-content">
             <i class="fas fa-times modal-close" id="modalClose"></i>
-            
+
             <div class="modal-logos">
                 <img src="ucy_logo.png" alt="University of Cyprus Logo" class="modal-logo" />
-                <img src="kios_logo.png" alt="KIOS CoE Logo" class="modal-logo" />
+                <img src="kios_logo.png" alt="KIOS Research and Innovation Center of Excellence Logo" class="modal-logo" />
             </div>
 
             <div class="modal-section">
@@ -679,6 +806,36 @@
         </div>
     </div>
 
+    <!-- Water Stress Info Modal -->
+    <div class="modal" id="stressInfoModal">
+        <div class="modal-content">
+            <i class="fas fa-times modal-close" id="stressInfoModalClose"></i>
+            <div class="modal-section">
+                <h3 data-el="stress-info-title"></h3>
+                <p data-el="stress-info-1"></p>
+                <p data-el="stress-info-2"></p>
+                <p data-el="stress-info-3"></p>
+                <p data-el="stress-info-4"></p>
+                <p data-el="stress-info-5"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Info Modal -->
+    <div class="modal" id="actionInfoModal">
+        <div class="modal-content">
+            <i class="fas fa-times modal-close" id="actionInfoModalClose"></i>
+            <div class="modal-section">
+                <h3 data-el="action-info-title"></h3>
+                <p data-el="action-info-1"></p>
+                <p data-el="action-info-2"></p>
+                <p data-el="action-info-3"></p>
+                <p data-el="action-info-4"></p>
+                <p data-el="action-info-5"></p>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Translations object
         const translations = {
@@ -686,7 +843,8 @@
                 "app-title": "Stagona - Υπολογιστής Κατανάλωσης Νερού",
                 "info-title": "Πληροφορίες",
                 "title": "Σταγονο-μετρώ!",
-                "intro": "Πόσα λίτρα νερό καταναλώνεις καθημερινά στο σπίτι σου;<br><br>Βρες ένα πρόσφατο τιμολόγιο από τον οργανισμό υδροδότησής σου, και συμπλήρωσε τα πιο κάτω στοιχεία, για να το υπολογίσεις.",
+                "intro-question": "Γνωρίζεις πόσα λίτρα νερό χρησιμοποιείς κάθε μέρα;<br>Πώς συγκρίνεσαι με το μέσο Κύπριο;<br>Υπολόγισέ το σε 1 λεπτό!",
+                "intro-instructions": "Βρες ένα πρόσφατο τιμολόγιο από τον οργανισμό υδροδότησής σου, και συμπλήρωσε τα πιο κάτω στοιχεία, για να υπολογίσεις πόσα λίτρα νερό χρησιμοποιείς κάθε ημέρα.",
                 "total-label": "Συνολική κατανάλωση περιόδου (σε m³):",
                 "period-label": "Περίοδος κατανάλωσης (σε μήνες):",
                 "period-select": "Επιλέξτε περίοδο ή ΕΟΑ",
@@ -714,8 +872,8 @@
                 "tip-3": "• Χρησιμοποιήστε πλήρη φορτίο στα πλυντήρια και στα πλυντήρια πιάτων",
                 "tip-4": "• Επιλέξτε φυτά που αντέχουν στην ξηρασία για τον κήπο (ξηρανθεκτικά είδη) και περιορίστε τις επιφάνειες γρασιδιών",
                 "tip-5": "• Κλείστε τη βρύση όταν βουρτσίζετε τα δόντια ή ξυρίζεστε. Να θυμάστε ότι κάθε λεπτό η ποσότητα νερού που φεύγει από μια βρύση αντιστοιχεί σε 15 λίτρα, ή το 10% της ημερήσιας κατανάλωσης για ένα άτομο",
-                "tip-6": "• Ποτίστε νωρίς το πρωί ή αργά το απόγευμα για να περιορίσετε την εξάτμιση. Αποφύγετε τη χρήση λαστίχου, καθώς αντιστοιχεί σε 15 λίτρα το λεπτό (το 10% της ημερήσιας κατανάλωσης νερού ανά άτομο στην Κύπρου)",            
-                "tip-7": "• Χρησιμοποιήστε κουβά και σφουγγάρι αντί για λάστιχο όταν πλένετε το αυτοκίνητο",    
+                "tip-6": "• Ποτίστε νωρίς το πρωί ή αργά το απόγευμα για να περιορίσετε την εξάτμιση. Αποφύγετε τη χρήση λαστίχου, καθώς αντιστοιχεί σε 15 λίτρα το λεπτό (το 10% της ημερήσιας κατανάλωσης νερού ανά άτομο στην Κύπρου)",
+                "tip-7": "• Χρησιμοποιήστε κουβά και σφουγγάρι αντί για λάστιχο όταν πλένετε το αυτοκίνητο",
                 "result-title": "Μέση κατανάλωση ανά άτομο/ημέρα",
                 "result-diff": "Διαφορά από το μέσο όρο (140 λίτρα)",
                 "result-below": "κάτω από μέσο όρο",
@@ -746,13 +904,30 @@
                 "contact-info": "Για βελτιώσεις και προτάσεις, παρακαλούμε επικοινωνήστε μαζί μας στο kios-dwic@ucy.onmicrosoft.com",
                 "contact-info-prefix": "Για βελτιώσεις και προτάσεις, παρακαλούμε επικοινωνήστε μαζί μας στο ",
                 "example-link": "[παράδειγμα]",
-                "email-copied": "Το email αντιγράφηκε!"
+                "email-copied": "Το email αντιγράφηκε!",
+                "scarcity-msg": "Η Κύπρος αντιμετωπίζει χρόνιο υδατικό στρες, το χειρότερο στην Ευρώπη. Την ίδια στιγμή, το 30% των Ευρωπαίων αντιμετωπίζουν παρόμοιες ελλείψεις.",
+                "action-msg": "Επιπρόσθετα των αφαλατώσεων και μείωσης των απωλειών, μπορούμε και εμείς ως πολίτες να μειώσουμε το ρίσκο περικοπών νερού, με μικρές αλλαγές στις συνήθειές μας:  με κάθε 1 λεπτό λιγότερη χρήση νερού (1 λεπτό ≈ 10L), εξασφαλίζουμε νερό για ακόμη 70,000 άτομα!",
+                "reminder-title": "Υπενθύμιση σε 1 μήνα",
+                "progress-reminder-msg": "Βάλτε υπενθύμιση για να επαναλάβετε τον υπολογισμό σε 30 ημέρες και να μετρήσετε την πρόοδό σας! Θα χρειαστεί να καταγράψετε τη μέτρηση στο υδρόμετρό σας (π.χ. βγάζοντας το φωτογραφία), για να υπολογίσετε τη διαφορά.",
+                "stress-info-title": "Τι είναι το χρόνιο υδατικό στρές;",
+                "stress-info-1": "Το χρόνιο υδατικό στρές είναι μια κατάσταση όπου η ζήτηση νερού υπερβαίνει τη διαθεσιμότητα για μεγάλο χρονικό διάστημα. Στην Κύπρο, αυτό σημαίνει ότι καταναλώνουμε περισσότερο νερό από αυτό που μπορεί να αναπληρώσει φυσικά η βροχόπτωση.",
+                "stress-info-2": "Σύμφωνα με την Ευρωπαϊκή Επιτροπή, η Κύπρος αντιμετωπίζει υψηλό επίπεδο υδατικού στρες (>40%), που την τοποθετεί ανάμεσα στις πιο ευάλωτες χώρες της Ευρώπης. Το 2022, η κατανάλωση νερού στην Κύπρο ήταν 140 λίτρα ανά άτομο ανά ημέρα.",
+                "stress-info-3": "Οι κύριες αιτίες περιλαμβάνουν: την αύξηση του πληθυσμού, την τουριστική ανάπτυξη, την αγροτική δραστηριότητα, και την κλιματική αλλαγή που μειώνει τη βροχόπτωση κατά 15-20% τα τελευταία 30 χρόνια.",
+                "stress-info-4": "Οι επιπτώσεις περιλαμβάνουν: περικοπές νερού, αύξηση του κόστους, υποβάθμιση της ποιότητας του νερού, και απειλή για τη βιοποικιλότητα. Το 2021, η Κύπρος αντιμετώπισε σοβαρή ξηρασία που οδήγησε σε περιορισμούς.",
+                "stress-info-5": "Η λύση βρίσκεται στη συντηρητική χρήση νερού. Κάθε λίτρο που εξοικονομούμε βοηθάει να διατηρήσουμε τα υπόγεια νερά και να μειώσουμε την εξάρτηση από την αφαλάτωση, που είναι ενεργειακά ακριβή και περιβαλλοντικά επιβαρυντική.",
+                "action-info-title": "Πώς μικρές αλλαγές κάνουν μεγάλη διαφορά;",
+                "action-info-1": "Η εξοικονόμηση 1 λεπτού νερού ανά άτομο ανά ημέρα μπορεί να φαίνεται μικρή, αλλά πολλαπλασιασμένη με τον πληθυσμό της Κύπρου (1.2 εκατομμύρια) δημιουργεί τεράστια επίδραση.",
+                "action-info-2": "Υπολογισμός: 1 λεπτό × 9 λίτρα/λεπτό × 1.2 εκατομμύρια άτομα × 365 ημέρες = 3.9 εκατομμύρια m³ νερού ετησίως.",
+                "action-info-3": "Αυτή η ποσότητα νερού μπορεί να υδροδοτήσει 70,000 άτομα για ένα χρόνο, ή να καλύψει τις ανάγκες μιας μικρής πόλης όπως η Πάφος για 6 μήνες.",
+                "action-info-4": "Επιπλέον, η εξοικονόμηση νερού μειώνει το κόστος αφαλάτωσης (€0.8/m³), εξοικονομεί ενέργεια, και μειώνει τις εκπομπές CO2 κατά 2.5 kg ανά m³ νερού.",
+                "action-info-5": "Μικρές αλλαγές όπως: κλείσιμο της βρύσης κατά το βούρτσισμα δοντιών (-15L), πιο σύντομο ντους (-20L), και αποφυγή χρήσης λαστίχου (-15L/λεπτό) μπορούν εύκολα να φτάσουν την εξοικονόμηση 1 λεπτού νερού ανά ημέρα."
             },
             en: {
                 "app-title": "Stagona - Water Consumption Calculator",
                 "info-title": "Information",
                 "title": "Water Calculator",
-                "intro": "Do you know how many liters of water you consume daily in your household? Find a recent bill from your water utility organization and fill in the details below.",
+                "intro-question": "Do you know how many liters of water you consume daily? Calculate it in 1 minute and see how you compare to the average Cypriot.",
+                "intro-instructions": "Find a recent bill from your water utility organization and fill in the details below to calculate it.",
                 "total-label": "Total period consumption (in m³):",
                 "period-label": "Consumption period (in months):",
                 "period-select": "Select period or EOA",
@@ -812,7 +987,23 @@
                 "contact-info": "For improvements and suggestions, please contact us at kios-dwic@ucy.onmicrosoft.com",
                 "contact-info-prefix": "For improvements and suggestions, please contact us at ",
                 "example-link": "[example]",
-                "email-copied": "Email copied!"
+                "email-copied": "Email copied!",
+                "scarcity-msg": "Cyprus faces chronic water stress, which threatens our quality of life. We can all help manage this serious crisis, and to reduce the risk of water cuts.",
+                "action-msg": "Each of us can help manage this serious crisis, and to reduce the risk of water cuts, by making small changes to our daily habits: reducing water consumption by 1 liter per person per day, we can ensure 70,000 people have water for a year!",
+                "reminder-title": "Reminder in 1 month",
+                "progress-reminder-msg": "Set a reminder to repeat the calculation in 30 days to track your progress!",
+                "stress-info-title": "What is chronic water stress?",
+                "stress-info-1": "Chronic water stress is a situation where water demand exceeds availability for a long period of time. In Cyprus, this means we consume more water than what can be naturally replenished by rainfall.",
+                "stress-info-2": "According to the European Commission, Cyprus faces high water stress (>40%), placing it among the most water-stressed regions of Europe. In 2022, the water consumption in Cyprus was 140 liters per person per day.",
+                "stress-info-3": "The main causes include: population growth, tourism development, agricultural activities, and climate change that reduces rainfall by 15-20% over the last 30 years.",
+                "stress-info-4": "The consequences include: water cuts, increased costs, decreased water quality, and threat to biodiversity. In 2021, Cyprus faced a severe drought that led to restrictions.",
+                "stress-info-5": "The solution lies in conserving water. Every liter we save helps us maintain our groundwater resources and reduce our dependency on desalination, which is energy-efficient and environmentally friendly.",
+                "action-info-title": "What small changes make a big difference?",
+                "action-info-1": "Saving 1 liter of water per person per day might seem small, but multiplied by the population of Cyprus (1.2 million) it creates a significant impact.",
+                "action-info-2": "Calculation: 1 minute × 9 liters/minute × 1.2 million people × 365 days = 3.9 million m³ of water annually.",
+                "action-info-3": "This amount of water can supply 70,000 people for a year, or cover the needs of a small city like Paphos for 6 months.",
+                "action-info-4": "In addition, water conservation reduces desalination costs (€0.8/m³), saves energy, and reduces CO2 emissions by 2.5 kg per m³ of water.",
+                "action-info-5": "Small changes include: turning off the tap during brushing teeth or shaving (-15L), shorter showers (-20L), and avoiding using a hose when washing your car (-15L/minute)."
             }
         };
 
@@ -826,7 +1017,7 @@
                 if (translations[lang][key]) {
                     if (element.tagName === "INPUT" || element.tagName === "SELECT") {
                         element.placeholder = translations[lang][key];
-                    } else if (key === "intro") {
+                    } else if (key === "intro" || key === "intro-question") {
                         element.innerHTML = translations[lang][key];
                     } else {
                         element.textContent = translations[lang][key];
@@ -860,6 +1051,7 @@
             <div class="result-box">
               <p class="result-value">${perDay.toFixed(1)} ${translations[currentLang]["liters"]}</p>
               <p class="result-label">${translations[currentLang]["result-title"]}</p>
+              <div class="gauge-track"><div class="gauge-fill" id="gaugeBar"></div></div>
             </div>
             <div class="result-box">
               <p class="result-diff">${
@@ -887,11 +1079,32 @@
 
           result.innerHTML = msg;
 
+          const bar = document.getElementById("gaugeBar");
+          const percentage = Math.min(100, Math.max(0, ((perDay - 70) / (210 - 70)) * 100));
+          bar.style.width = percentage + "%";
+          
+          // Set color based on percentage like a thermometer
+          if (percentage <= 50) {
+              // 0-50%: Green to Orange (70-140 liters)
+              const greenToOrange = percentage / 50; // 0 to 1
+              const red = Math.round(76 + (greenToOrange * 127)); // 76 to 203
+              const green = Math.round(175 - (greenToOrange * 87)); // 175 to 88
+              const blue = Math.round(80 - (greenToOrange * 80)); // 80 to 0
+              bar.style.background = `rgb(${red}, ${green}, ${blue})`;
+          } else {
+              // 50-100%: Orange to Red (140-210 liters)
+              const orangeToRed = (percentage - 50) / 50; // 0 to 1
+              const red = Math.round(203 + (orangeToRed * 52)); // 203 to 255
+              const green = Math.round(88 - (orangeToRed * 88)); // 88 to 0
+              const blue = Math.round(0); // Always 0
+              bar.style.background = `rgb(${red}, ${green}, ${blue})`;
+          }
+
           // Update share section if it's visible
           const shareSection = document.getElementById("shareSection");
           if (shareSection.style.display !== "none") {
             //const base = `${location.origin}${location.pathname}`;
-            const base = `https://kios-research.github.io/stagona_app/landing.html`;
+            const base = `https://stagona.cy`;
             const url = base;
 
             let summary =
@@ -970,10 +1183,10 @@
           showNotice(translations[currentLang]["negative-people"]);
           return;
         }
-        if (!totalM3 || !months || !people) {
-          showNotice(translations[currentLang]["fill-fields"]);
-          return;
-        }
+        
+        if (!totalM3){document.getElementById("total").focus();return;}
+        if (!months){document.getElementById("period").focus();return;}
+        if (!people){document.getElementById("people").focus();return;}
         const totalLitres = totalM3 * 1000;
         const days = months * 30.4;
         const perDay = totalLitres / days / people;
@@ -983,6 +1196,7 @@
           <div class="result-box">
             <p class="result-value">${perDay.toFixed(1)} λίτρα</p>
             <p class="result-label">${translations[currentLang]["result-title"]}</p>
+            <div class="gauge-track"><div class="gauge-fill" id="gaugeBar"></div></div>
           </div>
           <div class="result-box">
             <p class="result-diff">${
@@ -1012,8 +1226,29 @@
         result.innerHTML = msg;
         result.style.display = "block";
 
+        const bar = document.getElementById("gaugeBar");
+        const percentage = Math.min(100, Math.max(0, ((perDay - 70) / (210 - 70)) * 100));
+        bar.style.width = percentage + "%";
+        
+        // Set color based on percentage like a thermometer
+        if (percentage <= 50) {
+            // 0-50%: Green to Orange (70-140 liters)
+            const greenToOrange = percentage / 50; // 0 to 1
+            const red = Math.round(76 + (greenToOrange * 127)); // 76 to 203
+            const green = Math.round(175 - (greenToOrange * 87)); // 175 to 88
+            const blue = Math.round(80 - (greenToOrange * 80)); // 80 to 0
+            bar.style.background = `rgb(${red}, ${green}, ${blue})`;
+        } else {
+            // 50-100%: Orange to Red (140-210 liters)
+            const orangeToRed = (percentage - 50) / 50; // 0 to 1
+            const red = Math.round(203 + (orangeToRed * 52)); // 203 to 255
+            const green = Math.round(88 - (orangeToRed * 88)); // 88 to 0
+            const blue = Math.round(0); // Always 0
+            bar.style.background = `rgb(${red}, ${green}, ${blue})`;
+        }
+
         //const base = `${location.origin}${location.pathname}`;
-        const base = `https://kios-research.github.io/stagona_app/landing.html`;
+        const base = `https://stagona.cy`;
         const params = `?total=${totalM3}&period=${months}&people=${people}`;
         const url = base;
         document.getElementById("shareSection").style.display = "block";
@@ -1173,6 +1408,86 @@
       tipsModal.onclick = (event) => {
         if (event.target === tipsModal) {
           tipsModal.style.display = 'none';
+        }
+      };
+
+      // Reminder Button functionality
+      const reminderButton = document.getElementById('reminderButton');
+      if (reminderButton) {
+        reminderButton.onclick = () => {
+          // Calculate date in one month
+          const oneMonthFromNow = new Date();
+          oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
+          
+          // Format date for calendar
+          const year = oneMonthFromNow.getFullYear();
+          const month = String(oneMonthFromNow.getMonth() + 1).padStart(2, '0');
+          const day = String(oneMonthFromNow.getDate()).padStart(2, '0');
+          const hours = String(oneMonthFromNow.getHours()).padStart(2, '0');
+          const minutes = String(oneMonthFromNow.getMinutes()).padStart(2, '0');
+          
+          const startDate = `${year}${month}${day}T${hours}${minutes}00`;
+          const endDate = `${year}${month}${day}T${hours}${minutes}00`;
+          
+          // Create event details
+          const eventTitle = currentLang === 'el' ? 'Έλεγχος κατανάλωσης νερού' : 'Water consumption check';
+          const eventDescription = currentLang === 'el' 
+            ? 'Έλεγξε ξανά την κατανάλωση νερού σου στο Stagona App: https://stagona.cy'
+            : 'Check your water consumption again on Stagona App: https://stagona.cy';
+          
+          // Create calendar URL
+          const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventTitle)}&details=${encodeURIComponent(eventDescription)}&dates=${startDate}/${endDate}`;
+          
+          // Open calendar in new tab
+          window.open(calendarUrl, '_blank');
+          
+          // Show success message
+          const successMsg = currentLang === 'el' 
+            ? 'Η υπενθύμιση προστέθηκε στον ημερολόγιο σας!' 
+            : 'Reminder added to your calendar!';
+          showNotice(successMsg);
+        };
+      }
+
+      // Water Stress Info Modal functionality
+      const stressInfoModal = document.getElementById('stressInfoModal');
+      const stressInfoModalClose = document.getElementById('stressInfoModalClose');
+      const stressInfoButton = document.getElementById('stressInfo');
+
+      if (stressInfoButton) {
+        stressInfoButton.onclick = () => {
+          stressInfoModal.style.display = 'flex';
+        };
+      }
+
+      stressInfoModalClose.onclick = () => {
+        stressInfoModal.style.display = 'none';
+      };
+
+      stressInfoModal.onclick = (event) => {
+        if (event.target === stressInfoModal) {
+          stressInfoModal.style.display = 'none';
+        }
+      };
+
+      // Action Info Modal functionality
+      const actionInfoModal = document.getElementById('actionInfoModal');
+      const actionInfoModalClose = document.getElementById('actionInfoModalClose');
+      const actionInfoButton = document.getElementById('actionInfo');
+
+      if (actionInfoButton) {
+        actionInfoButton.onclick = () => {
+          actionInfoModal.style.display = 'flex';
+        };
+      }
+
+      actionInfoModalClose.onclick = () => {
+        actionInfoModal.style.display = 'none';
+      };
+
+      actionInfoModal.onclick = (event) => {
+        if (event.target === actionInfoModal) {
+          actionInfoModal.style.display = 'none';
         }
       };
     </script>
