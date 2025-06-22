@@ -495,19 +495,23 @@
         }
         
         .example-modal-content {
-            background: white;
-            padding: 1rem;
-            border-radius: 12px;
-            max-width: 90%;
-            max-height: 90vh;
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 8px;
             position: relative;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            max-height: 80vh;
+            overflow-y: auto;
         }
         
         .example-image {
-            max-width: 100%;
-            max-height: calc(90vh - 2rem);
-            object-fit: contain;
+            max-width: 80%;
+            height: auto;
+            display: block;
+            margin: 1rem auto;
         }
         
         .example-modal-close {
@@ -549,7 +553,6 @@
         
         .subtitle {
             text-align: center;
-            margin-bottom: 1.5rem;
             color: var(--primary);
             font-size: 1rem;
             font-weight: 500;
@@ -557,22 +560,44 @@
         
         .scarcity-banner {
             background: #ffefc5;
-            border-left: 6px solid #ff9800;
-            padding: .75rem 1rem;
+            padding: .75rem 1rem .75rem 1rem;
+            padding-right: 3rem;
             border-radius: 8px;
             font-size: .95rem;
             margin-bottom: 1.25rem;
             position: relative;
         }
         
+        .scarcity-banner span {
+            padding-right: 2rem;
+        }
+        
         .action-banner {
             background: #e8f5e8;
-            border-left: 6px solid #4caf50;
-            padding: .75rem 1rem;
+            padding: .75rem 1rem .75rem 1rem;
+            padding-right: 3rem;
             border-radius: 8px;
             font-size: .95rem;
             margin-bottom: 1.25rem;
             position: relative;
+        }
+        
+        .action-banner span {
+            padding-right: 2rem;
+        }
+        
+        .why-banner {
+            background: #e3f2fd;
+            padding: .75rem 1rem .75rem 1rem;
+            padding-right: 3rem;
+            border-radius: 8px;
+            font-size: .95rem;
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+        
+        .why-banner span {
+            padding-right: 2rem;
         }
         
         .info-icon {
@@ -590,11 +615,35 @@
             color: #4caf50;
         }
         
+        .info-icon-blue {
+            color: #2196f3;
+        }
+        
         .instructions-text {
             font-size: 0.95rem;
             margin-bottom: 0.5rem;
             text-align: left;
             line-height: 1.5;
+            transition: all 0.3s ease;
+            background: #e3f2fd;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .instructions-text:target {
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        @keyframes highlight {
+            0% {
+                background: linear-gradient(135deg, #fff3cd 0%, #f8d7da 100%);
+                transform: scale(1.02);
+            }
+            100% {
+                background: linear-gradient(135deg, #e8f5e8 0%, #f3e5f5 100%);
+                transform: scale(1);
+            }
         }
         
         .how-it-works-image {
@@ -607,7 +656,7 @@
         }
         
         .tips-button {
-            margin: 1.5rem 0 0.5rem 0;
+            margin: 0 0;
             background: var(--secondary);
             color: #fff;
             font-weight: bold;
@@ -624,13 +673,91 @@
         
         .progress-reminder {
             background: #e3f2fd;
-            border-left: 6px solid #2196f3;
             padding: .75rem 1rem;
+            padding-right: 3rem;
             border-radius: 8px;
             font-size: .9rem;
             margin-top: 1.25rem;
             text-align: left;
             color: #1976d2;
+            position: relative;
+        }
+        
+        .jump-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: #e3f2fd;
+            border: 2px solid var(--primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .jump-link:hover {
+            background: #bbdefb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            text-decoration: none;
+        }
+        
+        .jump-link:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .jump-link i {
+            font-size: 0.9em;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-3px);
+            }
+            60% {
+                transform: translateY(-2px);
+            }
+        }
+        
+        .section-separator {
+            position: relative;
+            height: 40px;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .section-separator::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ccc, transparent);
+            transform: translateY(-50%);
+        }
+        
+        .section-separator i {
+            background: #fff;
+            color: #666;
+            padding: 0 1rem;
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 1;
         }
     </style>
 </head>
@@ -646,10 +773,17 @@
         <h3 class="subtitle">
             <span data-el="intro-question"></span>
         </h3>
+        <div class="jump-link-container" style="text-align:center; margin-bottom:1.25rem;">
+            <a href="#instructions" class="jump-link"><span data-el="jump-link-btn"></span> <i class="fas fa-arrow-down"></i></a>
+        </div>
 
         <div id="scarcityBanner" class="scarcity-banner">
             <span data-el="scarcity-msg"></span>
             <i class="fas fa-info-circle info-icon info-icon-orange" id="stressInfo"></i>
+        </div>
+
+        <div id="whyBanner" class="why-banner">
+            <span data-el="why-msg"></span>
         </div>
 
         <div id="actionBanner" class="action-banner">
@@ -657,13 +791,16 @@
             <i class="fas fa-info-circle info-icon info-icon-green" id="actionInfo"></i>
         </div>
 
-
-
-        <div class="instructions-text">
-            <span data-el="intro-instructions"></span>
+        <div class="section-separator">
+            <i class="fas fa-cog"></i>
         </div>
-        <div class="how-it-works-image">
-            <img src="howitworks.png" alt="How the Stagona water consumption calculator works">
+
+        <div class="instructions-text" id="instructions">
+            <span data-el="intro-instructions"></span>
+            <div class="how-it-works-image">
+                <img src="howitworks.png" alt="How the Stagona water consumption calculator works">
+            </div>
+
         </div>
         <div>
             <label for="total"><span data-el="total-label"></span><a href="#" class="example-link" data-el="example-link"></a></label>
@@ -682,40 +819,23 @@
         <label for="people" data-el="people-label"></label>
         <input type="number" id="people" data-el="people-placeholder" min="1" step="1" />
 
-        <button id="calc" data-el="calc-button"></button>
+        <button id="calc"><strong>⚙️<span data-el="calc-button" ></span></strong></button>
 
 
         <div class="result" id="result" style="display: none"></div>
+
+        <div class="section-separator">
+            <i class="fas fa-cog"></i>
+        </div>
+
         <button id="tipsButton" type="button" class="tips-button">💡 <span data-el="tips-title"></span></button>
 
         <div class="progress-reminder">
             <span data-el="progress-reminder-msg"></span>
+            <i class="fas fa-info-circle info-icon info-icon-blue" id="whyInfo"></i>
         </div>
         <button id="reminderButton" type="button" class="reminder-button">📅 <span data-el="reminder-title"></span></button>
 
-        <div class="share-section" id="shareSection" style="display: none">
-            <strong data-el="share-title"></strong>
-            <div class="share-buttons">
-                <div class="share-button" id="shareTwitter" title="Twitter">
-                    <i class="fab fa-twitter"></i>
-                </div>
-                <div class="share-button" id="shareFacebook" title="Facebook">
-                    <i class="fab fa-facebook"></i>
-                </div>
-                <div class="share-button" id="shareWhatsApp" title="WhatsApp">
-                    <i class="fab fa-whatsapp"></i>
-                </div>
-                <div class="share-button" id="shareViber" title="Viber">
-                    <i class="fab fa-viber"></i>
-                </div>
-                <div class="share-button" id="shareEmail" title="Email">
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <div class="share-button" id="copySummary" title=" Copy message">
-                    <i class="fas fa-clipboard"></i>
-                </div>
-            </div>
-        </div>
         <p class="privacy-notice">
             <span data-el="contact-info-prefix"></span>
             <a href="#" id="contactEmail" class="email-link">kios-dwic@ucy.onmicrosoft.com</a>
@@ -731,7 +851,9 @@
     <div class="example-modal" id="exampleModal">
         <div class="example-modal-content">
             <i class="fas fa-times example-modal-close" id="exampleModalClose"></i>
+            <h3 data-el="help-title"></h3>
             <img src="eoanicosia.png" alt="Example water bill from EOA Nicosia showing consumption data" class="example-image">
+            <p data-el="help-explanation"></p>
         </div>
     </div>
 
@@ -836,6 +958,21 @@
         </div>
     </div>
 
+    <!-- Why Info Modal -->
+    <div class="modal" id="whyInfoModal">
+        <div class="modal-content">
+            <i class="fas fa-times modal-close" id="whyInfoModalClose"></i>
+            <div class="modal-section">
+                <h3 data-el="why-info-title"></h3>
+                <p data-el="why-info-1"></p>
+                <p data-el="why-info-2"></p>
+                <p data-el="why-info-3"></p>
+                <p data-el="why-info-4"></p>
+                <p data-el="why-info-5"></p>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Translations object
         const translations = {
@@ -843,9 +980,9 @@
                 "app-title": "Stagona - Υπολογιστής Κατανάλωσης Νερού",
                 "info-title": "Πληροφορίες",
                 "title": "Σταγονο-μετρώ!",
-                "intro-question": "Γνωρίζεις πόσα λίτρα νερό χρησιμοποιείς κάθε μέρα;<br>Πώς συγκρίνεσαι με το μέσο Κύπριο;<br>Υπολόγισέ το σε 1 λεπτό!",
-                "intro-instructions": "Βρες ένα πρόσφατο τιμολόγιο από τον οργανισμό υδροδότησής σου, και συμπλήρωσε τα πιο κάτω στοιχεία, για να υπολογίσεις πόσα λίτρα νερό χρησιμοποιείς κάθε ημέρα.",
-                "total-label": "Συνολική κατανάλωση περιόδου (σε m³):",
+                "intro-question": "Γνωρίζεις πόσα λίτρα νερού χρησιμοποιείς κάθε μέρα;<br>Πώς συγκρίνεσαι με το μέσο Κύπριο;",
+                "intro-instructions": "<strong>Οδηγίες</strong>: Βρες ένα <em>πρόσφατο τιμολόγιο</em> από τον οργανισμό υδροδότησής σου, εντόπισε την <em>ολική κατανάλωση</em> σε κυβικά μέτρα (κ.μ. ή m³), συμπλήρωσε τα στοιχεία και υπολόγισε πόσα λίτρα νερό χρησιμοποιείς κάθε ημέρα στο σπίτι σου.",
+                "total-label": "Συνολική κατανάλωση περιόδου (σε m³ ή κ.μ.):",
                 "period-label": "Περίοδος κατανάλωσης (σε μήνες):",
                 "period-select": "Επιλέξτε περίοδο ή ΕΟΑ",
                 "period-1": "1 μήνας",
@@ -853,7 +990,7 @@
                 "period-3": "3 μήνες (ΕΟΑ Λάρνακας, Πάφου, Αμμοχώστου)",
                 "period-4": "4 μήνες (ΕΟΑ Λεμεσού)",
                 "people-label": "Αριθμός ατόμων που κατοικούν στο σπίτι:",
-                "calc-button": "Υπολόγισε",
+                "calc-button": "Υπολόγισε & Σύγκρινε",
                 "privacy-notice": "Δεν συλλέγουμε προσωπικά δεδομένα μέσω της εφαρμογής, μόνο ανώνυμες στατιστικές του ιστοτόπου.",
                 "privacy-title": "Απόρρητο",
                 "privacy-desc": "Δεν συλλέγουμε προσωπικά δεδομένα μέσω της εφαρμογής, μόνο ανώνυμες στατιστικές του ιστοτόπου.",
@@ -866,7 +1003,7 @@
                 "how-to-3": "3. Επιλέγετε την ορθή περίοδο χρέωσης",
                 "how-to-4": "4. Εισάγετε τον αριθμό των ατόμων που έχουν ως συνήθη κατοικία τους το νοικοκυριό",
                 "how-to-5": '5. Κάντε κλικ στο "Υπολόγισε" για να δείτε τα αποτελέσματα',
-                "tips-title": "Συμβουλές εξοικονόμησης νερού",
+                "tips-title": "Συμβουλές εξοικονόμησης",
                 "tip-1": "• Κάντε πιο σύντομα ντους με χαμηλότερη πίεση. Στοχεύστε στα 5 λεπτά συνεχούς ροής, που αντιστοιχεί σε 45 λίτρα νερού. Κάθε λεπτό στο ντους απαιτεί περίπου 9 λίτρα νερού, και κατά μέσο όρο ένα ντους διαρκεί 10 λεπτά, που αντιστοιχεί στο 60% της συνολικής κατανάλωσης νερού. Συλλέξτε τυχόν κρύο νερό μέχρι να έρθει το ζεστό, σε κουβά.",
                 "tip-2": "• Εντοπίστε και επισκευάστε τυχόν διαρροές. Ελέγξτε την κατανάλωση στον μετρητή σας τις ώρες που απουσιάζετε από το σπίτι. Ελέγχετε τακτικά τους ηλιακούς θερμοσίφωνες και τις δεξαμενές για διαρροές",
                 "tip-3": "• Χρησιμοποιήστε πλήρη φορτίο στα πλυντήρια και στα πλυντήρια πιάτων",
@@ -874,8 +1011,8 @@
                 "tip-5": "• Κλείστε τη βρύση όταν βουρτσίζετε τα δόντια ή ξυρίζεστε. Να θυμάστε ότι κάθε λεπτό η ποσότητα νερού που φεύγει από μια βρύση αντιστοιχεί σε 15 λίτρα, ή το 10% της ημερήσιας κατανάλωσης για ένα άτομο",
                 "tip-6": "• Ποτίστε νωρίς το πρωί ή αργά το απόγευμα για να περιορίσετε την εξάτμιση. Αποφύγετε τη χρήση λαστίχου, καθώς αντιστοιχεί σε 15 λίτρα το λεπτό (το 10% της ημερήσιας κατανάλωσης νερού ανά άτομο στην Κύπρου)",
                 "tip-7": "• Χρησιμοποιήστε κουβά και σφουγγάρι αντί για λάστιχο όταν πλένετε το αυτοκίνητο",
-                "result-title": "Μέση κατανάλωση ανά άτομο/ημέρα",
-                "result-diff": "Διαφορά από το μέσο όρο (140 λίτρα)",
+                "result-title": "Μέση κατανάλωση ανά άτομο ανά ημέρα",
+                "result-diff": "Διαφορά από το μέσο όρο στην Κύπρο (≈140 λίτρα ανά άτομο ανά ημέρα)",
                 "result-below": "κάτω από μέσο όρο",
                 "result-above": "πάνω από μέσο όρο",
                 "result-excellent": "Εξαιρετικά! Καταναλώνετε λιγότερο από το 20% της μέσης κατανάλωσης.",
@@ -901,26 +1038,36 @@
                 "copy-summary": "Αντέγραψε περίληψη",
                 "version-title": "Έκδοση",
                 "version-number": "0.99",
-                "contact-info": "Για βελτιώσεις και προτάσεις, παρακαλούμε επικοινωνήστε μαζί μας στο kios-dwic@ucy.onmicrosoft.com",
-                "contact-info-prefix": "Για βελτιώσεις και προτάσεις, παρακαλούμε επικοινωνήστε μαζί μας στο ",
-                "example-link": "[παράδειγμα]",
+                "contact-info": "Για βελτιώσεις και εισηγήσεις, παρακαλούμε επικοινωνήστε μαζί μας στο kios-dwic@ucy.onmicrosoft.com",
+                "contact-info-prefix": "Για βελτιώσεις και εισηγήσεις, παρακαλούμε επικοινωνήστε μαζί μας στο ",
+                "example-link": "[βοήθεια]",
                 "email-copied": "Το email αντιγράφηκε!",
-                "scarcity-msg": "Η Κύπρος αντιμετωπίζει χρόνιο υδατικό στρες, το χειρότερο στην Ευρώπη. Την ίδια στιγμή, το 30% των Ευρωπαίων αντιμετωπίζουν παρόμοιες ελλείψεις.",
-                "action-msg": "Επιπρόσθετα των αφαλατώσεων και μείωσης των απωλειών, μπορούμε και εμείς ως πολίτες να μειώσουμε το ρίσκο περικοπών νερού, με μικρές αλλαγές στις συνήθειές μας:  με κάθε 1 λεπτό λιγότερη χρήση νερού (1 λεπτό ≈ 10L), εξασφαλίζουμε νερό για ακόμη 70,000 άτομα!",
+                "scarcity-msg": "Η Κύπρος βιώνει το σοβαρότερο χρόνιο υδατικό στρες στην Ευρώπη, ενώ ταυτόχρονα <em>η έλλειψη νερού επηρεάζει το 30% των Ευρωπαίων</em>.",
+                "why-msg": "Ενώ η ετήσια βροχόπτωση μειώνεται σταθερά, η ζήτηση νερού αυξάνεται. <em>Στην Κύπρο χρησιμοποιούμε 140 λίτρα ανά άτομο την ημέρα, ενώ ο μέσος όρος στην ΕΕ ειναι 124  λίτρα</em>.",
+                "action-msg": "Μειώνοντας έστω κατά λίγα λεπτά την ατομική μας κατανάλωση*, μπορούμε να προστατεύσουμε σημαντικές ποσότητες νερού. <em>Πρακτικά, ως κοινωνία του 1 εκατ. κατοίκων, ένα λεπτό λιγότερο τρεχούμενο νερό (≈ 10 L) εξοικονομεί αρκετό νερό για 70 000 συνανθρώπους μας τον χρόνο</em>! <br><br><small>*Ντους≈ 10 λίτρα ανά λεπτό,  Πότισμα με λάστιχο≈ 15-30 λίτρα ανά λεπτό.</small>",
                 "reminder-title": "Υπενθύμιση σε 1 μήνα",
-                "progress-reminder-msg": "Βάλτε υπενθύμιση για να επαναλάβετε τον υπολογισμό σε 30 ημέρες και να μετρήσετε την πρόοδό σας! Θα χρειαστεί να καταγράψετε τη μέτρηση στο υδρόμετρό σας (π.χ. βγάζοντας το φωτογραφία), για να υπολογίσετε τη διαφορά.",
+                "progress-reminder-msg": "Βάλτε υπενθύμιση για να επαναλάβετε τον υπολογισμό σε 30 ημέρες και να μετρήσετε την πρόοδό σας! (καταγράψτε την ένδειξη στον μετρητή σας σήμερα.)",
                 "stress-info-title": "Τι είναι το χρόνιο υδατικό στρές;",
-                "stress-info-1": "Το χρόνιο υδατικό στρές είναι μια κατάσταση όπου η ζήτηση νερού υπερβαίνει τη διαθεσιμότητα για μεγάλο χρονικό διάστημα. Στην Κύπρο, αυτό σημαίνει ότι καταναλώνουμε περισσότερο νερό από αυτό που μπορεί να αναπληρώσει φυσικά η βροχόπτωση.",
-                "stress-info-2": "Σύμφωνα με την Ευρωπαϊκή Επιτροπή, η Κύπρος αντιμετωπίζει υψηλό επίπεδο υδατικού στρες (>40%), που την τοποθετεί ανάμεσα στις πιο ευάλωτες χώρες της Ευρώπης.",
-                "stress-info-3": "Οι κύριοι παράγοντες που επιβαρύνουν το υδατικό στρες, είναι η αύξηση του πληθυσμού, η τουριστική ανάπτυξη, η αγροτική δραστηριότητα, και η κλιματική αλλαγή που μειώνει τη βροχόπτωση κατά 15-20% τα τελευταία 30 χρόνια. Παράλληλα, η οικιακή κατανάλωση παραμένει στα 140 λίτρα ανά άτομο την ημέρα, ενώ ο μέσος όρος στην ΕΕ είναι 124 λίτρα ανά άτομο.",
-                "stress-info-4": "Οι επιπτώσεις του υδατικού στρες περιλαμβάνουν: περικοπές νερού, αύξηση του κόστους, υποβάθμιση της ποιότητας του νερού, και απειλή για τη βιοποικιλότητα..",
-                "stress-info-5": "Πέραν από τις νέες τεχνολογίες και αναβάθμιση των δικτύων, χρειάζεται να κάνουμε συντηρητική χρήση νερού. Κάθε λίτρο που εξοικονομούμε βοηθάει να διατηρήσουμε τα υπόγεια νερά και να μειώσουμε την εξάρτηση από την αφαλάτωση, που είναι ενεργειακά ακριβή και περιβαλλοντικά επιβαρυντική, ενώ εξασφαλίζουμε επαρκείς ποσότητες για την γεωργία.",
+                "stress-info-1": "Το χρόνιο υδατικό στρές είναι μια κατάσταση όπου η ζήτηση νερού υπερβαίνει τη διαθεσιμότητα για μεγάλο χρονικό διάστημα. <b>Αυτό σημαίνει ότι στην Κύπρο, καταναλώνουμε περισσότερο νερό από αυτό που μπορεί να αναπληρώσει φυσικά η βροχόπτωση</b>. ",
+                "stress-info-2": "Σύμφωνα με την Ευρωπαϊκή Επιτροπή, η Κύπρος αντιμετωπίζει υψηλό επίπεδο υδατικού στρες (>40%), που την τοποθετεί ανάμεσα στις πιο ευάλωτες χώρες της Ευρώπης. <b>Ενδεικτικά, οι διαθέσιμοι φυσικοί υδάτινοι πόροι ειναι μόλις 390 κ.μ. ανά έτος ανά άτομο, τη στιγμή που το όριο ακραίας λειψυδρίας καθορίζεται στα 500 κ.μ./έτος και το όριο λειψυδρίας στα 1.000 κ.μ./έτος</b>. Σε ευρωπαϊκό επίπεδο, η λειψυδρία και οι ξηρασίες κοστίζουν έως € 9 δισ. τον χρόνο, πλήττουν το 30% των πολιτών και το 20% της γης κάθε έτος, ενώ σχεδόν οι μισοί Ευρωπαίοι τις θεωρούν τη μεγαλύτερη απειλή για τα υδάτινα αποθέματα της χώρας τους.",
+                "stress-info-3": "Οι κύριοι παράγοντες που επιβαρύνουν το υδατικό στρες, είναι η αύξηση του πληθυσμού, η τουριστική ανάπτυξη, η αγροτική δραστηριότητα, και η κλιματική αλλαγή που προκάλεσε σημαντική μείωση στη βροχόπτωση. <b>Παράλληλα, η ζήτηση νερού στην Κύπρο την περίοδο 2019-2023, αυξήθηκε κατά 15%</b>. ",
+                "stress-info-4": "Σήμερα, υπολογίζεται ότι η μέση οικιακή κατανάλωση παραμένει στα 140 λίτρα ανά άτομο την ημέρα, ενώ ο μέσος όρος στην ΕΕ έχει πέσει στα 124 λίτρα ανά άτομο.",
+                "stress-info-5": "",
                 "action-info-title": "Πώς μικρές αλλαγές κάνουν μεγάλη διαφορά;",
-                "action-info-1": "Η εξοικονόμηση 1 λεπτού νερού ανά άτομο ανά ημέρα μπορεί να φαίνεται μικρή, αλλά πολλαπλασιασμένη με τον πληθυσμό της Κύπρου (~1 εκατομμύριο) δημιουργεί τεράστια επίδραση.",
-                "action-info-2": "Υπολογισμός: 1 λεπτό × 10 λίτρα/λεπτό × 1 εκατομμύρια άτομα × 365 ημέρες = 3.65 εκατομμύρια m³ νερού ετησίως.",
+                "action-info-1": "Πέραν από τις αφαλατώσεις, την εφαρμογή νέων τεχνολογιών και αναβάθμιση των δικτύων για μείωση των απωλειών, <b>χρειάζεται να κάνουμε συντηρητική χρήση νερού</b>. Κάθε λίτρο που εξοικονομούμε βοηθάει να διατηρήσουμε τα υπόγεια νερά και να μειώσουμε την εξάρτηση από τις αφαλατώσεις, που είναι ενεργειακά ακριβές και περιβαλλοντικά επιβαρυντικές, ενώ βοηθούμε στο να διασφαλίσουμε επαρκείς ποσότητες καλής ποιότητας νερού για την γεωργία.",
+                "action-info-2": "Η μείωση κατά 1 λεπτό χρήσης νερού ανά άτομο ανά ημέρα μπορεί να φαίνεται μικρή, αλλά πολλαπλασιασμένη με τον πληθυσμό της Κύπρου (~1 εκατομμύριο) δημιουργεί τεράστια επίδραση (1 λεπτό × 10 λίτρα/λεπτό × 1 εκατομμύρια άτομα × 365 ημέρες = 3.65 εκατομμύρια m³ νερού ετησίως, που αντιστοιχεί στον ολικό όγκο των φραγμάτων της Λευκωσίας, ή στο φράγμα Πολεμιδιών!)",
                 "action-info-3": "Αυτή η ποσότητα νερού μπορεί να υδροδοτήσει 70,000 άτομα για ένα χρόνο, ή να καλύψει σχεδόν τις ανάγκες της Επαρχίας Πάφου.",
-                "action-info-4": "Επιπλέον, η εξοικονόμηση νερού δίνει μεγαλύτερη ευελιξία στην αξιοποίηση των ποσοτήτων που παραμένουν στα φράγματα, σε συνδιασμό με την αφαλάτωση, μειώνοντας το κόστος για τον καταναλωτή, καθώς και τις εκπομπές αερίων θερμοκηπίου.",
-                "action-info-5": "Μικρές αλλαγές όπως: κλείσιμο της βρύσης κατά το βούρτσισμα δοντιών (~15L), πιο σύντομο ντους (~20L), και αποφυγή χρήσης λαστίχου (~15-30L/λεπτό) μπορούν εύκολα να φέρουν σημαντικές καθημερινές εξοικονομήσεις."
+                "action-info-4": "Επιπλέον, η εξοικονόμηση νερού δίνει μεγαλύτερη <b>ευελιξία στην αξιοποίηση των ποσοτήτων που παραμένουν στα φράγματα</b>, σε συνδιασμό με την αφαλάτωση, μειώνοντας το κόστος για τον καταναλωτή, καθώς και τις εκπομπές αερίων θερμοκηπίου.",
+                "action-info-5": "Μικρές αλλαγές όπως: κλείσιμο της βρύσης κατά το ντους (εξοικονόμηση 40 λίτρα), βούρτσισμα δοντιών (15 λίτρα), και αποφυγή χρήσης λαστίχου (στο οποίο κάθε λεπτό φεύγουν 15-30L) μπορούν εύκολα να φέρουν σημαντικές καθημερινές εξοικονομήσεις.",
+                "why-info-title": "Γιατί είναι σημαντικό να παρακολουθούμε την κατανάλωσή μας;",
+                "why-info-1": "Η παρακολούθηση της κατανάλωσης νερού μας είναι το πρώτο βήμα για τη δημιουργία συνείδησης και την εξοικονόμηση. Όταν γνωρίζουμε πόσο νερό χρησιμοποιούμε, μπορούμε να εντοπίσουμε περιττές χρήσεις και να κάνουμε πιο συνειδητές επιλογές.",
+                "why-info-2": "Η κατανάλωση 140 λίτρων ανά άτομο ανά ημέρα στην Κύπρο είναι υψηλή σε σύγκριση με τον μέσο όρο της ΕΕ (124 λίτρα). Αυτό σημαίνει ότι υπάρχει χώρος για βελτίωση μέσω απλών αλλαγών στις καθημερινές συνήθειές μας.",
+                "why-info-3": "Η επαναλαμβανόμενη μέτρηση της κατανάλωσής μας μας επιτρέπει να παρακολουθούμε την πρόοδό μας και να διατηρούμε τις καλές συνήθειες. Είναι σαν να έχουμε ένα προσωπικό σύστημα ανατροφοδότησης.",
+                "why-info-4": "Η γνώση της κατανάλωσής μας, μας βοηθά να λάβουμε καλύτερες αποφάσεις για το περιβάλλον και την οικονομία μας.",
+                "why-info-5": "Παράλληλα, συμβάλλουμε στη συλλογική προσπάθεια για τη διατήρηση των υδάτινων πόρων της Κύπρου και τη βελτίωση της ποιότητας ζωής όλων μας.",
+                "jump-link-btn": "Υπολόγισέ το σε 1 λεπτό!",
+                "help-title": "Πώς να βρείτε την κατανάλωση νερού στον λογαριασμό σας",
+                "help-explanation": "Στον λογαριασμό σας, αναζητήστε την ενότητα \"Κατανάλωση\" ή \"Μετρήσεις\". Θα δείτε την ολική κατανάλωση σε κυβικά μέτρα (m³ ή κ.μ.) για την περίοδο χρέωσης. Εισάγετε αυτόν τον αριθμό στο πεδίο \"Συνολική κατανάλωση περιόδου\".",
             },
             en: {
                 "app-title": "Stagona - Water Consumption Calculator",
@@ -986,10 +1133,11 @@
                 "version-number": "0.99",
                 "contact-info": "For improvements and suggestions, please contact us at kios-dwic@ucy.onmicrosoft.com",
                 "contact-info-prefix": "For improvements and suggestions, please contact us at ",
-                "example-link": "[example]",
+                "example-link": "[help]",
                 "email-copied": "Email copied!",
                 "scarcity-msg": "Cyprus faces chronic water stress, which threatens our quality of life. We can all help manage this serious crisis, and to reduce the risk of water cuts.",
-                "action-msg": "Each of us can help manage this serious crisis, and to reduce the risk of water cuts, by making small changes to our daily habits: reducing water consumption by 1 liter per person per day, we can ensure 70,000 people have water for a year!",
+                "why-msg": "Why is it important for us to know our water consumption? Monitoring our water usage helps us identify wasteful habits and make more conscious choices. It also allows us to measure our progress and maintain good habits.",
+                "action-msg": "With less rainfall and increased demand (the average individual consumption is 140 liters per day in Cyprus), in addition to the conservation measures and network upgrades, we need to adopt conservative water management practices to reduce our dependency on water and protect our groundwater resources. <br><br> With small changes to our daily habits, we can achieve significant water savings: reducing water consumption by 1 liter per person per day ensures 70,000 people have water for a year!",
                 "reminder-title": "Reminder in 1 month",
                 "progress-reminder-msg": "Set a reminder to repeat the calculation in 30 days to track your progress!",
                 "stress-info-title": "What is chronic water stress?",
@@ -1003,11 +1151,34 @@
                 "action-info-2": "Calculation: 1 minute × 9 liters/minute × 1.2 million people × 365 days = 3.9 million m³ of water annually.",
                 "action-info-3": "This amount of water can supply 70,000 people for a year, or cover the needs of a small city like Paphos for 6 months.",
                 "action-info-4": "In addition, water conservation reduces desalination costs (€0.8/m³), saves energy, and reduces CO2 emissions by 2.5 kg per m³ of water.",
-                "action-info-5": "Small changes include: turning off the tap during brushing teeth or shaving (-15L), shorter showers (-20L), and avoiding using a hose when washing your car (-15L/minute)."
+                "action-info-5": "Small changes include: turning off the tap during brushing teeth or shaving (-15L), shorter showers (-20L), and avoiding using a hose when washing your car (-15L/minute).",
+                "why-info-title": "Why is it important for us to monitor our water consumption?",
+                "why-info-1": "Monitoring our water usage is the first step towards creating awareness and saving. When we know how much water we use, we can identify wasteful habits and make more conscious choices.",
+                "why-info-2": "The 140 liters per person per day in Cyprus is higher than the average in the EU (124 liters). This means there's room for improvement through simple changes in our daily habits.",
+                "why-info-3": "Regular monitoring of our water usage allows us to track our progress and maintain good habits. It's like having a personalized feeding system.",
+                "why-info-4": "Knowing our water usage makes us more conscious consumers and helps us make better decisions for our environment and economy.",
+                "why-info-5": "By monitoring our water usage, we contribute to the collective effort to conserve our Cypriot water resources and improve our quality of life.",
+                "jump-link-btn": "Calculate it in 1 minute!",
+                "help-title": "How to find your water consumption on your bill",
+                "help-explanation": "On your bill, look for the section titled \"Consumption\" or \"Measurements\". You'll see the total consumption in cubic meters (m³) for the billing period. Enter this number into the \"Total period consumption\" field.",
             }
         };
 
         let currentLang = "el";
+
+        // Utility function to check if a string contains HTML tags
+        function containsHtmlTags(str) {
+            return /<[^>]*>/g.test(str);
+        }
+
+        // Utility function to safely update element content based on HTML presence
+        function updateElementContent(element, content) {
+            if (containsHtmlTags(content)) {
+                element.innerHTML = content;
+            } else {
+                element.textContent = content;
+            }
+        }
 
         // Function to update text content
         function updateLanguage(lang) {
@@ -1015,15 +1186,16 @@
             elements.forEach((element) => {
                 const key = element.getAttribute("data-el");
                 if (translations[lang][key]) {
+                    const translation = translations[lang][key];
+
                     if (element.tagName === "INPUT" || element.tagName === "SELECT") {
-                        element.placeholder = translations[lang][key];
-                    } else if (key === "intro" || key === "intro-question") {
-                        element.innerHTML = translations[lang][key];
+                        element.placeholder = translation;
                     } else {
-                        element.textContent = translations[lang][key];
+                        updateElementContent(element, translation);
+
                         // Update title attribute for elements that have it
                         if (element.hasAttribute("title")) {
-                            element.title = translations[lang][key];
+                            element.title = translation;
                         }
                     }
                 }
@@ -1077,7 +1249,40 @@
             msg += `${translations[currentLang]["result-very-high"]}<br/><br/>${translations[currentLang]["result-very-high-desc"]}`;
           }
 
+          // Add share section within the results
+          msg += `<br/><div class="share-section">
+              <strong data-el="share-title"></strong>
+              <div class="share-buttons">
+                  <div class="share-button" id="shareTwitter" title="Twitter">
+                      <i class="fab fa-twitter"></i>
+                  </div>
+                  <div class="share-button" id="shareFacebook" title="Facebook">
+                      <i class="fab fa-facebook"></i>
+                  </div>
+                  <div class="share-button" id="shareWhatsApp" title="WhatsApp">
+                      <i class="fab fa-whatsapp"></i>
+                  </div>
+                  <div class="share-button" id="shareViber" title="Viber">
+                      <i class="fab fa-viber"></i>
+                  </div>
+                  <div class="share-button" id="shareEmail" title="Email">
+                      <i class="fas fa-envelope"></i>
+                  </div>
+                  <div class="share-button" id="copySummary" title=" Copy message">
+                      <i class="fas fa-clipboard"></i>
+                  </div>
+              </div>
+          </div>`;
+
+          const result = document.getElementById("result");
           result.innerHTML = msg;
+          result.style.display = "block";
+
+          // Update the share title text after adding to DOM
+          const shareTitleElement = result.querySelector('[data-el="share-title"]');
+          if (shareTitleElement) {
+              shareTitleElement.textContent = translations[currentLang]["share-title"];
+          }
 
           const bar = document.getElementById("gaugeBar");
           const percentage = Math.min(100, Math.max(0, ((perDay - 70) / (210 - 70)) * 100));
@@ -1166,6 +1371,9 @@
         updateLanguage(newLang);
       });
 
+      // Ensure all translations are set on page load
+      updateLanguage(currentLang);
+
       document.getElementById("calc").addEventListener("click", () => {
         const totalM3 = parseFloat(document.getElementById("total").value);
         const months = parseInt(document.getElementById("period").value);
@@ -1222,9 +1430,40 @@
           msg += `${translations[currentLang]["result-very-high"]}<br/><br/>${translations[currentLang]["result-very-high-desc"]}`;
         }
 
+        // Add share section within the results
+        msg += `<br/><div class="share-section">
+            <strong data-el="share-title"></strong>
+            <div class="share-buttons">
+                <div class="share-button" id="shareTwitter" title="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </div>
+                <div class="share-button" id="shareFacebook" title="Facebook">
+                    <i class="fab fa-facebook"></i>
+                </div>
+                <div class="share-button" id="shareWhatsApp" title="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
+                <div class="share-button" id="shareViber" title="Viber">
+                    <i class="fab fa-viber"></i>
+                </div>
+                <div class="share-button" id="shareEmail" title="Email">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="share-button" id="copySummary" title=" Copy message">
+                    <i class="fas fa-clipboard"></i>
+                </div>
+            </div>
+        </div>`;
+
         const result = document.getElementById("result");
         result.innerHTML = msg;
         result.style.display = "block";
+
+        // Update the share title text after adding to DOM
+        const shareTitleElement = result.querySelector('[data-el="share-title"]');
+        if (shareTitleElement) {
+            shareTitleElement.textContent = translations[currentLang]["share-title"];
+        }
 
         const bar = document.getElementById("gaugeBar");
         const percentage = Math.min(100, Math.max(0, ((perDay - 70) / (210 - 70)) * 100));
@@ -1251,7 +1490,6 @@
         const base = `https://stagona.cy`;
         const params = `?total=${totalM3}&period=${months}&people=${people}`;
         const url = base;
-        document.getElementById("shareSection").style.display = "block";
 
         let summary =
           currentLang === "el"
@@ -1490,6 +1728,37 @@
           actionInfoModal.style.display = 'none';
         }
       };
+
+      // Why Info Modal functionality
+      const whyInfoModal = document.getElementById('whyInfoModal');
+      const whyInfoModalClose = document.getElementById('whyInfoModalClose');
+      const whyInfoButton = document.getElementById('whyInfo');
+
+      if (whyInfoButton) {
+        whyInfoButton.onclick = () => {
+          whyInfoModal.style.display = 'flex';
+        };
+      }
+
+      whyInfoModalClose.onclick = () => {
+        whyInfoModal.style.display = 'none';
+      };
+
+      whyInfoModal.onclick = (event) => {
+        if (event.target === whyInfoModal) {
+          whyInfoModal.style.display = 'none';
+        }
+      };
+
+      document.addEventListener("DOMContentLoaded", function() {
+        updateLanguage(currentLang);
+        
+        // Prevent automatic scrolling to instructions on page load
+        if (window.location.hash === '#instructions') {
+            // Remove the hash from URL without scrolling
+            history.replaceState(null, null, window.location.pathname + window.location.search);
+        }
+      });
     </script>
 </body>
 
