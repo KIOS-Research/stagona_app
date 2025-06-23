@@ -1180,6 +1180,24 @@
             }
         }
 
+        // DRY: Function to create the summary text for sharing
+        function createSummary(perDay, diffPct, avg, url, lang) {
+            const translationsObj = translations[lang];
+            if (lang === "el") {
+                return `Μόλις υπολόγισα την κατανάλωσή νερού μου: ${perDay.toFixed(1)} λίτρα/ημέρα ` +
+                    (perDay < avg
+                        ? `(${Math.abs(diffPct).toFixed(1)}% ${translationsObj["result-below"]} των 140 λίτρων/ημέρα)`
+                        : `(${diffPct.toFixed(1)}% ${translationsObj["result-above"]} των 140 λίτρων/ημέρα)`) +
+                    `. Δοκίμασέ το και εσύ: ${url}`;
+            } else {
+                return `I've just calculated my water consumption: ${perDay.toFixed(1)} liters/day ` +
+                    (perDay < avg
+                        ? `(${Math.abs(diffPct).toFixed(1)}% ${translationsObj["result-below"]} of 140 liters/day)`
+                        : `(${diffPct.toFixed(1)}% ${translationsObj["result-above"]} of 140 liters/day)`) +
+                    `. Try it yourself: ${url}`;
+            }
+        }
+
         // Function to update text content
         function updateLanguage(lang) {
             const elements = document.querySelectorAll("[data-el]");
@@ -1235,100 +1253,84 @@
             </div>
             <br/>`;
 
-          if (diffPct < -20) {
-            msg += `${translations[currentLang]["result-excellent"]}<br/><br/>${translations[currentLang]["result-excellent-desc"]}`;
-          } else if (diffPct >= -20 && diffPct < -10) {
-            msg += `${translations[currentLang]["result-good"]}<br/><br/>${translations[currentLang]["result-good-desc"]}`;
-          } else if (diffPct >= -10 && diffPct < 0) {
-            msg += `${translations[currentLang]["result-average"]}<br/><br/>${translations[currentLang]["result-average-desc"]}`;
-          } else if (diffPct >= 0 && diffPct < 10) {
-            msg += `${translations[currentLang]["result-slightly-high"]}<br/><br/>${translations[currentLang]["result-slightly-high-desc"]}`;
-          } else if (diffPct >= 10 && diffPct < 20) {
-            msg += `${translations[currentLang]["result-high"]}<br/><br/>${translations[currentLang]["result-high-desc"]}`;
-          } else {
-            msg += `${translations[currentLang]["result-very-high"]}<br/><br/>${translations[currentLang]["result-very-high-desc"]}`;
-          }
+              if (diffPct < -20) {
+                msg += `${translations[currentLang]["result-excellent"]}<br/><br/>${translations[currentLang]["result-excellent-desc"]}`;
+              } else if (diffPct >= -20 && diffPct < -10) {
+                msg += `${translations[currentLang]["result-good"]}<br/><br/>${translations[currentLang]["result-good-desc"]}`;
+              } else if (diffPct >= -10 && diffPct < 0) {
+                msg += `${translations[currentLang]["result-average"]}<br/><br/>${translations[currentLang]["result-average-desc"]}`;
+              } else if (diffPct >= 0 && diffPct < 10) {
+                msg += `${translations[currentLang]["result-slightly-high"]}<br/><br/>${translations[currentLang]["result-slightly-high-desc"]}`;
+              } else if (diffPct >= 10 && diffPct < 20) {
+                msg += `${translations[currentLang]["result-high"]}<br/><br/>${translations[currentLang]["result-high-desc"]}`;
+              } else {
+                msg += `${translations[currentLang]["result-very-high"]}<br/><br/>${translations[currentLang]["result-very-high-desc"]}`;
+              }
 
-          // Add share section within the results
-          msg += `<br/><div class="share-section">
-              <strong data-el="share-title"></strong>
-              <div class="share-buttons">
-                  <div class="share-button" id="shareTwitter" title="Twitter">
-                      <i class="fab fa-twitter"></i>
+              // Add share section within the results
+              msg += `<br/><div class="share-section">
+                  <strong data-el="share-title"></strong>
+                  <div class="share-buttons">
+                      <div class="share-button" id="shareTwitter" title="Twitter">
+                          <i class="fab fa-twitter"></i>
+                      </div>
+                      <div class="share-button" id="shareFacebook" title="Facebook">
+                          <i class="fab fa-facebook"></i>
+                      </div>
+                      <div class="share-button" id="shareWhatsApp" title="WhatsApp">
+                          <i class="fab fa-whatsapp"></i>
+                      </div>
+                      <div class="share-button" id="shareViber" title="Viber">
+                          <i class="fab fa-viber"></i>
+                      </div>
+                      <div class="share-button" id="shareEmail" title="Email">
+                          <i class="fas fa-envelope"></i>
+                      </div>
+                      <div class="share-button" id="copySummary" title=" Copy message">
+                          <i class="fas fa-clipboard"></i>
+                      </div>
                   </div>
-                  <div class="share-button" id="shareFacebook" title="Facebook">
-                      <i class="fab fa-facebook"></i>
-                  </div>
-                  <div class="share-button" id="shareWhatsApp" title="WhatsApp">
-                      <i class="fab fa-whatsapp"></i>
-                  </div>
-                  <div class="share-button" id="shareViber" title="Viber">
-                      <i class="fab fa-viber"></i>
-                  </div>
-                  <div class="share-button" id="shareEmail" title="Email">
-                      <i class="fas fa-envelope"></i>
-                  </div>
-                  <div class="share-button" id="copySummary" title=" Copy message">
-                      <i class="fas fa-clipboard"></i>
-                  </div>
-              </div>
-          </div>`;
+              </div>`;
 
-          const result = document.getElementById("result");
-          result.innerHTML = msg;
-          result.style.display = "block";
+            const result = document.getElementById("result");
+            result.innerHTML = msg;
+            result.style.display = "block";
 
-          // Update the share title text after adding to DOM
-          const shareTitleElement = result.querySelector('[data-el="share-title"]');
-          if (shareTitleElement) {
-              shareTitleElement.textContent = translations[currentLang]["share-title"];
-          }
+            // Update the share title text after adding to DOM
+            const shareTitleElement = result.querySelector('[data-el="share-title"]');
+            if (shareTitleElement) {
+                shareTitleElement.textContent = translations[currentLang]["share-title"];
+            }
 
-          const bar = document.getElementById("gaugeBar");
-          const percentage = Math.min(100, Math.max(0, ((perDay - 70) / (210 - 70)) * 100));
-          bar.style.width = percentage + "%";
-          
-          // Set color based on percentage like a thermometer
-          if (percentage <= 50) {
-              // 0-50%: Green to Orange (70-140 liters)
-              const greenToOrange = percentage / 50; // 0 to 1
-              const red = Math.round(76 + (greenToOrange * 127)); // 76 to 203
-              const green = Math.round(175 - (greenToOrange * 87)); // 175 to 88
-              const blue = Math.round(80 - (greenToOrange * 80)); // 80 to 0
-              bar.style.background = `rgb(${red}, ${green}, ${blue})`;
-          } else {
-              // 50-100%: Orange to Red (140-210 liters)
-              const orangeToRed = (percentage - 50) / 50; // 0 to 1
-              const red = Math.round(203 + (orangeToRed * 52)); // 203 to 255
-              const green = Math.round(88 - (orangeToRed * 88)); // 88 to 0
-              const blue = Math.round(0); // Always 0
-              bar.style.background = `rgb(${red}, ${green}, ${blue})`;
-          }
+            const bar = document.getElementById("gaugeBar");
+            const percentage = Math.min(100, Math.max(0, ((perDay - 70) / (210 - 70)) * 100));
+            bar.style.width = percentage + "%";
+            
+            // Set color based on percentage like a thermometer
+            if (percentage <= 50) {
+                // 0-50%: Green to Orange (70-140 liters)
+                const greenToOrange = percentage / 50; // 0 to 1
+                const red = Math.round(76 + (greenToOrange * 127)); // 76 to 203
+                const green = Math.round(175 - (greenToOrange * 87)); // 175 to 88
+                const blue = Math.round(80 - (greenToOrange * 80)); // 80 to 0
+                bar.style.background = `rgb(${red}, ${green}, ${blue})`;
+            } else {
+                // 50-100%: Orange to Red (140-210 liters)
+                const orangeToRed = (percentage - 50) / 50; // 0 to 1
+                const red = Math.round(203 + (orangeToRed * 52)); // 203 to 255
+                const green = Math.round(88 - (orangeToRed * 88)); // 88 to 0
+                const blue = Math.round(0); // Always 0
+                bar.style.background = `rgb(${red}, ${green}, ${blue})`;
+            }
 
-          // Update share section if it's visible
-          const shareSection = document.getElementById("shareSection");
-          if (shareSection.style.display !== "none") {
+            // Update share section if it's visible
+            const shareSection = document.getElementById("shareSection");
             //const base = `${location.origin}${location.pathname}`;
             const base = `https://stagona.cy`;
             const url = base;
 
-            let summary =
-              lang === "el"
-                ? `Μόλις υπολόγισα την κατανάλωσή νερού μου: ${perDay.toFixed(
-                    1
-                  )} λίτρα/ημέρα ` +
-                  (perDay < avg
-                    ? `(${Math.abs(diffPct).toFixed(1)}% ${translations[currentLang]["result-below"]} των 140 λίτρων/ημέρα)`
-                    : `(${diffPct.toFixed(1)}% ${translations[currentLang]["result-above"]} των 140 λίτρων/ημέρα)`) +
-                  `. Δοκίμασέ το και εσύ: ${url}`
-                : `I just calculated my water consumption: ${perDay.toFixed(
-                    1
-                  )} liters/day ` +
-                  (perDay < avg
-                    ? `(${Math.abs(diffPct).toFixed(1)}% ${translations[currentLang]["result-below"]} of 140 liters/day)`
-                    : `(${diffPct.toFixed(1)}% ${translations[currentLang]["result-above"]} of 140 liters/day)`) +
-                  `. Try it yourself: ${url}`;
-
+            // Use DRY summary function
+            let summary = createSummary(perDay, diffPct, avg, url, lang);
             const enc = encodeURIComponent(summary);
 
             document.getElementById("shareTwitter").onclick = () =>
@@ -1363,7 +1365,6 @@
                 .then(() => showNotice(translations[lang]["copy-success"]));
           }
         }
-      }
 
       // Language toggle button click handler
       document.getElementById("langToggle").addEventListener("click", () => {
@@ -1379,8 +1380,6 @@
         const months = parseInt(document.getElementById("period").value);
         const people = parseInt(document.getElementById("people").value);
         const avg = 140;
-
-
 
         if (totalM3 <= 0) {
           showNotice(translations[currentLang]["negative-consumption"]);
@@ -1491,23 +1490,8 @@
         const params = `?total=${totalM3}&period=${months}&people=${people}`;
         const url = base;
 
-        let summary =
-          currentLang === "el"
-            ? `Μόλις υπολόγισα την κατανάλωσή νερού μου: ${perDay.toFixed(
-                1
-              )} λίτρα/ημέρα ` +
-              (perDay < avg
-                ? `(${Math.abs(diffPct).toFixed(1)}% ${translations[currentLang]["result-below"]} των 140 λίτρων/ημέρα)`
-                : `(${diffPct.toFixed(1)}% ${translations[currentLang]["result-above"]} των 140 λίτρων/ημέρα)`) +
-              `. Δοκίμασέ το και εσύ: ${url}`
-            : `I just calculated my water consumption: ${perDay.toFixed(
-                1
-              )} liters/day ` +
-              (perDay < avg
-                ? `(${Math.abs(diffPct).toFixed(1)}% ${translations[currentLang]["result-below"]} of 140 liters/day)`
-                : `(${diffPct.toFixed(1)}% ${translations[currentLang]["result-above"]} of 140 liters/day)`) +
-              `. Try it yourself: ${url}`;
-
+        // Use DRY summary function
+        let summary = createSummary(perDay, diffPct, avg, url, currentLang);
         const enc = encodeURIComponent(summary);
 
         document.getElementById("shareTwitter").onclick = () =>
