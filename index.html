@@ -759,7 +759,7 @@
             position: relative;
             z-index: 1;
         }
-
+        
         .share-section {
             margin-top: 1.5rem;
             padding: 0;
@@ -768,6 +768,16 @@
             border-radius: 0;
             line-height: 1.4;
             animation: fadeIn 0.5s ease-in-out;
+            box-sizing: border-box;
+        }
+        
+        .pledge-slider-section {
+            width: 100%;
+            padding: 1.5rem 0;
+            background: #e6f2ff;
+            border-radius: 8px;
+            text-align: center;
+            margin: 2rem 0 1rem 0;
             box-sizing: border-box;
         }
     </style>
@@ -848,6 +858,8 @@
             <i class="fas fa-info-circle info-icon info-icon-blue" id="whyInfo"></i>
         </div>
         <button id="reminderButton" type="button" class="reminder-button">📅 <span data-el="reminder-title"></span></button>
+
+        <!-- Pledge slider will now be injected dynamically into the results -->
 
         <p class="privacy-notice">
             <span data-el="contact-info-prefix"></span>
@@ -1081,6 +1093,8 @@
                 "jump-link-btn": "Υπολόγισέ το σε 1 λεπτό!",
                 "help-title": "Πώς να βρείτε την κατανάλωση νερού στον λογαριασμό σας",
                 "help-explanation": "Στον λογαριασμό σας, αναζητήστε την ενότητα \"Κατανάλωση\" ή \"Μετρήσεις\". Θα δείτε την ολική κατανάλωση σε κυβικά μέτρα (m³ ή κ.μ.) για την περίοδο χρέωσης. Εισάγετε αυτόν τον αριθμό στο πεδίο \"Συνολική κατανάλωση περιόδου\".",
+                "pledge-label": "Δεσμεύομαι να μειώσω την κατανάλωση νερού κατά:",
+                "pledge-estimate-label": "Νέος στόχος κατανάλωσης ανά άτομο ανά ημέρα:",
             },
             en: {
                 "app-title": "Stagona - Water Consumption Calculator",
@@ -1174,6 +1188,8 @@
                 "jump-link-btn": "Calculate it in 1 minute!",
                 "help-title": "How to find your water consumption on your bill",
                 "help-explanation": "On your bill, look for the section titled \"Consumption\" or \"Measurements\". You'll see the total consumption in cubic meters (m³) for the billing period. Enter this number into the \"Total period consumption\" field.",
+                "pledge-label": "I pledge to reduce my water usage by:",
+                "pledge-estimate-label": "New target consumption per person/day:",
             }
         };
 
@@ -1198,15 +1214,15 @@
             const translationsObj = translations[lang];
             if (lang === "el") {
                 return `Μόλις υπολόγισα την κατανάλωσή νερού μου: ${perDay.toFixed(1)} λίτρα/ημέρα ` +
-                    (perDay < avg
-                        ? `(${Math.abs(diffPct).toFixed(1)}% ${translationsObj["result-below"]} των 140 λίτρων/ημέρα)`
-                        : `(${diffPct.toFixed(1)}% ${translationsObj["result-above"]} των 140 λίτρων/ημέρα)`) +
+                    (perDay < avg ?
+                        `(${Math.abs(diffPct).toFixed(1)}% ${translationsObj["result-below"]} των 140 λίτρων/ημέρα)` :
+                        `(${diffPct.toFixed(1)}% ${translationsObj["result-above"]} των 140 λίτρων/ημέρα)`) +
                     `. Δοκίμασέ το και εσύ: ${url}`;
             } else {
                 return `I've just calculated my water consumption: ${perDay.toFixed(1)} liters/day ` +
-                    (perDay < avg
-                        ? `(${Math.abs(diffPct).toFixed(1)}% ${translationsObj["result-below"]} of 140 liters/day)`
-                        : `(${diffPct.toFixed(1)}% ${translationsObj["result-above"]} of 140 liters/day)`) +
+                    (perDay < avg ?
+                        `(${Math.abs(diffPct).toFixed(1)}% ${translationsObj["result-below"]} of 140 liters/day)` :
+                        `(${diffPct.toFixed(1)}% ${translationsObj["result-above"]} of 140 liters/day)`) +
                     `. Try it yourself: ${url}`;
             }
         }
@@ -1442,7 +1458,22 @@
           msg += `${translations[currentLang]["result-very-high"]}<br/><br/>${translations[currentLang]["result-very-high-desc"]}`;
         }
 
-        // Add share section within the results
+        // Insert pledge slider and estimate box here, before share section
+        msg += `
+        <div class="pledge-slider-section">
+            <label for="pledgeSlider" id="pledgeSliderLabel" style="font-weight: 500; display: block; margin-bottom: 1rem;"></label>
+            <input type="range" id="pledgeSlider" min="0" max="25" step="5" value="10" style="width: 80%;">
+            <div style="margin-top: 0.5rem; font-size: 1.1rem;">
+                <span id="pledgeValue">10%</span>
+            </div>
+            <!-- Pledge Estimate Box -->
+            <div id="pledgeEstimateBox" style="margin-top: 1.2rem; font-size: 0.98rem; background: #fff; color: #1976d2; border-radius: 6px; padding: 0.7rem 1rem; display: inline-block; box-shadow: 0 1px 4px rgba(0,0,0,0.07);">
+                <span id="pledgeEstimateLabel"></span>
+                <span id="pledgeEstimateValue" style="font-weight: bold; margin-left: 0.4em;">126</span> <span id="pledgeEstimateUnit">λίτρα</span>
+            </div>
+        </div>
+        `;
+                // Add share section within the results
         msg += `<br/><div class="share-section">
             <strong data-el="share-title"></strong>
             <div class="share-buttons">
@@ -1466,6 +1497,8 @@
                 </div>
             </div>
         </div>`;
+
+
 
         const result = document.getElementById("result");
         result.innerHTML = msg;
@@ -1534,6 +1567,63 @@
           navigator.clipboard
             .writeText(summary)
             .then(() => showNotice(translations[currentLang]["copy-success"]));
+
+        // Initialize pledge slider and estimate box logic after injection
+        const pledgeSlider = document.getElementById("pledgeSlider");
+        function updatePledgeLabel() {
+            const label = document.getElementById("pledgeSliderLabel");
+            if (label) {
+                label.textContent = translations[currentLang]["pledge-label"];
+            }
+            // Also update the estimate label and unit
+            const estimateLabel = document.getElementById("pledgeEstimateLabel");
+            if (estimateLabel) {
+                estimateLabel.textContent = translations[currentLang]["pledge-estimate-label"];
+            }
+            const estimateUnit = document.getElementById("pledgeEstimateUnit");
+            if (estimateUnit) {
+                estimateUnit.textContent = currentLang === "el" ? "λίτρα" : "liters";
+            }
+        }
+        function updatePledgeValue(val) {
+            const valueSpan = document.getElementById("pledgeValue");
+            if (valueSpan) {
+                valueSpan.textContent = val + "%";
+            }
+            // Update the estimate value using the calculated perDay value
+            const estimateValue = document.getElementById("pledgeEstimateValue");
+            if (estimateValue) {
+                const percent = parseInt(val, 10) || 0;
+                // Try to get the actual result value from the DOM
+                let perDay = 140;
+                const resultValueElem = document.querySelector('.result-value');
+                if (resultValueElem) {
+                    // Extract the number from the text, which is like "123.4 λίτρα" or "123.4 liters"
+                    const match = resultValueElem.textContent.match(/([\d.]+)/);
+                    if (match) {
+                        perDay = parseFloat(match[1]);
+                    }
+                }
+                const newLiters = (perDay * (1 - percent / 100)).toFixed(1);
+                estimateValue.textContent = newLiters;
+            }
+        }
+        if (pledgeSlider) {
+            updatePledgeValue(pledgeSlider.value);
+            pledgeSlider.addEventListener("input", function() {
+                updatePledgeValue(this.value);
+            });
+        }
+        updatePledgeLabel();
+
+        // Update pledge label on language change (patch updateLanguage)
+        if (!window._origUpdateLanguagePledge) {
+            window._origUpdateLanguagePledge = updateLanguage;
+            updateLanguage = function(lang) {
+                window._origUpdateLanguagePledge(lang);
+                updatePledgeLabel();
+            };
+        }
       });
 
       // Modal functionality
@@ -1756,6 +1846,127 @@
             history.replaceState(null, null, window.location.pathname + window.location.search);
         }
       });
+
+      // Add translations for the pledge slider label
+      translations.el["pledge-label"] = "Θα στοχεύσω να μειώσω την κατανάλωση νερού κατά:";
+      translations.en["pledge-label"] = "I pledge to reduce my water usage by:";
+
+      // Pledge slider logic
+      function updatePledgeLabel() {
+          const label = document.getElementById("pledgeSliderLabel");
+          if (label) {
+              label.textContent = translations[currentLang]["pledge-label"];
+          }
+          // Also update the estimate label and unit
+          const estimateLabel = document.getElementById("pledgeEstimateLabel");
+          if (estimateLabel) {
+              estimateLabel.textContent = translations[currentLang]["pledge-estimate-label"];
+          }
+          const estimateUnit = document.getElementById("pledgeEstimateUnit");
+          if (estimateUnit) {
+              estimateUnit.textContent = currentLang === "el" ? "λίτρα" : "liters";
+          }
+      }
+      function updatePledgeValue(val) {
+          const valueSpan = document.getElementById("pledgeValue");
+          if (valueSpan) {
+              valueSpan.textContent = val + "%";
+          }
+          // Update the estimate value using the calculated perDay value
+          const estimateValue = document.getElementById("pledgeEstimateValue");
+          if (estimateValue) {
+              const percent = parseInt(val, 10) || 0;
+              // Try to get the actual result value from the DOM
+              let perDay = 140;
+              const resultValueElem = document.querySelector('.result-value');
+              if (resultValueElem) {
+                  // Extract the number from the text, which is like "123.4 λίτρα" or "123.4 liters"
+                  const match = resultValueElem.textContent.match(/([\d.]+)/);
+                  if (match) {
+                      perDay = parseFloat(match[1]);
+                  }
+              }
+              const newLiters = (perDay * (1 - percent / 100)).toFixed(1);
+              estimateValue.textContent = newLiters;
+          }
+      }
+      // Initialize pledge slider
+      const pledgeSlider = document.getElementById("pledgeSlider");
+      if (pledgeSlider) {
+          updatePledgeValue(pledgeSlider.value);
+          pledgeSlider.addEventListener("input", function() {
+              updatePledgeValue(this.value);
+          });
+      }
+      updatePledgeLabel();
+      // Update pledge label on language change
+      const origUpdateLanguage = updateLanguage;
+      updateLanguage = function(lang) {
+          origUpdateLanguage(lang);
+          updatePledgeLabel();
+      };
+
+      function getPledgePhrase(lang) {
+          const slider = document.getElementById("pledgeSlider");
+          const val = slider ? parseInt(slider.value, 10) : 0;
+          if (val > 0) {
+              const liters = document.getElementById("pledgeEstimateValue")?.textContent || "";
+              if (lang === "el") {
+                  return `\nΔεσμεύομαι να μειώσω την κατανάλωση νερού κατά ${val}% (${liters} λίτρα).`;
+              } else {
+                  return `\nI pledge to reduce my water consumption by ${val}% (${liters} liters).`;
+              }
+          }
+          return "";
+      }
+
+      function getShareSummary(lang) {
+          let summary = createSummary(perDay, diffPct, avg, url, lang);
+          summary += getPledgePhrase(lang);
+          return summary;
+      }
+
+      document.getElementById("shareTwitter").onclick = () => {
+          const summary = getShareSummary(currentLang);
+          const enc = encodeURIComponent(summary);
+          window.open(`https://twitter.com/intent/tweet?text=${enc}`, "_blank");
+      };
+      document.getElementById("shareFacebook").onclick = () => {
+          const summary = getShareSummary(currentLang);
+          const enc = encodeURIComponent(summary);
+          window.open(
+              `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${enc}`,
+              "_blank"
+          );
+      };
+      document.getElementById("shareWhatsApp").onclick = () => {
+          const summary = getShareSummary(currentLang);
+          const enc = encodeURIComponent(summary);
+          window.open(`https://wa.me/?text=${enc}`, "_blank");
+      };
+      document.getElementById("shareViber").onclick = () => {
+          const summary = getShareSummary(currentLang);
+          const enc = encodeURIComponent(summary);
+          window.open(`viber://forward?text=${enc}`, "_blank");
+      };
+      document.getElementById("shareEmail").onclick = () => {
+          try {
+              const summary = getShareSummary(currentLang);
+              const enc = encodeURIComponent(summary);
+              const subject = currentLang === "el" ? "Κατανάλωση νερού" : "Water Consumption";
+              const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${enc}`;
+              window.open(mailtoLink, "_blank");
+          } catch (err) {
+              console.error('Failed to open email client:', err);
+              showNotice(currentLang === "el" ? "Αποτυχία ανοίγματος email" : "Failed to open email client");
+          }
+      };
+      document.getElementById("copySummary").onclick = () => {
+          const summary = getShareSummary(currentLang);
+          navigator.clipboard
+              .writeText(summary)
+              .then(() => showNotice(translations[lang]["copy-success"]));
+      };
     </script>
 </body>
 
