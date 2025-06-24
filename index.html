@@ -4,6 +4,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Stagona">
+
+
     <title data-el="app-title"></title>
     <!-- Font Awesome via CDNJS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" referrerpolicy="no-referrer" />
@@ -1909,8 +1913,8 @@
             
             // Show success message
             const successMsg = currentLang === 'el' 
-                ? 'Η υπενθύμιση προστέθηκε στον ημερολόγιο σας!' 
-                : 'Reminder added to your calendar!';
+                ? 'Η υπενθύμιση προστέθηκε στον ημερολόγιο σας. Μη ξεχάσετε να καταγράψτε την ένδειξη του μετρητή νερού σας σήμερα.' 
+                : 'Reminder added to your calendar. Don\'t forget to record your water meter reading today.';
             showNotice(successMsg);
         };
       }
@@ -2108,6 +2112,12 @@
               .writeText(summary)
               .then(() => showNotice(translations[lang]["copy-success"]));
       };
+
+      if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then(() => console.log('SW registered'))
+      .catch(console.error);
+  }
     </script>
 </body>
 
