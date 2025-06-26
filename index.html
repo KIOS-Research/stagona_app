@@ -969,7 +969,7 @@
         >, <a href="https://www.kios.ucy.ac.cy" target="_blank"
           >KIOS Research and Innovation Center of Excellence</a
         >, <a href="https://www.ucy.ac.cy" target="_blank">University of Cyprus. </a> <br>Copyright © 2025 KIOS CoE, UCY. All rights reserved.<br>
-
+        <span id="footerVersion"></span>
     </div>
 
     <!-- Modal -->
@@ -1445,6 +1445,12 @@
             document.getElementById("langToggle").title =
                 lang === "el" ? "English" : "Ελληνικά";
             currentLang = lang;
+
+            // Update footer version number
+            const footerVersion = document.getElementById("footerVersion");
+            if (footerVersion) {
+                footerVersion.textContent = `${translations[lang]["version-title"]}: ${translations[lang]["version-number"]}`;
+            }
 
             // Update existing results if they are displayed
             const result = document.getElementById("result");
