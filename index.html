@@ -19,11 +19,11 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 
+    <script src="translations.js"></script>
     <script defer src="main.js"></script>
 </head>
 
 <body>
-    <!-- Snackbar for PWA install prompt -->
     <div id="installSnackbar" class="install-snackbar" hidden>
         <span id="installSnackbarText"></span>
         <button id="installSnackbarBtn"></button>
@@ -104,8 +104,6 @@
         </div>
         <button id="reminderButton" type="button" class="reminder-button">📅 <span data-el="reminder-title"></span></button>
 
-        <!-- Pledge slider will now be injected dynamically into the results -->
-
         <p class="privacy-notice">
             <span data-el="contact-info-prefix"></span>
             <a href="#" id="contactEmail" class="email-link">kios-dwic@ucy.onmicrosoft.com</a>
@@ -113,8 +111,6 @@
         <p class="privacy-notice">
             <a href="https://github.com/KIOS-Research/stagona_app/blob/main/privacy_policy.md" target="_blank" class="privacy-link">Privacy Policy:</a> <span data-el="privacy-notice"></span>
         </p>
-
-
     </div>
 
     <!-- Example Modal -->
@@ -145,7 +141,7 @@
         <span id="footerVersion"></span>
     </div>
 
-    <!-- Modal -->
+    <!-- About Modal -->
     <div class="modal" id="aboutModal">
         <div class="modal-content">
             <i class="fas fa-times modal-close" id="modalClose"></i>
@@ -256,216 +252,7 @@
 
     <script>
         // Translations object
-        const translations = {
-            el: {
-                "app-title": "Stagona - Υπολογιστής Κατανάλωσης Νερού",
-                "info-title": "Πληροφορίες",
-                "title": "Σταγονο-μετρώ!",
-                "intro-question": "Γνωρίζεις πόσα λίτρα νερού χρησιμοποιείς κάθε μέρα;<br>Πώς συγκρίνεσαι με το μέσο Κύπριο;",
-                "intro-instructions": "<strong>Οδηγίες</strong>: Βρες ένα <em>πρόσφατο τιμολόγιο</em> από τον οργανισμό υδροδότησής σου, εντόπισε την <em>ολική κατανάλωση</em> σε κυβικά μέτρα (κ.μ. ή m³)*, συμπλήρωσε τα στοιχεία και υπολόγισε πόσα λίτρα νερό χρησιμοποιείς κάθε ημέρα στο σπίτι σου.<br>* 1 κ.μ = 1000 L",
-                "total-label": "Συνολική κατανάλωση περιόδου (σε m³ ή κ.μ.):",
-                "period-label": "Περίοδος κατανάλωσης (σε μήνες):",
-                "period-select": "Επιλέξτε περίοδο ή ΕΟΑ",
-                "period-1": "1 μήνας",
-                "period-2": "2 μήνες (ΕΟΑ Λευκωσίας)",
-                "period-3": "3 μήνες (ΕΟΑ Λάρνακας, Πάφου, Αμμοχώστου)",
-                "period-4": "4 μήνες (ΕΟΑ Λεμεσού)",
-                "people-label": "Αριθμός ατόμων που κατοικούν στο σπίτι:",
-                "calc-button": "Υπολόγισε & Σύγκρινε",
-                "privacy-notice": "Δεν συλλέγουμε προσωπικά δεδομένα μέσω της εφαρμογής, μόνο ανώνυμες στατιστικές του ιστοτόπου.",
-                "privacy-title": "Απόρρητο",
-                "privacy-desc": "Δεν συλλέγουμε προσωπικά δεδομένα μέσω της εφαρμογής, μόνο ανώνυμες στατιστικές του ιστοτόπου.",
-                "liters": "λίτρα",
-                "about-title": "Σχετικά με το Stagona App",
-                "about-desc": "Η εφαρμογή σχεδιάστηκε για να βοηθήσει τα νοικοκυριά στην Κύπρο να κατανοήσουν και να βελτιστοποιήσουν την κατανάλωση νερού τους. Η εφαρμογή συγκρίνει την οικιακή κατανάλωση νερού ανά άτομο ανά ημέρα, με τον μέσο όρο της Κύπρου, και παρέχει συστάσεις για την εξοικονόμηση νερού.",
-                "how-to-title": "Πώς να το χρησιμοποιήσετε",
-                "how-to-1": "1. Βρείτε τον λογαριασμό κατανάλωσης νερού σας, ή υπολογίστε τη διαφορά από τον υδρομετρητής σας.",
-                "how-to-2": "2. Εισάγετε τη συνολική κατανάλωση νερού σας σε κυβικά μέτρα (m³).",
-                "how-to-3": "3. Επιλέγετε την ορθή περίοδο χρέωσης (ή περίοδο υπολογισμού).",
-                "how-to-4": "4. Εισάγετε τον αριθμό των ατόμων που έχουν ως συνήθη κατοικία τους το νοικοκυριό.",
-                "how-to-5": '5. Κάντε κλικ στο "Υπολόγισε & Σύγκρινε" για να δείτε τα αποτελέσματα.',
-                "tips-title": "Συμβουλές εξοικονόμησης",
-                "tip-1": "🚿 <b>Ντους:</b> Κλείνετε τη βρύση όταν δεν χρειάζεται, και στοχεύστε στα 5 λεπτά συνεχούς ροής (≈ 50L), αντί για 9 λεπτά που διαρκεί ένα μέσο μπάνο (≈ 90L)  που αντιστοιχεί 65% της καθημερινής κατανάλωσης!.",
-                "tip-2": "🪣 <b>Κρύο νερό ντους:</b> Συλλέγετε το κρύο νερό σε κουβά μέχρι να ζεσταθεί (≈ 8-10 L) για καζανάκι ή φυτά.",
-                "tip-3": "💧 <b>Έλεγχος για διαρροές:</b> Ελέξτετε την ένδειξη του μετρητή όταν λείπετε για περισσότερες από 2 ώρες. Αν υπάρχει κίνηση, μπορεί να υπάρχει διαρροή, η οποία να χάνει 300-900 λίτρα την ημέρα, που ισοδυναμεί στη κατανάλωση 4-6 ατόμων!",
-                "tip-4": "👚 <b>Πλυντήριο ρούχων:</b> Λειτουργήστε το μόνο γεμάτο, σε πρόγραμμα Eco (≈ 45L), όποτε ειναι δυνατό, αντί για άλλα που απαιτούν περισσότερα από 100L.",
-                "tip-5": "🍽️ <b>Πλυντήριο πιάτων:</b> Γεμίζετε πλήρως πριν τη χρήση (≈ 11-20L), αντί πλυσίματος στο χέρι (μέχρι 100L).",
-                "tip-6": "🌱 <b>Ξηρανθεκτικά φυτά:</b> Επιλέξτε φυτά που αντέχουν στην ξηρασία για τον κήπο, όπως το Λασμαρί, η Λεβάντα, το Αγιόκλημα, ο Σχίνος, το Φούλι, κλπ.",
-                "tip-7": "🧹 <b>Καθάρισμα βεράντας:</b> Σκουπίζετε και ρίξτε 1-2 κουβάδες νερού (≈ 20 L) αντί 5 λεπτά βρέξιμο με λάστιχο (≈ 100 L).",
-                "tip-8": "🌿 <b>Πότισμα:</b> Γεμίστε κουβάδες (≈ 10 L ο ένας) και ποτίστε στοχευμένα. Ποτίζοντας με λάστιχο ανοικτό για 10 λεπτά, χάνονται 300L νερό, που αντιστοιχεί στη κατανάλωση 2 ατόμων!",
-                "tip-9": "🪥 <b>Βούρτσισμα & ξύρισμα:</b> Κλείνετε τη βρύση όσο βουρτσίζετε δόντια ή ξυρίζεστε (< 2 λίτρα) αντί για 3 λεπτα ανοιχτής ροής που αντιστοιχεί σε 20 λίτρα!",
-                "tip-10": "🌄 <b>Πότισμα αυγή/σούρουπο:</b> Περιορίζει την εξάτμιση έως 30%.",
-                "tip-11": "🚗 <b>Πλύσιμο αυτοκινήτου:</b> Επιλέξτε 2 κουβάδες με σφουγγάρι (≈ 20 L) αντί για λάστιχο που αντιστοιχεί σε 400 λίτρα.",
-                "result-title": "Μέση κατανάλωση ανά άτομο ανά ημέρα",
-                "result-diff": "Διαφορά από το μέσο όρο στην Κύπρο (≈140 λίτρα ανά άτομο ανά ημέρα)",
-                "result-below": "κάτω από μέσο όρο",
-                "result-above": "πάνω από μέσο όρο",
-                "result-excellent": "Εξαιρετικά! Καταναλώνετε πολύ λιγότερο από τη μέση κατανάλωση στην Κύπρο.",
-                "result-excellent-desc": "Ενδεικτικά, αν όλοι οι πολίτες είχαν τουλάχιστο 20% λιγότερη κατανάλωση, θα εξοικονομούσαμε περίπου 10 εκατ. m³ νερού ετησίως, που θα αρκούσε για να υδροδοτηθούν 200,000 άτομα για ένα χρόνο (που αντιστοιχεί στο πληθυσμό της Επαρχίας Λάρνακας και Αμμοχώστου)! <br><br> Συνεχίστε έτσι και βοηθήστε να εδραιωθεί η υδατική συνείδηση στην Κύπρο!",
-                "result-good": "Πολύ καλά! Καταναλώνετε λιγότερο από τη μέση κατανάλωση στην Κύπρο.",
-                "result-good-desc": "Ενδεικτικά, αν όλοι οι πολίτες είχαν τουλάχιστο 10% λιγότερη κατανάλωση, θα εξοικονομούσαμε περίπου 5 εκατ. m³ νερού ετησίως, που θα αρκούσε για να υδροδοτηθούν 100,000 άτομα για ένα χρόνο (που αντιστοιχεί στο πληθυσμό της Επαρχίας Πάφου)! <br><br> Συνεχίστε έτσι, και με κάποιες μικρές αλλαγές, όπως πιο σύντομα ντους κατά 1-2 λεπτά, αποφυγή χρήσης λαστίχου για πότισμα, και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στους κορυφαίους καταναλωτές!",
-                "result-average": "Μπράβο! είστε ελαφρώς κάτω από τον μέσο όρο.",
-                "result-average-desc": "Ενδεικτικά, αν όλοι οι πολίτες είχαν παρόμοια κατανάλωση, θα εξοικονομούσαμε σχεδόν 2.5 εκατ. m³ ετησίως, που θα αρκούσε για να υδροδοτηθούν 50,000 άτομα για ένα χρόνο (που αντιστοιχεί στο πληθυσμό της Επαρχίας Αμμοχώστου)! <br><br> Συνεχίστε έτσι, και με κάποιες στοχευμένες αλλαγές, όπως πιο σύντομα ντους κατά 2-3 λεπτά, αποφυγή χρήσης λαστίχου για πότισμα και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στο στόχο της μείωσης κατά 10% της μέσης σημερινής κατανάλωσης (≈ 125 λίτρα ανά άτομο ανά ημέρα)!",
-                "result-slightly-high": "Είστε λίγο πάνω από το μέσο όρο, όμως με μερικές απλές κινήσεις μπορείτε να το αλλάξετε αυτό!",
-                "result-slightly-high-desc": "Ξεπερνάτε τον μέσο όρο κατανάλωσης νερού στην Κύπρο, που αντιστοιχεί σε 140 λίτρα ανά άτομο ανά ημερα. Μειώνοντας το ντους μόλις κατά 2-3 λεπτά (≈ 20-30 λίτρα), μπορείτε να φτάσετε εύκολα το μέσο όρο!<br><br> Επιπρόσθετα, με κάποιες στοχευμένες αλλαγές, όπως αποφυγή χρήσης λαστίχου για πότισμα (≈ 15-30 λίτρα κάθε λεπτό), και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στο στόχο της μείωσης κατά 10% της μέσης σημερινής κατανάλωσης (≈ 125 λίτρα ανά άτομο ανά ημέρα)!",
-                "result-high": "Είστε πάνω από το μέσο όρο, όμως με μερικές μικρές αλλαγές, μπορείτε να είστε στους καλύτερους καταναλωτές!",
-                "result-high-desc": "Ξεπερνάτε τον μέσο όρο κατανάλωσης νερού στην Κύπρο, που αντιστοιχεί σε 140 λίτρα ανά άτομο ανά ημερα. Μειώνοντας το ντους μόλις κατά 2-3 λεπτά (≈ 20-30 λίτρα), μπορείτε να φτάσετε εύκολα το μέσο όρο!  <br><br> Επιπρόσθετα, με κάποιες στοχευμένες αλλαγές, όπως αποφυγή χρήσης λαστίχου για πότισμα (≈ 15-30 λίτρα κάθε λεπτό), και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στο στόχο της μείωσης κατά 10% της μέσης σημερινής κατανάλωσης (≈ 125 λίτρα ανά άτομο ανά ημέρα)!",
-                "result-very-high": "Είστε αρκετά πάνω από το μέσο όρο, όμως με μερικές δραστικές κινήσεις μπορείτε να το αλλάξετε αυτό!",
-                "result-very-high-desc": "Ξεπερνάτε σημαντικά τον μέσο όρο κατανάλωσης νερού στην Κύπρο, που αντιστοιχεί σε 140 λίτρα ανά άτομο ανά ημερα. Θα ήταν καλό να ελέγξετε την οικία σας για τυχόν διαρροές. Παράλληλα, μειώνοντας το ντους μόλις κατά 2-3 λεπτά (≈ 20-30 λίτρα), και εφαρμόζοντας κάποιες άλλες πρακτικές συμβουλές, μπορείτε να φτάσετε το μέσο όρο!  <br><br> Επιπρόσθετα, με κάποιες στοχευμένες αλλαγές, όπως αποφυγή χρήσης λαστίχου για πότισμα (≈ 15-30 λίτρα κάθε λεπτό), και χρήση πλυντηρίου με πλήρες γέμισμα, θα σας φέρουν ακόμη πιο κοντά στο στόχο της μείωσης κατά 10% της μέσης σημερινής κατανάλωσης (≈ 125 λίτρα ανά άτομο ανά ημέρα)!",
-                "share-title": "Καθορίστε το στόχο σας, και μοιραστείτε τον με οικογένεια και φίλους:",
-                "copy-success": "Αντιγράφηκε!",
-                "email-subject": "Κατανάλωση νερού",
-                "fill-fields": "Παρακαλώ συμπληρώστε σωστά όλα τα πεδία.",
-                "negative-consumption": "Η κατανάλωση νερού δεν μπορεί να είναι μηδέν ή αρνητική.",
-                "negative-people": "Ο αριθμός των ατόμων δεν μπορεί να είναι μηδέν ή αρνητικός.",
-                "total-placeholder": "π.χ., 30",
-                "people-placeholder": "π.χ., 4",
-                "copy-summary": "Αντέγραψε περίληψη",
-                "version-title": "Έκδοση",
-                "version-number": "1.0.0",
-                "contact-info": "Για βελτιώσεις και εισηγήσεις, παρακαλούμε επικοινωνήστε μαζί μας στο kios-dwic@ucy.onmicrosoft.com",
-                "contact-info-prefix": "Για βελτιώσεις και εισηγήσεις, παρακαλούμε επικοινωνήστε μαζί μας στο ",
-                "example-link": "[βοήθεια]",
-                "email-copied": "Το email αντιγράφηκε!",
-                "scarcity-msg": "Η Κύπρος βιώνει το σοβαρότερο χρόνιο υδατικό στρες στην Ευρώπη, ενώ ταυτόχρονα <em>η έλλειψη νερού επηρεάζει το 30% των Ευρωπαίων</em>.",
-                "why-msg": "Ενώ η ετήσια βροχόπτωση μειώνεται σταθερά, η ζήτηση νερού αυξάνεται. <em>Στην Κύπρο χρησιμοποιούμε 140 λίτρα ανά άτομο την ημέρα, ενώ ο μέσος όρος στην ΕΕ ειναι 124  λίτρα</em>.",
-                "action-msg": "Μειώνοντας έστω κατά λίγα λεπτά την ατομική μας κατανάλωση*, μπορούμε να εξοικονομήσουμε σημαντικές ποσότητες νερού. <em>Πρακτικά, ως κοινωνία του 1 εκατ. κατοίκων, ένα λεπτό λιγότερο τρεχούμενο νερό (≈ 10 L) εξοικονομεί αρκετό νερό για 70,000 συνανθρώπους μας τον χρόνο</em>! <br><br><small>*Ντους≈ 10 λίτρα ανά λεπτό,  Πότισμα με λάστιχο≈ 15-30 λίτρα ανά λεπτό.</small>",
-                "reminder-title": "Υπενθύμιση σε 1 μήνα",
-                "progress-reminder-msg": "Βάλτε υπενθύμιση για να επαναλάβετε τον υπολογισμό σε 30 ημέρες και να μετρήσετε την πρόοδό σας! (καταγράψτε την ένδειξη στον μετρητή σας σήμερα.)",
-                "stress-info-title": "Τι είναι το χρόνιο υδατικό στρες;",
-                "stress-info-1": "Το χρόνιο υδατικό στρές είναι μια κατάσταση όπου η ζήτηση νερού υπερβαίνει τη διαθεσιμότητα για μεγάλο χρονικό διάστημα. <b>Αυτό σημαίνει ότι στην Κύπρο, καταναλώνουμε περισσότερο νερό από αυτό που μπορεί να αναπληρώσει φυσικά η βροχόπτωση</b>. ",
-                "stress-info-2": "Σύμφωνα με την Ευρωπαϊκή Επιτροπή, η Κύπρος αντιμετωπίζει υψηλό επίπεδο υδατικού στρες (>40%), που την τοποθετεί ανάμεσα στις πιο ευάλωτες χώρες της Ευρώπης. <b>Ενδεικτικά, οι διαθέσιμοι φυσικοί υδάτινοι πόροι ειναι μόλις 390 κυβικά μέτρα (κ.μ.) ανά έτος ανά άτομο, τη στιγμή που το όριο ακραίας λειψυδρίας καθορίζεται στα 500 κ.μ./έτος και το όριο λειψυδρίας στα 1.000 κ.μ./έτος</b>. Σε ευρωπαϊκό επίπεδο, η λειψυδρία και οι ξηρασίες κοστίζουν έως € 9 δισ. τον χρόνο, πλήττουν το 30% των πολιτών και το 20% της γης κάθε έτος, ενώ σχεδόν οι μισοί Ευρωπαίοι τις θεωρούν τη μεγαλύτερη απειλή για τα υδάτινα αποθέματα της χώρας τους.",
-                "stress-info-3": "Οι κύριοι παράγοντες που επιβαρύνουν το υδατικό στρες, είναι η αύξηση του πληθυσμού, η τουριστική ανάπτυξη, η αγροτική δραστηριότητα, και η κλιματική αλλαγή που προκαλεί σημαντική μείωση στη βροχόπτωση. <b>Παράλληλα, η ζήτηση νερού στην Κύπρο την περίοδο 2019-2023, αυξήθηκε κατά 15%</b>. ",
-                "stress-info-4": "Σήμερα, υπολογίζεται ότι η μέση οικιακή κατανάλωση παραμένει στα 140 λίτρα ανά άτομο την ημέρα, ενώ ο μέσος όρος στην ΕΕ έχει πέσει στα 124 λίτρα ανά άτομο.",
-                "stress-info-5": "",
-                "action-info-title": "Πώς μικρές αλλαγές κάνουν μεγάλη διαφορά;",
-                "action-info-1": "Πέραν από τις αφαλατώσεις, την εφαρμογή νέων τεχνολογιών και αναβάθμιση των δικτύων για μείωση των απωλειών, <b>χρειάζεται να κάνουμε συντηρητική χρήση νερού</b>. Κάθε λίτρο που εξοικονομούμε βοηθάει να διατηρήσουμε τα υπόγεια νερά και να μειώσουμε την εξάρτηση από τις αφαλατώσεις, που είναι ενεργειακά ακριβές και περιβαλλοντικά επιβαρυντικές, ενώ βοηθούμε στο να διασφαλίσουμε επαρκείς ποσότητες καλής ποιότητας νερού για την γεωργία.",
-                "action-info-2": "Η μείωση κατά 1 λεπτό χρήσης νερού ανά άτομο ανά ημέρα μπορεί να φαίνεται μικρή, αλλά πολλαπλασιασμένη με τον πληθυσμό της Κύπρου (~1 εκατομμύριο) δημιουργεί τεράστια επίδραση (1 λεπτό × 10 λίτρα/λεπτό × 1 εκατομμύρια άτομα × 365 ημέρες = 3.65 εκατομμύρια m³ νερού ετησίως, που αντιστοιχεί στον ολικό όγκο των φραγμάτων της Λευκωσίας, ή στο φράγμα Πολεμιδιών!)",
-                "action-info-3": "Αυτή η ποσότητα νερού μπορεί να υδροδοτήσει 70,000 άτομα για ένα χρόνο, ή να καλύψει σχεδόν τις ανάγκες της Επαρχίας Πάφου.",
-                "action-info-4": "Επιπλέον, η εξοικονόμηση νερού δίνει μεγαλύτερη <b>ευελιξία στην αξιοποίηση των ποσοτήτων που παραμένουν στα φράγματα</b>, σε συνδυασμό με την αφαλάτωση, μειώνοντας το κόστος για τον καταναλωτή, καθώς και τις εκπομπές αερίων θερμοκηπίου.",
-                "action-info-5": "Μικρές αλλαγές όπως: κλείσιμο της βρύσης κατά το ντους (εξοικονόμηση 40 λίτρα), βούρτσισμα δοντιών (15 λίτρα), και αποφυγή χρήσης λαστίχου (στο οποίο κάθε λεπτό φεύγουν 15-30L) μπορούν εύκολα να φέρουν σημαντικές καθημερινές εξοικονομήσεις.",
-                "why-info-title": "Υπολογίστε μόνοι σας την πρόοδό σας!",
-                "why-info-1": "Η παρακολούθηση της κατανάλωσης νερού μας είναι το πρώτο βήμα για τη δημιουργία συνείδησης και την εξοικονόμηση. Όταν γνωρίζουμε πόσο νερό χρησιμοποιούμε, μπορούμε να εντοπίσουμε περιττές χρήσεις και να κάνουμε πιο συνειδητές επιλογές. Πιο κάτω περιγράφουμε τη διαδικασία υπολογισμού της μηνιαίας κατανάλωσή σας.",
-                "why-info-2": "📸 <b>Αρχική μέτρηση:</b> Σημειώστε τους μαύρους αριθμούς (m³ ή κ.μ.) & τα κόκκινα ψηφία (λίτρα) και βγάλτε φωτογραφία.",
-                "why-info-3": "⏳ <b>Αναμονή 30 ημερών:</b> Χρησιμοποιήστε το νερό φυσιολογικά (αφαιρέστε οποιαδήποτε άλλη χρήση όπως γέμισμα πισίνας).",
-                "why-info-4": "📸 <b>Τελική μέτρηση:</b> Διαβάστε ξανά τους αριθμούς & φωτογραφίστε.",
-                "why-info-5": "➖ <b>Υπολογισμός:</b> Τελική – Αρχική = κατανάλωση σε m³ (σημείωση: τα κόκκινα ψηφία ειναι δεκαδικά).",
-                "why-info-6": "📅 <b>Επανέλεγχος με Stagona.cy:</b> Περάστε τα στοιχεία και επιλέξτε την επιλογή 1 Μήνας για την χρονική περίοδο.",
-                "jump-link-btn": "Υπολόγισέ το σε 1 λεπτό!",
-                "help-title": "Πώς να βρείτε την κατανάλωση νερού στον λογαριασμό σας",
-                "help-explanation": "Στον λογαριασμό σας, αναζητήστε την ενότητα \"Κατανάλωση\" ή \"Μετρήσεις\". Θα δείτε την ολική κατανάλωση σε κυβικά μέτρα (m³ ή κ.μ.) για την περίοδο χρέωσης. Εισάγετε αυτόν τον αριθμό στο πεδίο \"Συνολική κατανάλωση περιόδου\".",
-                "pledge-label": "Δεσμεύομαι να μειώσω την κατανάλωση νερού κατά:",
-                "pledge-estimate-label": "Νέος στόχος κατανάλωσης ανά άτομο ανά ημέρα:",
-                "tips-parents-title": "Συμβουλές για γονείς",
-                "tip-parent-1": "🛁 <b>Παιχνίδι στο ντους:</b> Βάλτε ένα τραγούδι 4-5 λεπτών για να τελειώσουν το μπάνιο μέσα σε εκείνη την ώρα. Διαφορετικά μπορείτε να βάλετε νερό στη μπανιέρα για 2-3 λεπτά, για παιχνίδι, και μετά να συλλέξετε το νερό σε κουβάδες.",
-                "tip-parent-2": "🪥 <b>\"Κλείσε-και-ξέπλυνε\":</b> Διδάξτε στα παιδιά να κλείνουν τη βρύση ενώ βουρτσίζουν δόντια ή σαπουνίζονται.",
-                "tip-parent-3": "💧 <b>Ανιχνευτής διαρροών:</b> Αναθέστε στα παιδιά να ελέγχουν τον μετρητή πριν και μετά που θα απουσιάζετε από το σπίτι. Μπορούν να φωτογραφίζουν το μετρητή, και να υπολογίζουν μαζί σας κάθε λίγες ημέρες, πόσο νερό κατανάλωσαν.",
-            },
-            en: {
-                "app-title": "Stagona - Water Consumption Calculator",
-                "info-title": "Information",
-                "title": "Drop-meter!",
-                "intro-question": "Do you know how many liters of water you use every day?<br>How do you compare to the average Cypriot?",
-                "intro-instructions": "<strong>Instructions</strong>: Find a <em>recent bill</em> from your water utility organization, locate the <em>total consumption</em> in cubic meters (m³), fill in the details and calculate how many liters of water you use every day in your home.",
-                "total-label": "Total period consumption (in m³):",
-                "period-label": "Consumption period (in months):",
-                "period-select": "Select period or EOA",
-                "period-1": "1 month",
-                "period-2": "2 months (EOA Nicosia)",
-                "period-3": "3 months (EOA Larnaca, Paphos, Famagusta)",
-                "period-4": "4 months (EOA Limassol)",
-                "people-label": "Number of people residing in the house:",
-                "calc-button": "Calculate & Compare",
-                "privacy-notice": "We do not collect personal data through the app, only anonymous website statistics.",
-                "privacy-title": "Privacy",
-                "privacy-desc": "We do not collect personal data through the app, only anonymous website statistics.",
-                "liters": "liters",
-                "about-title": "About Stagona App",
-                "about-desc": "The app was designed to help households in Cyprus understand and optimize their water consumption. The app compares household water consumption per person per day with the average in Cyprus, and provides recommendations for water savings.",
-                "how-to-title": "How to use it",
-                "how-to-1": "1. Find your water consumption bill, or calculate the difference from your water meter.",
-                "how-to-2": "2. Enter your total water consumption in cubic meters (m³).",
-                "how-to-3": "3. Select the correct billing period (or calculation period).",
-                "how-to-4": "4. Enter the number of people who have this household as their regular residence.",
-                "how-to-5": '5. Click "Calculate & Compare" to see the results.',
-                "tips-title": "Water Saving Tips",
-                "tip-1": "🚿 <b>Shower:</b> Turn off the tap when not needed, and aim for 5 minutes of continuous flow (≈ 50L), instead of 9 minutes for an average shower (≈ 90L) which accounts for 65% of daily consumption!",
-                "tip-2": "🪣 <b>Cold shower water:</b> Collect cold water in a bucket until it gets hot (≈ 8-10 L) for toilet flushing or plants.",
-                "tip-3": "💧 <b>Leak detection:</b> Check your meter reading when you're away for more than 2 hours. If there's movement, there might be a leak, which can waste 300-900 liters per day, equivalent to the consumption of 4-6 people!",
-                "tip-4": "👚 <b>Washing machine:</b> Operate only when full, on Eco program (≈ 45L), whenever possible, instead of others that require more than 100L.",
-                "tip-5": "🍽️ <b>Dishwasher:</b> Fill completely before use (≈ 11-20L), instead of hand washing (up to 100L).",
-                "tip-6": "🌱 <b>Drought-resistant plants:</b> Choose plants that withstand drought for your garden, such as Rosemary, Lavender, Sage, Pistachio, Thyme, etc.",
-                "tip-7": "🧹 <b>Balcony cleaning:</b> Sweep and pour 1-2 buckets of water (≈ 20 L) instead of 5 minutes of hose spraying (≈ 100 L).",
-                "tip-8": "🌿 <b>Watering:</b> Fill buckets (≈ 10 L each) and water targeted areas. Watering with an open hose for 10 minutes wastes 300L of water, equivalent to the consumption of 2 people!",
-                "tip-9": "🪥 <b>Brushing & shaving:</b> Turn off the tap while brushing teeth or shaving (< 2 liters) instead of 3 minutes of open flow which corresponds to 20 liters!",
-                "tip-10": "🌄 <b>Dawn/dusk watering:</b> Reduces evaporation by up to 30%.",
-                "tip-11": "🚗 <b>Car washing:</b> Choose 2 buckets with sponge (≈ 20 L) instead of hose which corresponds to 400 liters.",
-                "result-title": "Average consumption per person/day",
-                "result-diff": "Difference from average in Cyprus (≈140 liters per person per day)",
-                "result-below": "below average",
-                "result-above": "above average",
-                "result-excellent": "Excellent! You consume much less than the average consumption in Cyprus.",
-                "result-excellent-desc": "Indicatively, if all citizens had at least 20% less consumption, we would save about 10 million m³ of water annually, which would be enough to supply 200,000 people for a year (equivalent to the population of Larnaca and Famagusta Districts)! <br><br> Keep it up and help establish water consciousness in Cyprus!",
-                "result-good": "Very good! You consume less than the average consumption in Cyprus.",
-                "result-good-desc": "Indicatively, if all citizens had at least 10% less consumption, we would save about 5 million m³ of water annually, which would be enough to supply 100,000 people for a year (equivalent to the population of Paphos District)! <br><br> Keep it up, and with some small changes, such as shorter showers by 1-2 minutes, avoiding hose use for watering, and using washing machine with full load, you'll get even closer to being among the top consumers!",
-                "result-average": "Well done! You are slightly below average.",
-                "result-average-desc": "Indicatively, if all citizens had similar consumption, we would save almost 2.5 million m³ annually, which would be enough to supply 50,000 people for a year (equivalent to the population of Famagusta District)! <br><br> Keep it up, and with some targeted changes, such as shorter showers by 2-3 minutes, avoiding hose use for watering and using washing machine with full load, you'll get even closer to the goal of reducing by 10% the current average consumption (≈ 125 liters per person per day)!",
-                "result-slightly-high": "You are slightly above average, but with a few changes, you can be return to the top performers!",
-                "result-slightly-high-desc": "You exceed the average water consumption in Cyprus, which corresponds to 140 liters per person per day. By reducing your shower by just 2-3 minutes (≈ 20-30 liters), you can easily reach the average!<br><br> Additionally, with some targeted changes, such as avoiding hose use for watering (≈ 15-30 liters per minute), and using washing machine with full load, you'll get even closer to the goal of reducing by 10% the current average consumption (≈ 125 liters per person per day)!",
-                "result-high": "You are above average, but with some simple moves you can change this!",
-                "result-high-desc": "You exceed the average water consumption in Cyprus, which corresponds to 140 liters per person per day. By reducing your shower by just 2-3 minutes (≈ 20-30 liters), you can easily reach the average!  <br><br> Additionally, with some targeted changes, such as avoiding hose use for watering (≈ 15-30 liters per minute), and using washing machine with full load, you'll get even closer to the goal of reducing by 10% the current average consumption (≈ 125 liters per person per day)!",
-                "result-very-high": "You are quite above average, but with some changes, you can get back on track!",
-                "result-very-high-desc": "You significantly exceed the average water consumption in Cyprus, which corresponds to 140 liters per person per day. It would be good to check your home for any leaks. At the same time, by reducing your shower by just 2-3 minutes (≈ 20-30 liters), and applying some other practical tips, you can reach the average!  <br><br> Additionally, with some targeted changes, such as avoiding hose use for watering (≈ 15-30 liters per minute), and using washing machine with full load, you'll get even closer to the goal of reducing by 10% the current average consumption (≈ 125 liters per person per day)!",
-                "share-title": "Set your target, and share with friends and family:",
-                "copy-success": "Copied!",
-                "email-subject": "Water Consumption",
-                "fill-fields": "Please fill in all fields correctly.",
-                "negative-consumption": "Water consumption cannot be zero or negative.",
-                "negative-people": "Number of people cannot be zero or negative.",
-                "total-placeholder": "e.g., 30",
-                "people-placeholder": "e.g., 4",
-                "copy-summary": "Copy summary",
-                "version-title": "Version",
-                "version-number": "1.0.0",
-                "contact-info": "For improvements and suggestions, please contact us at kios-dwic@ucy.onmicrosoft.com",
-                "contact-info-prefix": "For improvements and suggestions, please contact us at ",
-                "example-link": "[help]",
-                "email-copied": "Email copied!",
-                "scarcity-msg": "Cyprus experiences the most severe chronic water stress in Europe, while at the same time <em>water scarcity affects 30% of Europeans</em>.",
-                "why-msg": "While annual rainfall is steadily decreasing, water demand is increasing. <em>In Cyprus we use 140 liters per person per day, while the average in the EU is 124 liters</em>.",
-                "action-msg": "By reducing even a few minutes of our individual consumption*, we can save significant amounts of water. <em>Practically, as a society of 1 million inhabitants, one minute less running water (≈ 10 L) saves enough water for 70,000 of our fellow citizens per year</em>! <br><br><small>*Shower≈ 10 liters per minute, Watering with hose≈ 15-30 liters per minute.</small>",
-                "reminder-title": "Reminder in 1 month",
-                "progress-reminder-msg": "Set a reminder to repeat the calculation in 30 days and measure your progress! (record your meter reading today.)",
-                "stress-info-title": "What is chronic water stress?",
-                "stress-info-1": "Chronic water stress is a situation where water demand exceeds availability for a long period of time. In Cyprus, this means we consume more water than what can be naturally replenished by rainfall.",
-                "stress-info-2": "According to the European Commission, Cyprus faces high water stress (>40%), placing it among the most water-stressed regions of Europe. In 2022, the water consumption in Cyprus was 140 liters per person per day.",
-                "stress-info-3": "The main causes include: population growth, tourism development, agricultural activities, and climate change that reduces rainfall by 15-20% over the last 30 years.",
-                "stress-info-4": "The consequences include: water cuts, increased costs, decreased water quality, and threat to biodiversity. In 2021, Cyprus faced a severe drought that led to restrictions.",
-                "stress-info-5": "",
-                "action-info-title": "What small changes make a big difference?",
-                "action-info-1": "Saving 1 liter of water per person per day might seem small, but multiplied by the population of Cyprus (1.2 million) it creates a significant impact.",
-                "action-info-2": "Calculation: 1 minute × 9 liters/minute × 1.2 million people × 365 days = 3.9 million m³ of water annually.",
-                "action-info-3": "This amount of water can supply 70,000 people for a year, or cover the needs of a small city like Paphos for 6 months.",
-                "action-info-4": "In addition, water conservation reduces desalination costs (€0.8/m³), saves energy, and reduces CO2 emissions by 2.5 kg per m³ of water.",
-                "action-info-5": "Small changes include: turning off the tap during brushing teeth or shaving (-15L), shorter showers (-20L), and avoiding using a hose when washing your car (-15L/minute).",
-                "why-info-title": "Calculate your own progress!",
-                "why-info-1": "Monitoring our water consumption is the first step towards creating awareness and saving. When we know how much water we use, we can identify unnecessary uses and make more conscious choices. Below we describe the process for calculating your monthly consumption.",
-                "why-info-2": "📸 <b>Initial measurement:</b> Note the black numbers (m³) & red digits (liters) and take a photo.",
-                "why-info-3": "⏳ <b>Wait 30 days:</b> Use water normally (exclude any other use such as filling a pool).",
-                "why-info-4": "📸 <b>Final measurement:</b> Read the numbers again & take a photo.",
-                "why-info-5": "➖ <b>Calculation:</b> Final – Initial = consumption in m³ (note: red digits are decimals).",
-                "why-info-6": "📅 <b>Re-check with Stagona.cy:</b> Enter the data and select the 1 Month option for the time period.",
-                "jump-link-btn": "Calculate it in 1 minute!",
-                "help-title": "How to find your water consumption on your bill",
-                "help-explanation": "On your bill, look for the section titled \"Consumption\" or \"Measurements\". You'll see the total consumption in cubic meters (m³) for the billing period. Enter this number into the \"Total period consumption\" field.",
-                "pledge-label": "I pledge to reduce my water usage by:",
-                "pledge-estimate-label": "New target consumption per person/day:",
-                "tips-parents-title": "Tips for Parents",
-                "tip-parent-1": "🛁 <b>Shower game:</b> Put on a 4-5 minute song for them to finish their bath within that time. Alternatively, you can put water in the bathtub for 2-3 minutes for play, and then collect the water in buckets.",
-                "tip-parent-2": "🪥 <b>\"Turn off and rinse\":</b> Teach children to turn off the tap while brushing their teeth or soaping up.",
-                "tip-parent-3": "💧 <b>Leak detector:</b> Assign children to check the meter before and after you'll be away from home. They can photograph the meter, and calculate with you every few days how much water they consumed.",
-            }
-        };
+
 
         let currentLang = "el";
 
