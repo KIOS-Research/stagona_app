@@ -1107,13 +1107,6 @@
            return "";
          }
          
-         function getShareSummary(lang) {
-           let summary = createSummary(perDay, diffPct, avg, url, lang);
-           summary += getPledgePhrase(lang);
-           return summary;
-         }
-         
-
          
          if ('serviceWorker' in navigator) {
          navigator.serviceWorker.register('js/sw.js')
