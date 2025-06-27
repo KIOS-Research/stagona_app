@@ -15,6 +15,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16x16.png" />
     <script src="js/translations.js"></script>
+    <script src="js/utility.js"></script>
     <script defer src="js/main.js"></script>
 </head>
 
@@ -216,20 +217,6 @@
     </div>
     <script>
         let currentLang = "el";
-
-        // Utility function to check if a string contains HTML tags
-        function containsHtmlTags(str) {
-            return /<[^>]*>/g.test(str);
-        }
-
-        // Utility function to safely update element content based on HTML presence
-        function updateElementContent(element, content) {
-            if (containsHtmlTags(content)) {
-                element.innerHTML = content;
-            } else {
-                element.textContent = content;
-            }
-        }
 
         // DRY: Unified summary generator
         function generateSummary({
