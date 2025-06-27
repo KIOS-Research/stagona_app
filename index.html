@@ -73,7 +73,7 @@
         <input type="number" id="people" data-el="people-placeholder" min="1" step="1" />
         <button id="calc"><strong>⚙️<span data-el="calc-button" ></span></strong></button>
         <div class="result" id="result" style="display: none"></div>
-        <div class="share-section" id="shareSection" style="display:none"></div>
+
         <div class="section-separator">
             <i class="fas fa-cog"></i>
         </div>
@@ -513,7 +513,6 @@
                  pledgeSlider.addEventListener("input", updateResultSummary);
              }
          
-             //const base = `${location.origin}${location.pathname}`;
              const base = `https://stagona.cy`;
              const url = base;
          
@@ -882,13 +881,7 @@
            });
          });
          
-         // Add event listener for about links
-         document.addEventListener('click', function(e) {
-         if (e.target.classList.contains('about-link')) {
-           e.preventDefault();
-           document.getElementById('aboutModal').style.display = 'flex';
-         }
-         });
+
          
          // Example modal functionality
          const exampleModal = document.getElementById('exampleModal');
@@ -1120,47 +1113,7 @@
            return summary;
          }
          
-         document.getElementById("shareTwitter").onclick = () => {
-           const summary = getShareSummary(currentLang);
-           const enc = encodeURIComponent(summary);
-           window.open(`https://twitter.com/intent/tweet?text=${enc}`, "_blank");
-         };
-         document.getElementById("shareFacebook").onclick = () => {
-           const summary = getShareSummary(currentLang);
-           const enc = encodeURIComponent(summary);
-           window.open(
-               `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${enc}`,
-               "_blank"
-           );
-         };
-         document.getElementById("shareWhatsApp").onclick = () => {
-           const summary = getShareSummary(currentLang);
-           const enc = encodeURIComponent(summary);
-           window.open(`https://wa.me/?text=${enc}`, "_blank");
-         };
-         document.getElementById("shareViber").onclick = () => {
-           const summary = getShareSummary(currentLang);
-           const enc = encodeURIComponent(summary);
-           window.open(`viber://forward?text=${enc}`, "_blank");
-         };
-         document.getElementById("shareEmail").onclick = () => {
-           try {
-               const summary = getShareSummary(currentLang);
-               const enc = encodeURIComponent(summary);
-               const subject = currentLang === "el" ? "Κατανάλωση νερού" : "Water Consumption";
-               const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${enc}`;
-               window.open(mailtoLink, "_blank");
-           } catch (err) {
-               console.error('Failed to open email client:', err);
-               showNotice(currentLang === "el" ? "Αποτυχία ανοίγματος email" : "Failed to open email client");
-           }
-         };
-         document.getElementById("copySummary").onclick = () => {
-           const summary = getShareSummary(currentLang);
-           navigator.clipboard
-               .writeText(summary)
-               .then(() => showNotice(translations[lang]["copy-success"]));
-         };
+
          
          if ('serviceWorker' in navigator) {
          navigator.serviceWorker.register('js/sw.js')
