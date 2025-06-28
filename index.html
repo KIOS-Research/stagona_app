@@ -58,7 +58,6 @@
             <div class="input-group-bordered">
                 <div class="instructions-text" id="instructions">
                     <span data-el="intro-instructions"></span>
-                    <i class="fas fa-info-circle info-icon info-icon-blue" id="calculationMethodInfo" title="Calculation Method"></i>
                     <div class="how-it-works-image">
                         <img src="assets/images/howitworks.png" alt="How the Stagona water consumption calculator works">
                     </div>
@@ -1009,6 +1008,10 @@
                 document.body.style.overflow = "auto";
             }
 
+            // Make modal functions globally available
+            window.openModal = openModal;
+            window.closeModal = closeModal;
+
             infoButton.onclick = () => {
                 openModal(modal);
             };
@@ -1074,6 +1077,10 @@
                 if (e.target.classList.contains('example-link')) {
                     e.preventDefault();
                     openModal(exampleModal);
+                }
+                if (e.target.classList.contains('why-info-link')) {
+                    e.preventDefault();
+                    openModal(whyInfoModal);
                 }
             });
 
@@ -1190,16 +1197,9 @@
             const whyInfoModal = document.getElementById('whyInfoModal');
             const whyInfoModalClose = document.getElementById('whyInfoModalClose');
             const whyInfoButton = document.getElementById('whyInfo');
-            const calculationMethodInfo = document.getElementById('calculationMethodInfo');
 
             if (whyInfoButton) {
                 whyInfoButton.onclick = () => {
-                    openModal(whyInfoModal);
-                };
-            }
-
-            if (calculationMethodInfo) {
-                calculationMethodInfo.onclick = () => {
                     openModal(whyInfoModal);
                 };
             }
