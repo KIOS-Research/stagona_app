@@ -8,6 +8,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Stagona">
     <title data-el="app-title"></title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@400&display=swap" rel="stylesheet">
     <!-- Font Awesome via CDNJS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/style.css" />
@@ -15,8 +19,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16x16.png" />
     <script src="js/translations.js"></script>
-    <script src="js/utility.js"></script>
-    <script defer src="js/main.js"></script>
+    <script defer src="js/sw.js"></script>
 </head>
 
 <body>
@@ -51,37 +54,89 @@
         <div class="section-separator">
             <i class="fas fa-cog"></i>
         </div>
-        <div class="instructions-text" id="instructions">
-            <span data-el="intro-instructions"></span>
-            <div class="how-it-works-image">
-                <img src="assets/images/howitworks.png" alt="How the Stagona water consumption calculator works">
-            </div>
-        </div>
         <div>
-            <label for="total"><span data-el="total-label"></span><a href="#" class="example-link" data-el="example-link"></a></label>
-        </div>
-        <input type="number" id="total" data-el="total-placeholder" min="0" step="0.1" />
-        <label for="period" data-el="period-label"></label>
-        <select id="period" required>
+            <div class="input-group-bordered">
+                <div class="instructions-text" id="instructions">
+                    <span data-el="intro-instructions"></span>
+                    <div class="how-it-works-image">
+                        <img src="assets/images/howitworks.png" alt="How the Stagona water consumption calculator works">
+                    </div>
+                </div>
+
+                <label for="total"><span data-el="total-label"></span><a href="#" class="example-link" data-el="example-link"></a></label>
+                <input type="number" id="total" data-el="total-placeholder" min="0" step="0.1" />
+                <label for="period" data-el="period-label"></label>
+                <select id="period" required>
             <option value="" disabled selected data-el="period-select"></option>
             <option value="1" data-el="period-1"></option>
             <option value="2" data-el="period-2"></option>
             <option value="3" data-el="period-3"></option>
             <option value="4" data-el="period-4"></option>
          </select>
-        <label for="people" data-el="people-label"></label>
-        <input type="number" id="people" data-el="people-placeholder" min="1" step="1" />
-        <button id="calc"><strong>⚙️<span data-el="calc-button" ></span></strong></button>
-        <div class="result" id="result" style="display: none"></div>
+                <label for="people" data-el="people-label"></label>
+                <input type="number" id="people" data-el="people-placeholder" min="1" step="1" />
+                <button id="calc"><strong>⚙️<span data-el="calc-button" ></span></strong></button>
+            </div>
+
+        </div>
+
+
+        <div id="result" style="display:none;">
+            <div id="bluebox">
+                <div class="result-box">
+                    <p class="result-value">--</p>
+                    <p class="result-label" data-el="result-title"></p>
+                    <div class="gauge-track">
+                        <div class="gauge-fill" id="gaugeBar"></div>
+                    </div>
+                </div>
+                <div class="result-box">
+                    <p class="result-diff">--</p>
+                    <p class="result-diff-label" data-el="result-diff"></p>
+                </div>
+                <div class="result-box">
+                    <div id="resultMessage"></div>
+                </div>
+            </div>
+            <div class="section-separator">
+                <i class="fas fa-hashtag"></i>
+            </div>
+            <h2>#Cyprus125</h2>
+            <div style="text-align: center; width: 100%;">
+                <strong class="pledge-title" data-el="share-title"></strong>
+            </div>
+            <p id="pledge-subtitle" data-el="pledge-subtitle"></p>
+            <div class="pledge-slider-section result-box">
+                <label for="pledgeSlider" id="pledgeSliderLabel"></label>
+                <input type="range" id="pledgeSlider" min="0" max="50" step="5" value="10" />
+            </div>
+            <div id="bluebox">
+                <div id="resultSummary"></div>
+                <div id="bannerImage">
+                    <canvas id="bannerCanvas" style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto;"></canvas>
+                    <button id="downloadBanner" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #0066cc; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 0.9rem;">
+                        📥 Download
+                    </button>
+                </div>
+                <div class="share-section">
+                    <div class="share-buttons">
+                        <div class="share-button" id="shareTwitter" title="Twitter"><i class="fab fa-twitter"></i></div>
+                        <div class="share-button" id="shareFacebook" title="Facebook"><i class="fab fa-facebook"></i></div>
+                        <div class="share-button" id="shareInstagram" title="Instagram"><i class="fab fa-instagram"></i></div>
+                        <div class="share-button" id="shareWhatsApp" title="WhatsApp"><i class="fab fa-whatsapp"></i></div>
+                        <div class="share-button" id="shareViber" title="Viber"><i class="fab fa-viber"></i></div>
+                        <div class="share-button" id="shareEmail" title="Email"><i class="fas fa-envelope"></i></div>
+                        <div class="share-button" id="copySummary" title="Copy message"><i class="fas fa-clipboard"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="section-separator">
             <i class="fas fa-cog"></i>
         </div>
         <button id="tipsButton" type="button" class="tips-button">💡 <span data-el="tips-title"></span></button>
-        <div class="progress-reminder">
-            <span data-el="progress-reminder-msg"></span>
-            <i class="fas fa-info-circle info-icon info-icon-blue" id="whyInfo"></i>
-        </div>
+        <button id="calculationMethodButton" type="button" class="calculationMethodButton-button"><span data-el="calculation-method"></span></button>
         <button id="reminderButton" type="button" class="reminder-button">📅 <span data-el="reminder-title"></span></button>
         <p class="privacy-notice">
             <span data-el="contact-info-prefix"></span>
@@ -215,904 +270,1029 @@
             </div>
         </div>
     </div>
+
+    <!-- Hidden template image for banner generation -->
+    <img id="bannerTemplate" src="assets/images/banner.jpg" style="display: none;">
+
     <script>
-        let currentLang = "el";
-
-        // DRY: Unified summary generator
-        function generateSummary({
-            lang = "el",
-            perDay,
-            diffPct,
-            avg = 140,
-            url = "https://stagona.cy",
-            pledge = 0,
-            pledgeLiters = null,
-            mode = "share" // or "quote"
-        }) {
-            // Compose difference string
-            let diffStr;
-            if (lang === "el") {
-                diffStr = diffPct < 0 ? `${Math.abs(diffPct).toFixed(1)}% κάτω από μέσο όρο των 140 λίτρων/ημέρα` : `${diffPct.toFixed(1)}% πάνω από μέσο όρο των 140 λίτρων/ημέρα`;
-            } else {
-                diffStr = diffPct < 0 ? `${Math.abs(diffPct).toFixed(1)}% below average of 140 liters/day` : `${diffPct.toFixed(1)}% above average of 140 liters/day`;
+        document.addEventListener('DOMContentLoaded', function() {
+            // Utility functions (from utility.js)
+            function containsHtmlTags(str) {
+                return /<[^>]*>/g.test(str);
             }
-            // Compose base
-            let summary;
-            if (lang === "el") {
-                if (mode === "share") {
-                    summary = `Μόλις υπολόγισα την ατομική κατανάλωσή νερού μου: ${perDay.toFixed(1)} λίτρα/ημέρα (${diffStr}).`;
-                    if (pledge > 0 && pledgeLiters !== null) {
-                        summary += ` Θα προσπαθήσω να τη μειώσω κατά ${pledge}% (${pledgeLiters} λίτρα/ημέρα) μέσα στον επόμενο μήνα.`;
-                    }
-                    summary += ` Δοκίμασέ το και εσύ: ${url}`;
+
+            function updateElementContent(element, content) {
+                if (containsHtmlTags(content)) {
+                    element.innerHTML = content;
                 } else {
-                    summary = `Μόλις υπολόγισα την ατομική κατανάλωσή νερού μου: ${perDay.toFixed(1)} λίτρα/ημέρα (${diffStr}).`;
-                    if (pledge > 0 && pledgeLiters !== null) {
-                        summary += ` Θα προσπαθήσω να τη μειώσω κατά ${pledge}% (${pledgeLiters} λίτρα/ημέρα) μέσα στον επόμενο μήνα.`;
-                    }
-                    summary += ` Δοκίμασέ το και εσύ: ${url}`;
-                }
-            } else {
-                if (mode === "share") {
-                    summary = `I've just calculated my individual water consumption: ${perDay.toFixed(1)} liters/day (${diffStr}).`;
-                    if (pledge > 0 && pledgeLiters !== null) {
-                        summary += ` I will try to reduce it by ${pledge}% (${pledgeLiters} liters/day) in the next month.`;
-                    }
-                    summary += ` Try it yourself: ${url}`;
-                } else {
-                    summary = `I've just calculated my individual water consumption: ${perDay.toFixed(1)} liters/day (${diffStr}).`;
-                    if (pledge > 0 && pledgeLiters !== null) {
-                        summary += ` I will try to reduce it by ${pledge}% (${pledgeLiters} liters/day) in the next month.`;
-                    }
-                    summary += ` Try it yourself: ${url}`;
+                    element.textContent = content;
                 }
             }
-            return summary;
-        }
 
-        // Replace createSummary
-        function createSummary(perDay, diffPct, avg, url, lang) {
-            // Get pledge info
-            let pledge = 0;
-            let pledgeLiters = null;
-            const slider = document.getElementById("pledgeSlider");
-            if (slider) {
-                pledge = parseInt(slider.value, 10) || 0;
-                pledgeLiters = (perDay * (1 - pledge / 100)).toFixed(1);
+            // PWA Install functionality (from main.js)
+            let deferredPrompt;
+            const snackbar = document.getElementById('installSnackbar');
+            const snackbarBtn = document.getElementById('installSnackbarBtn');
+            const snackbarText = document.getElementById('installSnackbarText');
+
+            function isIos() {
+                return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
             }
-            return generateSummary({
-                lang,
+
+            function isInStandaloneMode() {
+                return ('standalone' in window.navigator) && window.navigator.standalone;
+            }
+
+            window.addEventListener('beforeinstallprompt', e => {
+                if (isIos()) return;
+                e.preventDefault();
+                deferredPrompt = e;
+                showInstallSnackbar();
+            });
+
+            function showInstallSnackbar() {
+                if (isIos() && !isInStandaloneMode()) {
+                    snackbarText.textContent = "To install, tap the Share button ↑ and then 'Add to Home Screen'.";
+                    snackbarBtn.style.display = 'none';
+                    snackbar.hidden = false;
+                    setTimeout(() => snackbar.classList.add('show'), 50);
+                    setTimeout(hideInstallSnackbar, 8000);
+                    return;
+                }
+                if (!deferredPrompt) return;
+                snackbarText.textContent = 'Install Stagona App?';
+                snackbarBtn.textContent = 'Install';
+                snackbarBtn.style.display = '';
+                snackbar.hidden = false;
+                setTimeout(() => snackbar.classList.add('show'), 50);
+                setTimeout(hideInstallSnackbar, 8000);
+            }
+
+            function hideInstallSnackbar() {
+                snackbar.classList.remove('show');
+                setTimeout(() => {
+                    snackbar.hidden = true;
+                }, 400);
+            }
+
+            snackbarBtn.addEventListener('click', async() => {
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                hideInstallSnackbar();
+            });
+
+            window.addEventListener('appinstalled', () => {
+                hideInstallSnackbar();
+            });
+
+            window.addEventListener('load', () => {
+                if (isIos() && !isInStandaloneMode()) {
+                    showInstallSnackbar();
+                }
+            });
+
+            // Main application code
+            let currentLang = "el";
+
+            // DRY: Unified summary generator
+            function generateSummary({
+                lang = "el",
                 perDay,
                 diffPct,
-                avg,
-                url,
-                pledge,
-                pledgeLiters,
-                mode: "share"
-            });
-        }
-
-        // Replace updateResultSummary
-        function updateResultSummary() {
-            // Get values
-            let perDay = 140;
-            let diffPct = 0;
-            const totalM3 = parseFloat(document.getElementById("total").value);
-            const months = parseInt(document.getElementById("period").value);
-            const people = parseInt(document.getElementById("people").value);
-            if (totalM3 > 0 && months > 0 && people > 0) {
-                const totalLitres = totalM3 * 1000;
-                const days = months * 30.4;
-                perDay = totalLitres / days / people;
-                diffPct = ((perDay - 140) / 140) * 100;
-            }
-            // Pledge
-            let pledge = 0;
-            let pledgeLiters = null;
-            const pledgeSlider = document.getElementById("pledgeSlider");
-            if (pledgeSlider) {
-                pledge = parseInt(pledgeSlider.value, 10) || 0;
-                pledgeLiters = (perDay * (1 - pledge / 100)).toFixed(1);
-            }
-            // Compose using unified generator
-            const summary = generateSummary({
-                lang: currentLang,
-                perDay,
-                diffPct,
-                avg: 140,
-                url: "https://stagona.cy",
-                pledge,
-                pledgeLiters,
-                mode: "quote"
-            });
-            document.getElementById("resultSummary").innerHTML = summary;
-        }
-
-        // Function to update text content
-        function updateLanguage(lang) {
-            const elements = document.querySelectorAll("[data-el]");
-            elements.forEach((element) => {
-                const key = element.getAttribute("data-el");
-                if (translations[lang][key]) {
-                    const translation = translations[lang][key];
-
-                    if (element.tagName === "INPUT" || element.tagName === "SELECT") {
-                        element.placeholder = translation;
+                avg = 140,
+                url = "https://stagona.cy",
+                pledge = 0,
+                pledgeLiters = null,
+                mode = "share" // or "quote"
+            }) {
+                // Compose difference string
+                let diffStr;
+                if (lang === "el") {
+                    diffStr = diffPct < 0 ? `${Math.abs(diffPct).toFixed(1)}% κάτω από μέσο όρο των 140 λίτρων/ημέρα` : `${diffPct.toFixed(1)}% πάνω από μέσο όρο των 140 λίτρων/ημέρα`;
+                } else {
+                    diffStr = diffPct < 0 ? `${Math.abs(diffPct).toFixed(1)}% below average of 140 liters/day` : `${diffPct.toFixed(1)}% above average of 140 liters/day`;
+                }
+                // Compose base
+                let summary;
+                if (lang === "el") {
+                    if (mode === "share") {
+                        summary = `Μόλις υπολόγισα την ατομική κατανάλωσή νερού μου: ${perDay.toFixed(1)} λίτρα/ημέρα (${diffStr}).`;
+                        if (pledge > 0 && pledgeLiters !== null) {
+                            summary += ` Θα προσπαθήσω να τη μειώσω κατά ${pledge}% (${pledgeLiters} λίτρα/ημέρα) μέσα στον επόμενο μήνα.`;
+                        }
+                        summary += ` Δοκίμασέ το και εσύ: ${url}`;
                     } else {
-                        updateElementContent(element, translation);
+                        summary = `Μόλις υπολόγισα την ατομική κατανάλωσή νερού μου: ${perDay.toFixed(1)} λίτρα/ημέρα (${diffStr}).`;
+                        if (pledge > 0 && pledgeLiters !== null) {
+                            summary += ` Θα προσπαθήσω να τη μειώσω κατά ${pledge}% (${pledgeLiters} λίτρα/ημέρα) μέσα στον επόμενο μήνα.`;
+                        }
+                        summary += ` Δοκίμασέ το και εσύ: ${url}`;
+                    }
+                } else {
+                    if (mode === "share") {
+                        summary = `I've just calculated my individual water consumption: ${perDay.toFixed(1)} liters/day (${diffStr}).`;
+                        if (pledge > 0 && pledgeLiters !== null) {
+                            summary += ` I will try to reduce it by ${pledge}% (${pledgeLiters} liters/day) in the next month.`;
+                        }
+                        summary += ` Try it yourself: ${url}`;
+                    } else {
+                        summary = `I've just calculated my individual water consumption: ${perDay.toFixed(1)} liters/day (${diffStr}).`;
+                        if (pledge > 0 && pledgeLiters !== null) {
+                            summary += ` I will try to reduce it by ${pledge}% (${pledgeLiters} liters/day) in the next month.`;
+                        }
+                        summary += ` Try it yourself: ${url}`;
+                    }
+                }
+                return summary;
+            }
 
-                        // Update title attribute for elements that have it
-                        if (element.hasAttribute("title")) {
-                            element.title = translation;
+            // Replace createSummary
+            function createSummary(perDay, diffPct, avg, url, lang) {
+                // Get pledge info
+                let pledge = 0;
+                let pledgeLiters = null;
+                const slider = document.getElementById("pledgeSlider");
+                if (slider) {
+                    pledge = parseInt(slider.value, 10) || 0;
+                    pledgeLiters = (perDay * (1 - pledge / 100)).toFixed(1);
+                }
+                return generateSummary({
+                    lang,
+                    perDay,
+                    diffPct,
+                    avg,
+                    url,
+                    pledge,
+                    pledgeLiters,
+                    mode: "share"
+                });
+            }
+
+            // Replace updateResultSummary
+            function updateResultSummary() {
+                // Get values
+                let perDay = 140;
+                let diffPct = 0;
+                const totalM3 = parseFloat(document.getElementById("total").value);
+                const months = parseInt(document.getElementById("period").value);
+                const people = parseInt(document.getElementById("people").value);
+                if (totalM3 > 0 && months > 0 && people > 0) {
+                    const totalLitres = totalM3 * 1000;
+                    const days = months * 30.4;
+                    perDay = totalLitres / days / people;
+                    diffPct = ((perDay - 140) / 140) * 100;
+                }
+                // Pledge
+                let pledge = 0;
+                let pledgeLiters = null;
+                const pledgeSlider = document.getElementById("pledgeSlider");
+                if (pledgeSlider) {
+                    pledge = parseInt(pledgeSlider.value, 10) || 0;
+                    pledgeLiters = (perDay * (1 - pledge / 100)).toFixed(1);
+                }
+                // Compose using unified generator
+                const summary = generateSummary({
+                    lang: currentLang,
+                    perDay,
+                    diffPct,
+                    avg: 140,
+                    url: "https://stagona.cy",
+                    pledge,
+                    pledgeLiters,
+                    mode: "quote"
+                });
+                document.getElementById("resultSummary").innerHTML = summary;
+
+                // Regenerate banner if result is visible
+                const result = document.getElementById("result");
+                if (result && result.style.display !== "none" && !result.hasAttribute("hidden")) {
+                    generateBanner(perDay, diffPct);
+                }
+            }
+
+            // Function to update text content
+            function updateLanguage(lang) {
+                const elements = document.querySelectorAll("[data-el]");
+                elements.forEach((element) => {
+                    const key = element.getAttribute("data-el");
+                    if (translations[lang][key]) {
+                        const translation = translations[lang][key];
+
+                        if (element.tagName === "INPUT" || element.tagName === "SELECT") {
+                            element.placeholder = translation;
+                        } else {
+                            updateElementContent(element, translation);
+
+                            // Update title attribute for elements that have it
+                            if (element.hasAttribute("title")) {
+                                element.title = translation;
+                            }
                         }
                     }
-                }
-            });
-            document.getElementById("langToggle").textContent =
-                lang === "el" ? "English" : "Ελληνικά";
-            document.getElementById("langToggle").title =
-                lang === "el" ? "English" : "Ελληνικά";
-            currentLang = lang;
+                });
+                document.getElementById("langToggle").textContent =
+                    lang === "el" ? "English" : "Ελληνικά";
+                document.getElementById("langToggle").title =
+                    lang === "el" ? "English" : "Ελληνικά";
+                currentLang = lang;
 
-            // Update footer version number
-            const footerVersion = document.getElementById("footerVersion");
-            if (footerVersion) {
-                footerVersion.textContent = `${translations[lang]["version-title"]}: ${translations[lang]["version-number"]}`;
+                // Update footer version number
+                const footerVersion = document.getElementById("footerVersion");
+                if (footerVersion) {
+                    footerVersion.textContent = `${translations[lang]["version-title"]}: ${translations[lang]["version-number"]}`;
+                }
+
+                // Always update result labels regardless of visibility - use more specific selectors
+                const resultContainer = document.getElementById("result");
+                const wasHidden = resultContainer && resultContainer.style.display === "none";
+
+                // Temporarily show result if it's hidden to ensure elements are accessible
+                if (wasHidden && resultContainer) {
+                    resultContainer.style.display = "block";
+                }
+
+                const resultLabel = document.querySelector('p.result-label[data-el="result-title"]');
+                if (resultLabel && translations[lang]["result-title"]) {
+                    resultLabel.textContent = translations[lang]["result-title"];
+                    // Add brief highlight to show the change
+                    resultLabel.style.backgroundColor = "#ffffcc";
+                    setTimeout(() => {
+                        resultLabel.style.backgroundColor = "";
+                    }, 500);
+                }
+
+                const resultDiffLabel = document.querySelector('p.result-diff-label[data-el="result-diff"]');
+                if (resultDiffLabel && translations[lang]["result-diff"]) {
+                    resultDiffLabel.textContent = translations[lang]["result-diff"];
+                    // Add brief highlight to show the change
+                    resultDiffLabel.style.backgroundColor = "#ffffcc";
+                    setTimeout(() => {
+                        resultDiffLabel.style.backgroundColor = "";
+                    }, 500);
+                }
+
+                // Hide result again if it was hidden before
+                if (wasHidden && resultContainer) {
+                    resultContainer.style.display = "none";
+                }
+
+                // Update "liters" text and "below/above average" text if result exists
+                const valueElem = document.querySelector(".result-value");
+                if (valueElem && valueElem.textContent !== "--") {
+                    // Extract the number from the current text
+                    const match = valueElem.textContent.match(/([\d.]+)/);
+                    if (match) {
+                        const number = match[1];
+                        valueElem.textContent = number + (lang === "el" ? " λίτρα" : " liters");
+                    }
+                }
+
+                const diffElem = document.querySelector(".result-diff");
+                if (diffElem && diffElem.textContent !== "--") {
+                    // Extract the percentage from the current text
+                    const match = diffElem.textContent.match(/([\d.]+)%/);
+                    if (match) {
+                        const percentage = match[1];
+                        // Check if it's below or above average by looking for "below" or "above" in current text
+                        const isBelow = diffElem.textContent.includes("below") || diffElem.textContent.includes("κάτω");
+                        diffElem.innerHTML = isBelow ?
+                            `${percentage}%<br>${translations[lang]["result-below"]}` :
+                            `${percentage}%<br>${translations[lang]["result-above"]}`;
+                    }
+                }
+
+                // Update pledge slider label if result is visible
+                const pledgeSlider = document.getElementById("pledgeSlider");
+                if (pledgeSlider) {
+                    updatePledgeLabel();
+                }
+
+                // Update result message if result exists
+                updateResultMessage();
+
+                // Regenerate banner if result is visible and calculation has been made
+                const result = document.getElementById("result");
+                if (result && result.style.display !== "none" && !result.hasAttribute("hidden")) {
+                    // Get current calculation values if they exist
+                    const totalM3 = parseFloat(document.getElementById("total").value);
+                    const months = parseInt(document.getElementById("period").value);
+                    const people = parseInt(document.getElementById("people").value);
+
+                    if (totalM3 > 0 && months > 0 && people > 0) {
+                        const totalLitres = totalM3 * 1000;
+                        const days = months * 30.4;
+                        const perDay = totalLitres / days / people;
+                        const diffPct = ((perDay - 140) / 140) * 100;
+                        generateBanner(perDay, diffPct);
+                    }
+                }
             }
 
-            // Update existing results if they are displayed
-            const result = document.getElementById("result");
-            if (result.style.display !== "none") {
-                // Preserve current pledge slider value before recreating the result
-                let currentPledgeValue = 10; // default value
-                const existingPledgeSlider = document.getElementById("pledgeSlider");
-                if (existingPledgeSlider) {
-                    currentPledgeValue = parseInt(existingPledgeSlider.value, 10) || 10;
-                }
+            // Language toggle button click handler
+            document.getElementById("langToggle").addEventListener("click", () => {
+                const newLang = currentLang === "el" ? "en" : "el";
+                updateLanguage(newLang);
+            });
 
+            // Ensure all translations are set on page load
+            updateLanguage(currentLang);
+
+            document.getElementById("calc").addEventListener("click", () => {
                 const totalM3 = parseFloat(document.getElementById("total").value);
                 const months = parseInt(document.getElementById("period").value);
                 const people = parseInt(document.getElementById("people").value);
                 const avg = 140;
 
+                if (totalM3 <= 0) {
+                    showNotice(translations[currentLang]["negative-consumption"]);
+                    return;
+                }
+                if (people <= 0) {
+                    showNotice(translations[currentLang]["negative-people"]);
+                    return;
+                }
+                if (!totalM3) {
+                    document.getElementById("total").focus();
+                    return;
+                }
+                if (!months) {
+                    document.getElementById("period").focus();
+                    return;
+                }
+                if (!people) {
+                    document.getElementById("people").focus();
+                    return;
+                }
+
+                // Calculate values
                 const totalLitres = totalM3 * 1000;
                 const days = months * 30.4;
                 const perDay = totalLitres / days / people;
                 const diffPct = ((perDay - avg) / avg) * 100;
 
-                let msg = `
-             <div class="result-box">
-               <p class="result-value">${perDay.toFixed(1)} ${translations[currentLang]["liters"]}</p>
-               <p class="result-label">${translations[currentLang]["result-title"]}</p>
-               <div class="gauge-track"><div class="gauge-fill" id="gaugeBar"></div></div>
-             </div>
-             <div class="result-box">
-               <p class="result-diff">${
-                 perDay < avg
-                   ? `${Math.abs(diffPct).toFixed(1)}%<br>${translations[currentLang]["result-below"]}`
-                   : `${diffPct.toFixed(1)}%<br>${translations[currentLang]["result-above"]}`
-               }</p>
-               <p class="result-diff-label">${translations[currentLang]["result-diff"]}</p>
-             </div>
-             <br/>`;
-         
-               if (diffPct < -20) {
-                 msg += `${translations[currentLang]["result-excellent"]}<br/><br/>${translations[currentLang]["result-excellent-desc"]}`;
-               } else if (diffPct >= -20 && diffPct < -10) {
-                 msg += `${translations[currentLang]["result-good"]}<br/><br/>${translations[currentLang]["result-good-desc"]}`;
-               } else if (diffPct >= -10 && diffPct < 0) {
-                 msg += `${translations[currentLang]["result-average"]}<br/><br/>${translations[currentLang]["result-average-desc"]}`;
-               } else if (diffPct >= 0 && diffPct < 10) {
-                 msg += `${translations[currentLang]["result-slightly-high"]}<br/><br/>${translations[currentLang]["result-slightly-high-desc"]}`;
-               } else if (diffPct >= 10 && diffPct < 20) {
-                 msg += `${translations[currentLang]["result-high"]}<br/><br/>${translations[currentLang]["result-high-desc"]}`;
-               } else {
-                 msg += `${translations[currentLang]["result-very-high"]}<br/><br/>${translations[currentLang]["result-very-high-desc"]}`;
-               }
-         
-               // Insert pledge slider and estimate box here, before share section
-               msg += `
-               <br><br><strong data-el="share-title"></strong>
-               <div class="pledge-slider-section result-box">
-                   <label for="pledgeSlider" id="pledgeSliderLabel"></label>
-                   <input type="range" id="pledgeSlider" min="0" max="50" step="5" value="${currentPledgeValue}">
-               </div>
-               
-               <div id="resultSummary"></div>
-               `;
-                 // Add share section within the results
-                 msg += `<div class="share-section">
-                     <div class="share-buttons">
-                         <div class="share-button" id="shareTwitter" title="Twitter">
-                             <i class="fab fa-twitter"></i>
-                         </div>
-                         <div class="share-button" id="shareFacebook" title="Facebook">
-                             <i class="fab fa-facebook"></i>
-                         </div>
-                         <div class="share-button" id="shareWhatsApp" title="WhatsApp">
-                             <i class="fab fa-whatsapp"></i>
-                         </div>
-                         <div class="share-button" id="shareViber" title="Viber">
-                             <i class="fab fa-viber"></i>
-                         </div>
-                         <div class="share-button" id="shareEmail" title="Email">
-                             <i class="fas fa-envelope"></i>
-                         </div>
-                         <div class="share-button" id="copySummary" title=" Copy message">
-                             <i class="fas fa-clipboard"></i>
-                         </div>
-                     </div>
-                 </div>`;
-         
-             const result = document.getElementById("result");
-             result.innerHTML = msg;
-             result.style.display = "block";
-         
-             // Update the share title text after adding to DOM
-             const shareTitleElement = result.querySelector('[data-el="share-title"]');
-             if (shareTitleElement) {
-                 shareTitleElement.textContent = translations[currentLang]["share-title"];
-             }
-         
-             const bar = document.getElementById("gaugeBar");
-             const percentage = Math.min(100, Math.max(0, ((perDay - 70) / (210 - 70)) * 100));
-             bar.style.width = percentage + "%";
-             
-             // Set color based on percentage like a thermometer
-             if (percentage <= 50) {
-                 // 0-50%: Green to Orange (70-140 liters)
-                 const greenToOrange = percentage / 50; // 0 to 1
-                 const red = Math.round(76 + (greenToOrange * 127)); // 76 to 203
-                 const green = Math.round(175 - (greenToOrange * 87)); // 175 to 88
-                 const blue = Math.round(80 - (greenToOrange * 80)); // 80 to 0
-                 bar.style.background = `rgb(${red}, ${green}, ${blue})`;
-             } else {
-                 // 50-100%: Orange to Red (140-210 liters)
-                 const orangeToRed = (percentage - 50) / 50; // 0 to 1
-                 const red = Math.round(203 + (orangeToRed * 52)); // 203 to 255
-                 const green = Math.round(88 - (orangeToRed * 88)); // 88 to 0
-                 const blue = Math.round(0); // Always 0
-                 bar.style.background = `rgb(${red}, ${green}, ${blue})`;
-             }
-         
-             // Initialize pledge slider and estimate box logic after injection
-             const pledgeSlider = document.getElementById("pledgeSlider");
-             function updatePledgeLabel() {
-                 const label = document.getElementById("pledgeSliderLabel");
-                 if (label) {
-                     let percent = 10;
-                     if (pledgeSlider) {
-                         percent = pledgeSlider.value;
-                     }
-                     // Calculate liters
-                     let perDay = 140;
-                     const resultValueElem = document.querySelector('.result-value');
-                     if (resultValueElem) {
-                         const match = resultValueElem.textContent.match(/([\d.]+)/);
-                         if (match) {
-                             perDay = parseFloat(match[1]);
-                         }
-                     }
-                     const newLiters = (perDay * (1 - percent / 100)).toFixed(1);
-                     const unit = currentLang === "el" ? "λίτρα" : "liters";
-                     label.innerHTML = `${translations[currentLang]["pledge-label"]} <span id='pledgeValue'>${percent}%</span> (${newLiters} ${unit})`;
-                 }
-             }
-             if (pledgeSlider) {
-                 updatePledgeLabel(); // Set initial label with percent and liters
-                 pledgeSlider.addEventListener("input", function() {
-                     updatePledgeLabel(); // Update label with new percent and liters
-                 });
-             } else {
-                 updatePledgeLabel();
-             }
-         
-             // After rendering the result, update the summary sentence
-             updateResultSummary();
-             if (pledgeSlider) {
-                 pledgeSlider.addEventListener("input", updateResultSummary);
-             }
-         
-             const base = `https://stagona.cy`;
-             const url = base;
-         
-             // Use DRY summary function
-             let summary = createSummary(perDay, diffPct, avg, url, currentLang);
-             const enc = encodeURIComponent(summary);
-         
-             document.getElementById("shareTwitter").onclick = () => {
-                 const currentSummary = createSummary(perDay, diffPct, avg, url, currentLang);
-                 const enc = encodeURIComponent(currentSummary);
-                 window.open(`https://twitter.com/intent/tweet?text=${enc}`, "_blank");
-             };
-             document.getElementById("shareFacebook").onclick = () => {
-                 const currentSummary = createSummary(perDay, diffPct, avg, url, currentLang);
-                 const enc = encodeURIComponent(currentSummary);
-                 window.open(
-                     `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                         url
-                     )}&quote=${enc}`,
-                     "_blank"
-                 );
-             };
-             document.getElementById("shareWhatsApp").onclick = () => {
-                 const currentSummary = createSummary(perDay, diffPct, avg, url, currentLang);
-                 const enc = encodeURIComponent(currentSummary);
-                 window.open(`https://wa.me/?text=${enc}`, "_blank");
-             };
-             document.getElementById("shareViber").onclick = () => {
-                 const currentSummary = createSummary(perDay, diffPct, avg, url, currentLang);
-                 const enc = encodeURIComponent(currentSummary);
-                 window.open(`viber://forward?text=${enc}`, "_blank");
-             };
-             document.getElementById("shareEmail").onclick = () => {
-                 try {
-                     const currentSummary = createSummary(perDay, diffPct, avg, url, currentLang);
-                     const enc = encodeURIComponent(currentSummary);
-                     const subject = currentLang === "el" ? "Κατανάλωση νερού" : "Water Consumption";
-                     const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${enc}`;
-                     window.open(mailtoLink, "_blank");
-                 } catch (err) {
-                     console.error('Failed to open email client:', err);
-                     showNotice(currentLang === "el" ? "Αποτυχία ανοίγματος email" : "Failed to open email client");
-                 }
-             };
-             document.getElementById("copySummary").onclick = () => {
-                 const currentSummary = createSummary(perDay, diffPct, avg, url, currentLang);
-                 navigator.clipboard
-                     .writeText(currentSummary)
-                     .then(() => showNotice(translations[currentLang]["copy-success"]));
-             };
-           }
-         }
-         
-         // Language toggle button click handler
-         document.getElementById("langToggle").addEventListener("click", () => {
-         const newLang = currentLang === "el" ? "en" : "el";
-         updateLanguage(newLang);
-         });
-         
-         // Ensure all translations are set on page load
-         updateLanguage(currentLang);
-         
-         document.getElementById("calc").addEventListener("click", () => {
-         const totalM3 = parseFloat(document.getElementById("total").value);
-         const months = parseInt(document.getElementById("period").value);
-         const people = parseInt(document.getElementById("people").value);
-         const avg = 140;
-         
-         if (totalM3 <= 0) {
-           showNotice(translations[currentLang]["negative-consumption"]);
-           return;
-         }
-         
-         if (people <= 0) {
-           showNotice(translations[currentLang]["negative-people"]);
-           return;
-         }
-         
-         if (!totalM3){document.getElementById("total").focus();return;}
-         if (!months){document.getElementById("period").focus();return;}
-         if (!people){document.getElementById("people").focus();return;}
-         const totalLitres = totalM3 * 1000;
-         const days = months * 30.4;
-         const perDay = totalLitres / days / people;
-         const diffPct = ((perDay - avg) / avg) * 100;
-         
-         let msg = `
-           <div class="result-box">
-             <p class="result-value">${perDay.toFixed(1)} λίτρα</p>
-             <p class="result-label">${translations[currentLang]["result-title"]}</p>
-             <div class="gauge-track"><div class="gauge-fill" id="gaugeBar"></div></div>
-           </div>
-           <div class="result-box">
-             <p class="result-diff">${
-               perDay < avg
-                 ? `${Math.abs(diffPct).toFixed(1)}%<br>${translations[currentLang]["result-below"]}`
-                 : `${diffPct.toFixed(1)}%<br>${translations[currentLang]["result-above"]}`
-             }</p>
-             <p class="result-diff-label">${translations[currentLang]["result-diff"]}</p>
-           </div>
-           <br/>`;
-         
-         if (diffPct < -20) {
-           msg += `${translations[currentLang]["result-excellent"]}<br/><br/>${translations[currentLang]["result-excellent-desc"]}`;
-         } else if (diffPct >= -20 && diffPct < -10) {
-           msg += `${translations[currentLang]["result-good"]}<br/><br/>${translations[currentLang]["result-good-desc"]}`;
-         } else if (diffPct >= -10 && diffPct < 0) {
-           msg += `${translations[currentLang]["result-average"]}<br/><br/>${translations[currentLang]["result-average-desc"]}`;
-         } else if (diffPct >= 0 && diffPct < 10) {
-           msg += `${translations[currentLang]["result-slightly-high"]}<br/><br/>${translations[currentLang]["result-slightly-high-desc"]}`;
-         } else if (diffPct >= 10 && diffPct < 20) {
-           msg += `${translations[currentLang]["result-high"]}<br/><br/>${translations[currentLang]["result-high-desc"]}`;
-         } else {
-           msg += `${translations[currentLang]["result-very-high"]}<br/><br/>${translations[currentLang]["result-very-high-desc"]}`;
-         }
-         
-         // Insert pledge slider and estimate box here, before share section
-         msg += `
-         <br><br><strong data-el="share-title"></strong>
-         <div class="pledge-slider-section result-box">
-             <label for="pledgeSlider" id="pledgeSliderLabel"></label>
-             <input type="range" id="pledgeSlider" min="0" max="50" step="5" value="10">
-         </div>
-         
-         <div id="resultSummary"></div>
-         `;
-                 // Add share section within the results
-                 msg += `<div class="share-section">
-                     <div class="share-buttons">
-                         <div class="share-button" id="shareTwitter" title="Twitter">
-                             <i class="fab fa-twitter"></i>
-                         </div>
-                         <div class="share-button" id="shareFacebook" title="Facebook">
-                             <i class="fab fa-facebook"></i>
-                         </div>
-                         <div class="share-button" id="shareWhatsApp" title="WhatsApp">
-                             <i class="fab fa-whatsapp"></i>
-                         </div>
-                         <div class="share-button" id="shareViber" title="Viber">
-                             <i class="fab fa-viber"></i>
-                         </div>
-                         <div class="share-button" id="shareEmail" title="Email">
-                             <i class="fas fa-envelope"></i>
-                         </div>
-                         <div class="share-button" id="copySummary" title=" Copy message">
-                             <i class="fas fa-clipboard"></i>
-                         </div>
-                     </div>
-                 </div>`;
-         
-         
-         
-         const result = document.getElementById("result");
-         result.innerHTML = msg;
-         result.style.display = "block";
-         
-         // Update the share title text after adding to DOM
-         const shareTitleElement = result.querySelector('[data-el="share-title"]');
-         if (shareTitleElement) {
-             shareTitleElement.textContent = translations[currentLang]["share-title"];
-         }
-         
-         const bar = document.getElementById("gaugeBar");
-         const percentage = Math.min(100, Math.max(0, ((perDay - 70) / (210 - 70)) * 100));
-         bar.style.width = percentage + "%";
-         
-         // Set color based on percentage like a thermometer
-         if (percentage <= 50) {
-             // 0-50%: Green to Orange (70-140 liters)
-             const greenToOrange = percentage / 50; // 0 to 1
-             const red = Math.round(76 + (greenToOrange * 127)); // 76 to 203
-             const green = Math.round(175 - (greenToOrange * 87)); // 175 to 88
-             const blue = Math.round(80 - (greenToOrange * 80)); // 80 to 0
-             bar.style.background = `rgb(${red}, ${green}, ${blue})`;
-         } else {
-             // 50-100%: Orange to Red (140-210 liters)
-             const orangeToRed = (percentage - 50) / 50; // 0 to 1
-             const red = Math.round(203 + (orangeToRed * 52)); // 203 to 255
-             const green = Math.round(88 - (orangeToRed * 88)); // 88 to 0
-             const blue = Math.round(0); // Always 0
-             bar.style.background = `rgb(${red}, ${green}, ${blue})`;
-         }
-         
-         //const base = `${location.origin}${location.pathname}`;
-         const base = `https://stagona.cy`;
-         const params = `?total=${totalM3}&period=${months}&people=${people}`;
-         const url = base;
-         
-         // Use DRY summary function
-         let summary = createSummary(perDay, diffPct, avg, url, currentLang);
-         const enc = encodeURIComponent(summary);
-         
-         document.getElementById("shareTwitter").onclick = () => {
-             const currentSummary = createSummary(perDay, diffPct, avg, url, currentLang);
-             const enc = encodeURIComponent(currentSummary);
-             window.open(`https://twitter.com/intent/tweet?text=${enc}`, "_blank");
-         };
-         document.getElementById("shareFacebook").onclick = () => {
-             const currentSummary = createSummary(perDay, diffPct, avg, url, currentLang);
-             const enc = encodeURIComponent(currentSummary);
-             window.open(
-                 `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                     url
-                 )}&quote=${enc}`,
-                 "_blank"
-             );
-         };
-         document.getElementById("shareWhatsApp").onclick = () => {
-             const currentSummary = createSummary(perDay, diffPct, avg, url, currentLang);
-             const enc = encodeURIComponent(currentSummary);
-             window.open(`https://wa.me/?text=${enc}`, "_blank");
-         };
-         document.getElementById("shareViber").onclick = () => {
-             const currentSummary = createSummary(perDay, diffPct, avg, url, currentLang);
-             const enc = encodeURIComponent(currentSummary);
-             window.open(`viber://forward?text=${enc}`, "_blank");
-         };
-         document.getElementById("shareEmail").onclick = () => {
-             try {
-                 const currentSummary = createSummary(perDay, diffPct, avg, url, currentLang);
-                 const enc = encodeURIComponent(currentSummary);
-                 const subject = currentLang === "el" ? "Κατανάλωση νερού" : "Water Consumption";
-                 const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${enc}`;
-                 window.open(mailtoLink, "_blank");
-             } catch (err) {
-                 console.error('Failed to open email client:', err);
-                 showNotice(currentLang === "el" ? "Αποτυχία ανοίγματος email" : "Failed to open email client");
-             }
-         };
-         document.getElementById("copySummary").onclick = () => {
-             const currentSummary = createSummary(perDay, diffPct, avg, url, currentLang);
-             navigator.clipboard
-                 .writeText(currentSummary)
-                 .then(() => showNotice(translations[currentLang]["copy-success"]));
-         };
-         
-         // Initialize pledge slider and estimate box logic after injection
-         const pledgeSlider = document.getElementById("pledgeSlider");
-         function updatePledgeLabel() {
-             const label = document.getElementById("pledgeSliderLabel");
-             if (label) {
-                 let percent = 10;
-                 if (pledgeSlider) {
-                     percent = pledgeSlider.value;
-                 }
-                 // Calculate liters
-                 let perDay = 140;
-                 const resultValueElem = document.querySelector('.result-value');
-                 if (resultValueElem) {
-                     const match = resultValueElem.textContent.match(/([\d.]+)/);
-                     if (match) {
-                         perDay = parseFloat(match[1]);
-                     }
-                 }
-                 const newLiters = (perDay * (1 - percent / 100)).toFixed(1);
-                 const unit = currentLang === "el" ? "λίτρα" : "liters";
-                 label.innerHTML = `${translations[currentLang]["pledge-label"]} <span id='pledgeValue'>${percent}%</span> (${newLiters} ${unit})`;
-             }
-         }
-         function updatePledgeValue(val) {
-             // Update the percent and liters in the label inline
-             updatePledgeLabel();
-         }
-         if (pledgeSlider) {
-             updatePledgeLabel(); // Set initial label with percent and liters
-             pledgeSlider.addEventListener("input", function() {
-                 updatePledgeLabel(); // Update label with new percent and liters
-             });
-         } else {
-             updatePledgeLabel();
-         }
-         
-         // Update pledge label on language change (patch updateLanguage)
-         if (!window._origUpdateLanguagePledge) {
-             window._origUpdateLanguagePledge = updateLanguage;
-             updateLanguage = function(lang) {
-                 window._origUpdateLanguagePledge(lang);
-                 updatePledgeLabel();
-             };
-         }
-         
-         // After rendering the result, update the summary sentence
-         updateResultSummary();
-         if (pledgeSlider) {
-             pledgeSlider.addEventListener("input", updateResultSummary);
-         }
-         
-         // Also update summary on language change
-         if (!window._origUpdateLanguagePledgeSummary) {
-             window._origUpdateLanguagePledgeSummary = updateLanguage;
-             updateLanguage = function(lang) {
-                 window._origUpdateLanguagePledgeSummary(lang);
-                 updatePledgeLabel();
-                 updateResultSummary();
-             };
-         }
-         });
-         
-         // Modal functionality
-         const modal = document.getElementById("aboutModal");
-         const infoButton = document.getElementById("infoButton");
-         const modalClose = document.getElementById("modalClose");
-         
-         function openModal(modalElement) {
-           modalElement.style.display = "flex";
-           document.body.style.overflow = "hidden";
-         }
-         
-         function closeModal(modalElement) {
-           modalElement.style.display = "none";
-           document.body.style.overflow = "auto";
-         }
-         
-         infoButton.onclick = () => {
-           openModal(modal);
-         };
-         
-         modalClose.onclick = () => {
-           closeModal(modal);
-         };
-         
-         window.onclick = (event) => {
-           if (event.target === modal) {
-               closeModal(modal);
-           }
-         };
-         
-         // Notice Modal functionality
-         const noticeModal = document.getElementById("noticeModal");
-         const noticeModalClose = document.getElementById("noticeModalClose");
-         const noticeModalButton = document.getElementById("noticeModalButton");
-         const noticeModalMessage = document.getElementById("noticeModalMessage");
-         
-         function showNotice(message) {
-           noticeModalMessage.textContent = message;
-           openModal(noticeModal);
-         }
-         
-         function hideNotice() {
-           closeModal(noticeModal);
-         }
-         
-         noticeModalClose.onclick = hideNotice;
-         noticeModalButton.onclick = hideNotice;
-         noticeModal.onclick = (event) => {
-           if (event.target === noticeModal) {
-               hideNotice();
-           }
-         };
-         
-         // Add translations for the email copied message
-         translations.el["email-copied"] = "Το email αντιγράφηκε!";
-         translations.en["email-copied"] = "Email copied!";
-         
-         // Add email copy functionality with error handling
-         document.getElementById('contactEmail').addEventListener('click', function(e) {
-         e.preventDefault();
-         const email = this.textContent;
-         navigator.clipboard.writeText(email)
-           .then(() => {
-             showNotice(translations[currentLang]["email-copied"]);
-           })
-           .catch(err => {
-             console.error('Failed to copy email:', err);
-             showNotice(currentLang === "el" ? "Αποτυχία αντιγραφής email" : "Failed to copy email");
-           });
-         });
-         
+                // Show the result area
+                const result = document.getElementById("result");
+                result.style.removeProperty("display");
+                result.removeAttribute("hidden");
 
-         
-         // Example modal functionality
-         const exampleModal = document.getElementById('exampleModal');
-         const exampleModalClose = document.getElementById('exampleModalClose');
-         
-         document.addEventListener('click', function(e) {
-         if (e.target.classList.contains('example-link')) {
-           e.preventDefault();
-           openModal(exampleModal);
-         }
-         });
-         
-         exampleModalClose.onclick = () => {
-         closeModal(exampleModal);
-         };
-         
-         exampleModal.onclick = (event) => {
-         if (event.target === exampleModal) {
-           closeModal(exampleModal);
-         }
-         };
-         
-         // Initialize the page in Greek
-         updateLanguage("el");
-         
-         // Tips Modal functionality
-         const tipsModal = document.getElementById('tipsModal');
-         const tipsModalClose = document.getElementById('tipsModalClose');
-         const tipsButton = document.getElementById('tipsButton');
-         if (tipsButton) {
-         tipsButton.onclick = () => {
-           openModal(tipsModal);
-         };
-         }
-         tipsModalClose.onclick = () => {
-         closeModal(tipsModal);
-         };
-         tipsModal.onclick = (event) => {
-         if (event.target === tipsModal) {
-           closeModal(tipsModal);
-         }
-         };
-         
-         // Reminder Button functionality
-         const reminderButton = document.getElementById('reminderButton');
-         if (reminderButton) {
-         reminderButton.onclick = () => {
-             // Calculate date in one month
-             const oneMonthFromNow = new Date();
-             oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
-             
-             // Format date for calendar (all-day event)
-             const year = oneMonthFromNow.getFullYear();
-             const month = String(oneMonthFromNow.getMonth() + 1).padStart(2, '0');
-             const day = String(oneMonthFromNow.getDate()).padStart(2, '0');
-             
-             const startDate = `${year}${month}${day}`;
-             const endDate = `${year}${month}${day}`;
-             
-             // Create event details
-             const eventTitle = currentLang === 'el' ? 'Stagona.cy: Έλεγχος κατανάλωσης νερού' : 'Stagona.cy: Water consumption check';
-             const eventDescription = currentLang === 'el' 
-                 ? '<b>Κατάγραψε την κατανάλωση του μετρητή σου:</b><br>Έλεγξε ξανά την κατανάλωση νερού σου στο Stagona App: https://stagona.cy'
-                 : '<b>Record your water consumption:</b><br>Check your water consumption again on Stagona App: https://stagona.cy';
-             
-             // Create calendar URL for all-day event
-             const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventTitle)}&details=${encodeURIComponent(eventDescription)}&dates=${startDate}/${endDate}&sf=true`;
-             
-             // Open calendar in new tab
-             window.open(calendarUrl, '_blank');
-             
-             // Show success message
-             const successMsg = currentLang === 'el' 
-                 ? 'Η υπενθύμιση προστέθηκε στον ημερολόγιο σας. Μη ξεχάσετε να καταγράψτε την ένδειξη του μετρητή νερού σας σήμερα.' 
-                 : 'Reminder added to your calendar. Don\'t forget to record your water meter reading today.';
-             showNotice(successMsg);
-         };
-         }
-         
-         // Water Stress Info Modal functionality
-         const stressInfoModal = document.getElementById('stressInfoModal');
-         const stressInfoModalClose = document.getElementById('stressInfoModalClose');
-         const stressInfoButton = document.getElementById('stressInfo');
-         
-         if (stressInfoButton) {
-         stressInfoButton.onclick = () => {
-           openModal(stressInfoModal);
-         };
-         }
-         
-         stressInfoModalClose.onclick = () => {
-         closeModal(stressInfoModal);
-         };
-         
-         stressInfoModal.onclick = (event) => {
-         if (event.target === stressInfoModal) {
-           closeModal(stressInfoModal);
-         }
-         };
-         
-         // Action Info Modal functionality
-         const actionInfoModal = document.getElementById('actionInfoModal');
-         const actionInfoModalClose = document.getElementById('actionInfoModalClose');
-         const actionInfoButton = document.getElementById('actionInfo');
-         
-         if (actionInfoButton) {
-         actionInfoButton.onclick = () => {
-           openModal(actionInfoModal);
-         };
-         }
-         
-         actionInfoModalClose.onclick = () => {
-         closeModal(actionInfoModal);
-         };
-         
-         actionInfoModal.onclick = (event) => {
-         if (event.target === actionInfoModal) {
-           closeModal(actionInfoModal);
-         }
-         };
-         
-         // Why Info Modal functionality
-         const whyInfoModal = document.getElementById('whyInfoModal');
-         const whyInfoModalClose = document.getElementById('whyInfoModalClose');
-         const whyInfoButton = document.getElementById('whyInfo');
-         
-         if (whyInfoButton) {
-         whyInfoButton.onclick = () => {
-           openModal(whyInfoModal);
-         };
-         }
-         
-         whyInfoModalClose.onclick = () => {
-         closeModal(whyInfoModal);
-         };
-         
-         whyInfoModal.onclick = (event) => {
-         if (event.target === whyInfoModal) {
-           closeModal(whyInfoModal);
-         }
-         };
-         
-         document.addEventListener("DOMContentLoaded", function() {
-         updateLanguage(currentLang);
-         
-         // Prevent automatic scrolling to instructions on page load
-         if (window.location.hash === '#instructions') {
-             // Remove the hash from URL without scrolling
-             history.replaceState(null, null, window.location.pathname + window.location.search);
-         }
-         });
-         
-         // Add translations for the pledge slider label
-         translations.el["pledge-label"] = "Θα προσπαθήσω να μειώσω την κατανάλωση νερού κατά:";
-         translations.en["pledge-label"] = "I pledge to reduce my water usage by:";
-         
-         // Pledge slider logic
-         function updatePledgeLabel() {
-           const label = document.getElementById("pledgeSliderLabel");
-           if (label) {
-               label.textContent = translations[currentLang]["pledge-label"];
-           }
-           // Also update the estimate label and unit
-           const estimateLabel = document.getElementById("pledgeEstimateLabel");
-           if (estimateLabel) {
-               estimateLabel.textContent = translations[currentLang]["pledge-estimate-label"];
-           }
-           const estimateUnit = document.getElementById("pledgeEstimateUnit");
-           if (estimateUnit) {
-               estimateUnit.textContent = currentLang === "el" ? "λίτρα" : "liters";
-           }
-         }
-         function updatePledgeValue(val) {
-           const valueSpan = document.getElementById("pledgeValue");
-           if (valueSpan) {
-               valueSpan.textContent = val + "%";
-           }
-           // Update the estimate value using the calculated perDay value
-           const estimateValue = document.getElementById("pledgeEstimateValue");
-           if (estimateValue) {
-               const percent = parseInt(val, 10) || 0;
-               // Try to get the actual result value from the DOM
-               let perDay = 140;
-               const resultValueElem = document.querySelector('.result-value');
-               if (resultValueElem) {
-                   // Extract the number from the text, which is like "123.4 λίτρα" or "123.4 liters"
-                   const match = resultValueElem.textContent.match(/([\d.]+)/);
-                   if (match) {
-                       perDay = parseFloat(match[1]);
-                   }
-               }
-               const newLiters = (perDay * (1 - percent / 100)).toFixed(1);
-               estimateValue.textContent = newLiters;
-           }
-         }
-         // Initialize pledge slider
-         const pledgeSlider = document.getElementById("pledgeSlider");
-         if (pledgeSlider) {
-           updatePledgeValue(pledgeSlider.value);
-           pledgeSlider.addEventListener("input", function() {
-               updatePledgeValue(this.value);
-           });
-         }
-         updatePledgeLabel();
-         // Update pledge label on language change
-         const origUpdateLanguage = updateLanguage;
-         updateLanguage = function(lang) {
-           origUpdateLanguage(lang);
-           updatePledgeLabel();
-         };
-         
-         function getPledgePhrase(lang) {
-           const slider = document.getElementById("pledgeSlider");
-           const val = slider ? parseInt(slider.value, 10) : 0;
-           if (val > 0) {
-               const liters = document.getElementById("pledgeEstimateValue")?.textContent || "";
-               if (lang === "el") {
-                   return `\nΔεσμεύομαι να μειώσω την κατανάλωση νερού κατά ${val}% (${liters} λίτρα).`;
-               } else {
-                   return `\nI pledge to reduce my water consumption by ${val}% (${liters} liters).`;
-               }
-           }
-           return "";
-         }
-         
-         
-         if ('serviceWorker' in navigator) {
-         navigator.serviceWorker.register('js/sw.js')
-         .then(() => console.log('SW registered'))
-         .catch(console.error);
-         }
+                // Update static fields
+                const valueElem = result.querySelector(".result-value");
+                if (valueElem) valueElem.textContent = perDay.toFixed(1) + (currentLang === "el" ? " λίτρα" : " liters");
+
+                const diffElem = result.querySelector(".result-diff");
+                if (diffElem) diffElem.innerHTML = (perDay < avg ?
+                    `${Math.abs(diffPct).toFixed(1)}%<br>${translations[currentLang]["result-below"]}` :
+                    `${diffPct.toFixed(1)}%<br>${translations[currentLang]["result-above"]}`);
+
+                // Update gauge
+                const bar = document.getElementById("gaugeBar");
+                if (bar) {
+                    const percentage = Math.min(100, Math.max(0, ((perDay - 70) / (210 - 70)) * 100));
+                    bar.style.width = percentage + "%";
+                    if (percentage <= 50) {
+                        const greenToOrange = percentage / 50;
+                        const red = Math.round(76 + (greenToOrange * 127));
+                        const green = Math.round(175 - (greenToOrange * 87));
+                        const blue = Math.round(80 - (greenToOrange * 80));
+                        bar.style.background = `rgb(${red}, ${green}, ${blue})`;
+                    } else {
+                        const orangeToRed = (percentage - 50) / 50;
+                        const red = Math.round(203 + (orangeToRed * 52));
+                        const green = Math.round(88 - (orangeToRed * 88));
+                        bar.style.background = `rgb(${red}, ${green}, 0)`;
+                    }
+                }
+
+                // Update result message
+                const msgElem = document.getElementById("resultMessage");
+                if (msgElem) {
+                    let msg = "";
+                    if (diffPct < -20) {
+                        msg = translations[currentLang]["result-excellent"] + "<br/><br/>" + translations[currentLang]["result-excellent-desc"];
+                    } else if (diffPct >= -20 && diffPct < -10) {
+                        msg = translations[currentLang]["result-good"] + "<br/><br/>" + translations[currentLang]["result-good-desc"];
+                    } else if (diffPct >= -10 && diffPct < 0) {
+                        msg = translations[currentLang]["result-average"] + "<br/><br/>" + translations[currentLang]["result-average-desc"];
+                    } else if (diffPct >= 0 && diffPct < 10) {
+                        msg = translations[currentLang]["result-slightly-high"] + "<br/><br/>" + translations[currentLang]["result-slightly-high-desc"];
+                    } else if (diffPct >= 10 && diffPct < 20) {
+                        msg = translations[currentLang]["result-high"] + "<br/><br/>" + translations[currentLang]["result-high-desc"];
+                    } else {
+                        msg = translations[currentLang]["result-very-high"] + "<br/><br/>" + translations[currentLang]["result-very-high-desc"];
+                    }
+                    msgElem.innerHTML = msg;
+                }
+
+                // Update summary
+                updateResultSummary();
+                // Connect slider
+                const pledgeSlider = document.getElementById("pledgeSlider");
+                if (pledgeSlider) {
+                    pledgeSlider.oninput = updateResultSummary;
+                }
+
+                // Attach share button event listeners
+                const url = "https://stagona.cy";
+
+                function getCurrentSummary() {
+                    return createSummary(perDay, diffPct, avg, url, currentLang);
+                }
+                const shareTwitter = document.getElementById("shareTwitter");
+                if (shareTwitter) shareTwitter.onclick = () => {
+                    // Download the banner image first
+                    const canvas = document.getElementById('bannerCanvas');
+                    const link = document.createElement('a');
+                    link.download = 'stagona-banner.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+
+                    // Copy message to clipboard and show info
+                    const message = getCurrentSummary();
+                    navigator.clipboard.writeText(message).then(() => {
+                        const modalMessage = currentLang === 'el' ?
+                            '✅ Η εικόνα κατέβηκε!\n📋 Το μήνυμα αντιγράφηκε!\n\nΤώρα ανοίγει το Twitter για να μοιραστείτε την εικόνα και το μήνυμα.' :
+                            '✅ Image downloaded!\n📋 Message copied to clipboard!\n\nNow opening Twitter to share the image and message.';
+
+                        showNotice(modalMessage);
+
+                        // Open Twitter after a short delay
+                        setTimeout(() => {
+                            const enc = encodeURIComponent(message);
+                            window.open(`https://twitter.com/intent/tweet?text=${enc}`, "_blank");
+                        }, 1000);
+                    }).catch(err => {
+                        console.error('Failed to copy message:', err);
+                        showNotice(currentLang === 'el' ?
+                            'Η εικόνα κατέβηκε! Αποτυχία αντιγραφής μηνύματος.' :
+                            'Image downloaded! Failed to copy message.');
+                    });
+                };
+                const shareFacebook = document.getElementById("shareFacebook");
+                if (shareFacebook) shareFacebook.onclick = () => {
+                    const enc = encodeURIComponent(getCurrentSummary());
+                    window.open(
+                        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${enc}`,
+                        "_blank"
+                    );
+                };
+                const shareWhatsApp = document.getElementById("shareWhatsApp");
+                if (shareWhatsApp) shareWhatsApp.onclick = () => {
+                    // Download the banner image first
+                    const canvas = document.getElementById('bannerCanvas');
+                    const link = document.createElement('a');
+                    link.download = 'stagona-banner.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+
+                    // Copy message to clipboard and show info
+                    const message = getCurrentSummary();
+                    navigator.clipboard.writeText(message).then(() => {
+                        const modalMessage = currentLang === 'el' ?
+                            '✅ Η εικόνα κατέβηκε!\n📋 Το μήνυμα αντιγράφηκε!\n\nΤώρα ανοίγει το WhatsApp για να μοιραστείτε την εικόνα και το μήνυμα.' :
+                            '✅ Image downloaded!\n📋 Message copied to clipboard!\n\nNow opening WhatsApp to share the image and message.';
+
+                        showNotice(modalMessage);
+
+                        // Open WhatsApp after a short delay
+                        setTimeout(() => {
+                            const enc = encodeURIComponent(message);
+                            window.open(`https://wa.me/?text=${enc}`, "_blank");
+                        }, 1000);
+                    }).catch(err => {
+                        console.error('Failed to copy message:', err);
+                        showNotice(currentLang === 'el' ?
+                            'Η εικόνα κατέβηκε! Αποτυχία αντιγραφής μηνύματος.' :
+                            'Image downloaded! Failed to copy message.');
+                    });
+                };
+                const shareViber = document.getElementById("shareViber");
+                if (shareViber) shareViber.onclick = () => {
+                    // Download the banner image first
+                    const canvas = document.getElementById('bannerCanvas');
+                    const link = document.createElement('a');
+                    link.download = 'stagona-banner.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+
+                    // Copy message to clipboard and show info
+                    const message = getCurrentSummary();
+                    navigator.clipboard.writeText(message).then(() => {
+                        const modalMessage = currentLang === 'el' ?
+                            '✅ Η εικόνα κατέβηκε!\n📋 Το μήνυμα αντιγράφηκε!\n\nΤώρα ανοίγει το Viber για να μοιραστείτε την εικόνα και το μήνυμα.' :
+                            '✅ Image downloaded!\n📋 Message copied to clipboard!\n\nNow opening Viber to share the image and message.';
+
+                        showNotice(modalMessage);
+
+                        // Open Viber after a short delay
+                        setTimeout(() => {
+                            const enc = encodeURIComponent(message);
+                            window.open(`viber://forward?text=${enc}`, "_blank");
+                        }, 1000);
+                    }).catch(err => {
+                        console.error('Failed to copy message:', err);
+                        showNotice(currentLang === 'el' ?
+                            'Η εικόνα κατέβηκε! Αποτυχία αντιγραφής μηνύματος.' :
+                            'Image downloaded! Failed to copy message.');
+                    });
+                };
+                const shareEmail = document.getElementById("shareEmail");
+                if (shareEmail) shareEmail.onclick = () => {
+                    try {
+                        // Download the banner image first
+                        const canvas = document.getElementById('bannerCanvas');
+                        const link = document.createElement('a');
+                        link.download = 'stagona-banner.png';
+                        link.href = canvas.toDataURL('image/png');
+                        link.click();
+
+                        // Copy message to clipboard and show info
+                        const message = getCurrentSummary();
+                        navigator.clipboard.writeText(message).then(() => {
+                            const modalMessage = currentLang === 'el' ?
+                                '✅ Η εικόνα κατέβηκε!\n📋 Το μήνυμα αντιγράφηκε!\n\nΤώρα ανοίγει το email client για να μοιραστείτε την εικόνα και το μήνυμα.' :
+                                '✅ Image downloaded!\n📋 Message copied to clipboard!\n\nNow opening email client to share the image and message.';
+
+                            showNotice(modalMessage);
+
+                            // Open email after a short delay
+                            setTimeout(() => {
+                                const enc = encodeURIComponent(message);
+                                const subject = currentLang === "el" ? "Κατανάλωση νερού" : "Water Consumption";
+                                const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${enc}`;
+                                window.open(mailtoLink, "_blank");
+                            }, 1000);
+                        }).catch(err => {
+                            console.error('Failed to copy message:', err);
+                            showNotice(currentLang === 'el' ?
+                                'Η εικόνα κατέβηκε! Αποτυχία αντιγραφής μηνύματος.' :
+                                'Image downloaded! Failed to copy message.');
+                        });
+                    } catch (err) {
+                        showNotice(currentLang === "el" ? "Αποτυχία ανοίγματος email" : "Failed to open email client");
+                    }
+                };
+                const shareInstagram = document.getElementById("shareInstagram");
+                if (shareInstagram) shareInstagram.onclick = () => {
+                    // Download the banner image
+                    const canvas = document.getElementById('bannerCanvas');
+                    const link = document.createElement('a');
+                    link.download = 'stagona-banner.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+
+                    // Copy message to clipboard
+                    const message = getCurrentSummary();
+                    navigator.clipboard.writeText(message).then(() => {
+                        // Show informational modal
+                        const modalMessage = currentLang === 'el' ?
+                            '✅ Η εικόνα κατέβηκε!\n📋 Το μήνυμα αντιγράφηκε!\n\nΤώρα ανοίγει το Instagram για να μοιραστείτε την εικόνα και το μήνυμα.' :
+                            '✅ Image downloaded!\n📋 Message copied to clipboard!\n\nNow opening Instagram to share the image and message.';
+
+                        showNotice(modalMessage);
+
+                        // Open Instagram after a short delay
+                        setTimeout(() => {
+                            window.open('https://instagram.com', '_blank');
+                        }, 1000);
+                    }).catch(err => {
+                        console.error('Failed to copy message:', err);
+                        showNotice(currentLang === 'el' ?
+                            'Η εικόνα κατέβηκε! Αποτυχία αντιγραφής μηνύματος.' :
+                            'Image downloaded! Failed to copy message.');
+                    });
+                };
+                const copySummary = document.getElementById("copySummary");
+                if (copySummary) copySummary.onclick = () => {
+                    navigator.clipboard
+                        .writeText(getCurrentSummary())
+                        .then(() => showNotice(translations[currentLang]["copy-success"]));
+                };
+
+                // Generate dynamic banner
+                generateBanner(perDay, diffPct);
+            });
+
+            // Banner generation function
+            function generateBanner(perDay, diffPct) {
+                const template = document.getElementById('bannerTemplate');
+                const canvas = document.getElementById('bannerCanvas');
+                const ctx = canvas.getContext('2d');
+
+                // Helper function to wrap a single paragraph to maxWidth
+                function wrapLines(ctx, paragraph, maxWidth) {
+                    const words = paragraph.split(/\s+/);
+                    const lines = [];
+                    let line = '';
+
+                    words.forEach((w, i) => {
+                        const test = line + w + ' ';
+                        if (ctx.measureText(test).width > maxWidth && i) {
+                            lines.push(line.trim());
+                            line = w + ' ';
+                        } else {
+                            line = test;
+                        }
+                    });
+                    lines.push(line.trim());
+                    return lines;
+                }
+
+                // Function to actually draw the banner
+                function drawBanner() {
+                    // Match canvas to template
+                    canvas.width = template.naturalWidth;
+                    canvas.height = template.naturalHeight;
+
+                    // Clear and draw template
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(template, 0, 0);
+
+                    // Text settings
+                    ctx.fillStyle = '#003366';
+                    ctx.font = '56px "Playpen Sans", Georgia';
+                    ctx.textAlign = 'left';
+
+                    const boxWidth = canvas.width * 0.50; // 70% of banner width
+                    const lineHeight = 70; // px between lines
+                    const startY = canvas.height * 0.22; // vertical start
+                    const centerX = canvas.width / 2 * 0.35;
+
+                    // Create dynamic text based on user data
+                    const pledgeValue = document.getElementById('pledgeSlider').value;
+
+                    // Calculate difference from average for display
+                    const avg = 140;
+                    const diffPct = ((perDay - avg) / avg) * 100;
+
+                    // New banner text - different content based on pledge value
+                    let quote;
+                    if (pledgeValue == 0) {
+                        // Show calculation summary when no pledge is set
+                        quote = currentLang === 'el' ?
+                            `Καταναλώνω ${perDay.toFixed(1)} λίτρα ανά ημέρα (${Math.abs(diffPct).toFixed(1)}% ${diffPct < 0 ? 'κάτω' : 'πάνω'} από μέσο όρο των 140).\nΓινόμαστε μέρος της λύσης!` :
+                            `Ι consumpe ${perDay.toFixed(1)} liters per day (${Math.abs(diffPct).toFixed(1)}% ${diffPct < 0 ? 'below' : 'above'} the average of 140).\nLets be part of the soltuion!`;
+                    } else {
+                        // Show pledge text when pledge is set
+                        quote = currentLang === 'el' ?
+                            `Θα μειώσω κατά ${pledgeValue}% τη χρήση νερού στο σπίτι μου, από ${perDay.toFixed(0)} λίτρα ανά ημέρα.\nΕίμαι μέρος της λύσης!` :
+                            `I will reduce by ${pledgeValue}% my water consumption, from ${perDay.toFixed(0)} Liters per day.\nI am part of the solution!`;
+                    }
+
+                    // Split by explicit newlines first, then wrap each paragraph
+                    const paragraphs = quote.split('\n');
+                    let y = startY;
+
+                    paragraphs.forEach(p => {
+                        const lines = wrapLines(ctx, p, boxWidth);
+                        lines.forEach(l => {
+                            ctx.fillText(l, centerX, y);
+                            y += lineHeight;
+                        });
+                        // Extra gap between paragraphs
+                        y += lineHeight * 0.3;
+                    });
+                }
+
+                // Check if font is loaded and draw banner
+                function checkFontAndDraw() {
+                    // Use Font Loading API if available
+                    if ('fonts' in document) {
+                        document.fonts.load('56px "Playpen Sans"').then(() => {
+                            drawBanner();
+                        }).catch(() => {
+                            // Fallback if font loading fails
+                            setTimeout(() => {
+                                drawBanner();
+                            }, 100);
+                        });
+                    } else {
+                        // Fallback for browsers without Font Loading API
+                        setTimeout(() => {
+                            drawBanner();
+                        }, 100);
+                    }
+                }
+
+                template.onload = () => {
+                    checkFontAndDraw();
+                };
+
+                // If image is already loaded, trigger onload
+                if (template.complete) {
+                    template.onload();
+                }
+            }
+
+            // Download banner functionality
+            document.getElementById('downloadBanner').addEventListener('click', () => {
+                const canvas = document.getElementById('bannerCanvas');
+                const link = document.createElement('a');
+                link.download = 'stagona-banner.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+
+            // Modal functionality
+            const modal = document.getElementById("aboutModal");
+            const infoButton = document.getElementById("infoButton");
+            const modalClose = document.getElementById("modalClose");
+
+            function openModal(modalElement) {
+                modalElement.style.display = "flex";
+                document.body.style.overflow = "hidden";
+            }
+
+            function closeModal(modalElement) {
+                modalElement.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+
+            infoButton.onclick = () => {
+                openModal(modal);
+            };
+
+            modalClose.onclick = () => {
+                closeModal(modal);
+            };
+
+            window.onclick = (event) => {
+                if (event.target === modal) {
+                    closeModal(modal);
+                }
+            };
+
+            // Notice Modal functionality
+            const noticeModal = document.getElementById("noticeModal");
+            const noticeModalClose = document.getElementById("noticeModalClose");
+            const noticeModalButton = document.getElementById("noticeModalButton");
+            const noticeModalMessage = document.getElementById("noticeModalMessage");
+
+            function showNotice(message) {
+                noticeModalMessage.textContent = message;
+                openModal(noticeModal);
+            }
+
+            function hideNotice() {
+                closeModal(noticeModal);
+            }
+
+            noticeModalClose.onclick = hideNotice;
+            noticeModalButton.onclick = hideNotice;
+            noticeModal.onclick = (event) => {
+                if (event.target === noticeModal) {
+                    hideNotice();
+                }
+            };
+
+            // Add translations for the email copied message
+            translations.el["email-copied"] = "Το email αντιγράφηκε!";
+            translations.en["email-copied"] = "Email copied!";
+
+            // Add email copy functionality with error handling
+            document.getElementById('contactEmail').addEventListener('click', function(e) {
+                e.preventDefault();
+                const email = this.textContent;
+                navigator.clipboard.writeText(email)
+                    .then(() => {
+                        showNotice(translations[currentLang]["email-copied"]);
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy email:', err);
+                        showNotice(currentLang === "el" ? "Αποτυχία αντιγραφής email" : "Failed to copy email");
+                    });
+            });
+
+
+
+            // Example modal functionality
+            const exampleModal = document.getElementById('exampleModal');
+            const exampleModalClose = document.getElementById('exampleModalClose');
+
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('example-link')) {
+                    e.preventDefault();
+                    openModal(exampleModal);
+                }
+            });
+
+            exampleModalClose.onclick = () => {
+                closeModal(exampleModal);
+            };
+
+            exampleModal.onclick = (event) => {
+                if (event.target === exampleModal) {
+                    closeModal(exampleModal);
+                }
+            };
+
+            // Initialize the page in Greek
+            updateLanguage("el");
+
+            // Tips Modal functionality
+            const tipsModal = document.getElementById('tipsModal');
+            const tipsModalClose = document.getElementById('tipsModalClose');
+            const tipsButton = document.getElementById('tipsButton');
+            if (tipsButton) {
+                tipsButton.onclick = () => {
+                    openModal(tipsModal);
+                };
+            }
+            tipsModalClose.onclick = () => {
+                closeModal(tipsModal);
+            };
+            tipsModal.onclick = (event) => {
+                if (event.target === tipsModal) {
+                    closeModal(tipsModal);
+                }
+            };
+
+            // Reminder Button functionality
+            const reminderButton = document.getElementById('reminderButton');
+            if (reminderButton) {
+                reminderButton.onclick = () => {
+                    // Calculate date in one month
+                    const oneMonthFromNow = new Date();
+                    oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
+
+                    // Format date for calendar (all-day event)
+                    const year = oneMonthFromNow.getFullYear();
+                    const month = String(oneMonthFromNow.getMonth() + 1).padStart(2, '0');
+                    const day = String(oneMonthFromNow.getDate()).padStart(2, '0');
+
+                    const startDate = `${year}${month}${day}`;
+                    const endDate = `${year}${month}${day}`;
+
+                    // Create event details
+                    const eventTitle = currentLang === 'el' ? 'Stagona.cy: Έλεγχος κατανάλωσης νερού' : 'Stagona.cy: Water consumption check';
+                    const eventDescription = currentLang === 'el' ?
+                        '<b>Κατάγραψε την κατανάλωση του μετρητή σου:</b><br>Έλεγξε ξανά την κατανάλωση νερού σου στο Stagona App: https://stagona.cy' :
+                        '<b>Record your water consumption:</b><br>Check your water consumption again on Stagona App: https://stagona.cy';
+
+                    // Create calendar URL for all-day event
+                    const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventTitle)}&details=${encodeURIComponent(eventDescription)}&dates=${startDate}/${endDate}&sf=true`;
+
+                    // Open calendar in new tab
+                    window.open(calendarUrl, '_blank');
+
+                    // Show success message
+                    const successMsg = currentLang === 'el' ?
+                        'Η υπενθύμιση προστέθηκε στον ημερολόγιο σας. Μη ξεχάσετε να καταγράψτε την ένδειξη του μετρητή νερού σας σήμερα.' :
+                        'Reminder added to your calendar. Don\'t forget to record your water meter reading today.';
+                    showNotice(successMsg);
+                };
+            }
+
+            // Water Stress Info Modal functionality
+            const stressInfoModal = document.getElementById('stressInfoModal');
+            const stressInfoModalClose = document.getElementById('stressInfoModalClose');
+            const stressInfoButton = document.getElementById('stressInfo');
+
+            if (stressInfoButton) {
+                stressInfoButton.onclick = () => {
+                    openModal(stressInfoModal);
+                };
+            }
+
+            stressInfoModalClose.onclick = () => {
+                closeModal(stressInfoModal);
+            };
+
+            stressInfoModal.onclick = (event) => {
+                if (event.target === stressInfoModal) {
+                    closeModal(stressInfoModal);
+                }
+            };
+
+            // Action Info Modal functionality
+            const actionInfoModal = document.getElementById('actionInfoModal');
+            const actionInfoModalClose = document.getElementById('actionInfoModalClose');
+            const actionInfoButton = document.getElementById('actionInfo');
+
+            if (actionInfoButton) {
+                actionInfoButton.onclick = () => {
+                    openModal(actionInfoModal);
+                };
+            }
+
+            actionInfoModalClose.onclick = () => {
+                closeModal(actionInfoModal);
+            };
+
+            actionInfoModal.onclick = (event) => {
+                if (event.target === actionInfoModal) {
+                    closeModal(actionInfoModal);
+                }
+            };
+
+            // Why Info Modal functionality
+            const whyInfoModal = document.getElementById('whyInfoModal');
+            const whyInfoModalClose = document.getElementById('whyInfoModalClose');
+            const whyInfoButton = document.getElementById('whyInfo');
+            const calculationMethodButton = document.getElementById('calculationMethodButton');
+
+            if (whyInfoButton) {
+                whyInfoButton.onclick = () => {
+                    openModal(whyInfoModal);
+                };
+            }
+
+            if (calculationMethodButton) {
+                calculationMethodButton.onclick = () => {
+                    openModal(whyInfoModal);
+                };
+            }
+
+            whyInfoModalClose.onclick = () => {
+                closeModal(whyInfoModal);
+            };
+
+            whyInfoModal.onclick = (event) => {
+                if (event.target === whyInfoModal) {
+                    closeModal(whyInfoModal);
+                }
+            };
+
+            // Add translations for the pledge slider label
+            translations.el["pledge-label"] = "Θα προσπαθήσω να μειώσω την κατανάλωση νερού κατά:";
+            translations.en["pledge-label"] = "I pledge to reduce my water usage by:";
+
+            // Pledge slider logic
+            function updatePledgeLabel() {
+                const label = document.getElementById("pledgeSliderLabel");
+                if (label) {
+                    const slider = document.getElementById("pledgeSlider");
+                    const percent = slider ? parseInt(slider.value, 10) : 10;
+
+                    // Calculate liters from current result
+                    let perDay = 140;
+                    const resultValueElem = document.querySelector('.result-value');
+                    if (resultValueElem) {
+                        const match = resultValueElem.textContent.match(/([\d.]+)/);
+                        if (match) {
+                            perDay = parseFloat(match[1]);
+                        }
+                    }
+
+                    const newLiters = (perDay * (1 - percent / 100)).toFixed(1);
+                    const unit = currentLang === "el" ? "λίτρα" : "liters";
+                    label.innerHTML = `${translations[currentLang]["pledge-label"]} <span id='pledgeValue'>${percent}%</span> (${newLiters} ${unit})`;
+                }
+            }
+
+            // Initialize pledge slider
+            const pledgeSlider = document.getElementById("pledgeSlider");
+            if (pledgeSlider) {
+                updatePledgeLabel();
+                pledgeSlider.addEventListener("input", function() {
+                    updatePledgeLabel();
+                    updateResultSummary();
+                });
+            }
+
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('js/sw.js')
+                    .then(() => console.log('SW registered'))
+                    .catch(console.error);
+            }
+
+            // Function to update result message based on current values and language
+            function updateResultMessage() {
+                const msgElem = document.getElementById("resultMessage");
+                if (!msgElem) return;
+
+                // Get current calculation values
+                const totalM3 = parseFloat(document.getElementById("total").value);
+                const months = parseInt(document.getElementById("period").value);
+                const people = parseInt(document.getElementById("people").value);
+
+                if (totalM3 <= 0 || months <= 0 || people <= 0) return;
+
+                const totalLitres = totalM3 * 1000;
+                const days = months * 30.4;
+                const perDay = totalLitres / days / people;
+                const avg = 140;
+                const diffPct = ((perDay - avg) / avg) * 100;
+
+                // Update result message based on difference percentage
+                let msg = "";
+                if (diffPct < -20) {
+                    msg = translations[currentLang]["result-excellent"] + "<br/><br/>" + translations[currentLang]["result-excellent-desc"];
+                } else if (diffPct >= -20 && diffPct < -10) {
+                    msg = translations[currentLang]["result-good"] + "<br/><br/>" + translations[currentLang]["result-good-desc"];
+                } else if (diffPct >= -10 && diffPct < 0) {
+                    msg = translations[currentLang]["result-average"] + "<br/><br/>" + translations[currentLang]["result-average-desc"];
+                } else if (diffPct >= 0 && diffPct < 10) {
+                    msg = translations[currentLang]["result-slightly-high"] + "<br/><br/>" + translations[currentLang]["result-slightly-high-desc"];
+                } else if (diffPct >= 10 && diffPct < 20) {
+                    msg = translations[currentLang]["result-high"] + "<br/><br/>" + translations[currentLang]["result-high-desc"];
+                } else {
+                    msg = translations[currentLang]["result-very-high"] + "<br/><br/>" + translations[currentLang]["result-very-high-desc"];
+                }
+                msgElem.innerHTML = msg;
+            }
+        });
     </script>
     <!-- Start Open Web Analytics Tracker -->
     <script type="text/javascript">

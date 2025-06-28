@@ -1,14 +1,14 @@
 :root {
-   --primary: #0066cc;
-   --secondary: #4caf50;
-   --danger: #e53935;
-   --bg-gradient: linear-gradient(135deg, #e0f7fa 0%, #80deea 100%);
-   --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --primary: #0066cc;
+    --secondary: #4caf50;
+    --danger: #e53935;
+    --bg-gradient: linear-gradient(135deg, #e0f7fa 0%, #80deea 100%);
+    --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #installSnackbarBtn:hover {
-   background: #e0f7fa;
-   color: #004a99;
+    background: #e0f7fa;
+    color: #004a99;
 }
 
 :root {
@@ -227,6 +227,8 @@ button:hover {
         transform: scale(1);
     }
 }
+
+
 /* Modal styles */
 
 .info-button {
@@ -338,6 +340,8 @@ button:hover {
     background: #0066cc;
     color: white;
 }
+
+
 /* Notice Modal Styles */
 
 .notice-modal {
@@ -772,6 +776,10 @@ label[for="total"] {
     width: 100%;
     border-radius: 8px;
     box-sizing: border-box;
+    background: none;
+    border: 2px solid #000;
+    padding: 1.25rem 1rem;
+    margin-bottom: 1.5rem;
 }
 
 #pledgeSlider {
@@ -779,17 +787,35 @@ label[for="total"] {
 }
 
 #resultSummary {
-    margin-top: 1.2rem;
-    font-size: 0.97rem;
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
     font-style: italic;
-    text-align: left;
-    background: #f7fafd;
-    border-left: 4px solid #b3d1f7;
-    padding: 0.8em 1em;
-    color: #444;
-    border-radius: 6px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    font-size: 0.8em;
 }
+
+#bannerImage {
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
+    font-style: italic;
+    font-size: 0.8em;
+    background: #fff;
+}
+
+#bannerCanvas {
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+
 /* Add to <style> section */
 
 .install-snackbar {
@@ -836,4 +862,48 @@ label[for="total"] {
 #installSnackbarBtn:hover {
     background: #e0f7fa;
     color: #004a99;
+}
+
+.input-group-bordered {
+    border: 2px solid #000;
+    border-radius: 8px;
+    padding: 1.25rem 1rem;
+    margin-bottom: 1.5rem;
+    background: #fff;
+}
+
+.share-title {
+    text-align: center;
+    color: var(--primary);
+    font-size: 1rem;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+#bluebox {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: #e6f2ff;
+    border-radius: 8px;
+    line-height: 1.4;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+#resultMessage {
+    text-align: left;
+}
+
+.pledge-title {
+    text-align: center !important;
+    color: var(--primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+}
+
+#pledge-subtitle {
+    color: #666;
+    margin: 0.5rem 0 0 0;
+    font-size: 0.9rem;
 }
