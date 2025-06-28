@@ -908,3 +908,38 @@ label[for="total"] {
     margin: 0.5rem 0 0 0;
     font-size: 0.9rem;
 }
+
+.tips-modal-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    background: #e3f2fd;
+    border: 2px solid var(--primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    justify-content: center;
+}
+
+#resultMessage .tips-modal-link {
+    display: block;
+    text-align: center;
+    margin: 1rem auto;
+}
+
+.tips-modal-link:hover {
+    background: #bbdefb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+}
+
+.tips-modal-link:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

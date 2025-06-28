@@ -64,7 +64,7 @@
                 </div>
 
                 <label for="total"><span data-el="total-label"></span><a href="#" class="example-link" data-el="example-link"></a></label>
-                <input type="number" id="total" data-el="total-placeholder" min="0" step="0.1" />
+                <input type="number" id="total" data-el="total-placeholder" min="0" step="0.1" max="500" />
                 <label for="period" data-el="period-label"></label>
                 <select id="period" required>
             <option value="" disabled selected data-el="period-select"></option>
@@ -74,7 +74,7 @@
             <option value="4" data-el="period-4"></option>
          </select>
                 <label for="people" data-el="people-label"></label>
-                <input type="number" id="people" data-el="people-placeholder" min="1" step="1" />
+                <input type="number" id="people" data-el="people-placeholder" min="1" step="1" max="15" />
                 <button id="calc"><strong>⚙️<span data-el="calc-button" ></span></strong></button>
             </div>
 
@@ -379,13 +379,13 @@
                     if (mode === "share") {
                         summary = `Μόλις υπολόγισα την ατομική κατανάλωσή νερού μου: ${perDay.toFixed(1)} λίτρα/ημέρα (${diffStr}).`;
                         if (pledge > 0 && pledgeLiters !== null) {
-                            summary += ` Θα προσπαθήσω να τη μειώσω κατά ${pledge}% (${pledgeLiters} λίτρα/ημέρα) μέσα στον επόμενο μήνα.`;
+                            summary += ` Θα προσπαθήσω να τη μειώσω κατά ${pledge}% (${pledgeLiters} λίτρα/ημέρα) μέσα στον επόμενο μήνα. #Cyprus125`;
                         }
                         summary += ` Δοκίμασέ το και εσύ: ${url}`;
                     } else {
                         summary = `Μόλις υπολόγισα την ατομική κατανάλωσή νερού μου: ${perDay.toFixed(1)} λίτρα/ημέρα (${diffStr}).`;
                         if (pledge > 0 && pledgeLiters !== null) {
-                            summary += ` Θα προσπαθήσω να τη μειώσω κατά ${pledge}% (${pledgeLiters} λίτρα/ημέρα) μέσα στον επόμενο μήνα.`;
+                            summary += ` Θα προσπαθήσω να τη μειώσω κατά ${pledge}% (${pledgeLiters} λίτρα/ημέρα) μέσα στον επόμενο μήνα. #Cyprus125`;
                         }
                         summary += ` Δοκίμασέ το και εσύ: ${url}`;
                     }
@@ -393,13 +393,13 @@
                     if (mode === "share") {
                         summary = `I've just calculated my individual water consumption: ${perDay.toFixed(1)} liters/day (${diffStr}).`;
                         if (pledge > 0 && pledgeLiters !== null) {
-                            summary += ` I will try to reduce it by ${pledge}% (${pledgeLiters} liters/day) in the next month.`;
+                            summary += ` I will try to reduce it by ${pledge}% (${pledgeLiters} liters/day) in the next month. #Cyprus125`;
                         }
                         summary += ` Try it yourself: ${url}`;
                     } else {
                         summary = `I've just calculated my individual water consumption: ${perDay.toFixed(1)} liters/day (${diffStr}).`;
                         if (pledge > 0 && pledgeLiters !== null) {
-                            summary += ` I will try to reduce it by ${pledge}% (${pledgeLiters} liters/day) in the next month.`;
+                            summary += ` I will try to reduce it by ${pledge}% (${pledgeLiters} liters/day) in the next month. #Cyprus125`;
                         }
                         summary += ` Try it yourself: ${url}`;
                     }
@@ -612,6 +612,18 @@
                     showNotice(translations[currentLang]["negative-people"]);
                     return;
                 }
+                if (totalM3 > 500) {
+                    showNotice(currentLang === 'el' ? 'Η μέγιστη αποδεκτή τιμή είναι 500 m³.' : 'Maximum allowed value is 500 m³.');
+                    document.getElementById("total").value = 500;
+                    document.getElementById("total").focus();
+                    return;
+                }
+                if (people > 15) {
+                    showNotice(currentLang === 'el' ? 'Ο μέγιστος αριθμός ατόμων είναι 15.' : 'Maximum number of people is 15.');
+                    document.getElementById("people").value = 15;
+                    document.getElementById("people").focus();
+                    return;
+                }
                 if (!totalM3) {
                     document.getElementById("total").focus();
                     return;
@@ -711,8 +723,8 @@
                     const message = getCurrentSummary();
                     navigator.clipboard.writeText(message).then(() => {
                         const modalMessage = currentLang === 'el' ?
-                            '✅ Η εικόνα κατέβηκε!\n📋 Το μήνυμα αντιγράφηκε!\n\nΤώρα ανοίγει το Twitter για να μοιραστείτε την εικόνα και το μήνυμα.' :
-                            '✅ Image downloaded!\n📋 Message copied to clipboard!\n\nNow opening Twitter to share the image and message.';
+                            '✅ Η εικόνα κατέβηκε!\n📋 Το μήνυμα αντιγράφηκε!\n\nΤώρα ανοίγει το X/Twitter για να μοιραστείτε την εικόνα και το μήνυμα.' :
+                            '✅ Image downloaded!\n📋 Message copied to clipboard!\n\nNow opening X/Twitter to share the image and message.';
 
                         showNotice(modalMessage);
 
@@ -1082,6 +1094,10 @@
                     e.preventDefault();
                     openModal(whyInfoModal);
                 }
+                if (e.target.classList.contains('tips-modal-link')) {
+                    e.preventDefault();
+                    openModal(tipsModal);
+                }
             });
 
             exampleModalClose.onclick = () => {
@@ -1132,7 +1148,7 @@
                     const endDate = `${year}${month}${day}`;
 
                     // Create event details
-                    const eventTitle = currentLang === 'el' ? 'Stagona.cy: Έλεγχος κατανάλωσης νερού' : 'Stagona.cy: Water consumption check';
+                    const eventTitle = currentLang === 'el' ? 'Stagona.cy: Έλεγχος κατανάλωσης νερού #Cyprus125' : 'Stagona.cy: Water consumption check #Cyprus125';
                     const eventDescription = currentLang === 'el' ?
                         '<b>Κατάγραψε την κατανάλωση του μετρητή σου:</b><br>Έλεγξε ξανά την κατανάλωση νερού σου στο Stagona App: https://stagona.cy' :
                         '<b>Record your water consumption:</b><br>Check your water consumption again on Stagona App: https://stagona.cy';
@@ -1291,6 +1307,20 @@
                     msg = translations[currentLang]["result-very-high"] + "<br/><br/>" + translations[currentLang]["result-very-high-desc"];
                 }
                 msgElem.innerHTML = msg;
+            }
+
+            // Enforce max values for people and total inputs
+            const peopleInput = document.getElementById('people');
+            const totalInput = document.getElementById('total');
+            if (peopleInput) {
+                peopleInput.addEventListener('input', function() {
+                    if (parseInt(this.value, 10) > 15) this.value = 15;
+                });
+            }
+            if (totalInput) {
+                totalInput.addEventListener('input', function() {
+                    if (parseFloat(this.value) > 500) this.value = 500;
+                });
             }
         });
     </script>
