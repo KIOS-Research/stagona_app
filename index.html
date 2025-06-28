@@ -58,6 +58,7 @@
             <div class="input-group-bordered">
                 <div class="instructions-text" id="instructions">
                     <span data-el="intro-instructions"></span>
+                    <i class="fas fa-info-circle info-icon info-icon-blue" id="calculationMethodInfo" title="Calculation Method"></i>
                     <div class="how-it-works-image">
                         <img src="assets/images/howitworks.png" alt="How the Stagona water consumption calculator works">
                     </div>
@@ -136,7 +137,6 @@
             <i class="fas fa-cog"></i>
         </div>
         <button id="tipsButton" type="button" class="tips-button">💡 <span data-el="tips-title"></span></button>
-        <button id="calculationMethodButton" type="button" class="calculationMethodButton-button"><span data-el="calculation-method"></span></button>
         <button id="reminderButton" type="button" class="reminder-button">📅 <span data-el="reminder-title"></span></button>
         <p class="privacy-notice">
             <span data-el="contact-info-prefix"></span>
@@ -1190,7 +1190,7 @@
             const whyInfoModal = document.getElementById('whyInfoModal');
             const whyInfoModalClose = document.getElementById('whyInfoModalClose');
             const whyInfoButton = document.getElementById('whyInfo');
-            const calculationMethodButton = document.getElementById('calculationMethodButton');
+            const calculationMethodInfo = document.getElementById('calculationMethodInfo');
 
             if (whyInfoButton) {
                 whyInfoButton.onclick = () => {
@@ -1198,8 +1198,8 @@
                 };
             }
 
-            if (calculationMethodButton) {
-                calculationMethodButton.onclick = () => {
+            if (calculationMethodInfo) {
+                calculationMethodInfo.onclick = () => {
                     openModal(whyInfoModal);
                 };
             }

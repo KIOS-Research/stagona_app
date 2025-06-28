@@ -629,6 +629,7 @@ label[for="total"] {
     background: #e3f2fd;
     padding: 1rem;
     border-radius: 8px;
+    position: relative;
 }
 
 .instructions-text:target {
