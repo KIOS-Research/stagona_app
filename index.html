@@ -164,7 +164,7 @@
     </div>
     <!-- Footer -->
     <div class="footer">
-        <a href="https://www.kios.ucy.ac.cy/eliades" target="_blank">Digital Water Innovations Cluster</a
+        <a href="https://www.kios.ucy.ac.cy/eliades" target="_blank">Smart Water Systems Team</a
             >, <a href="https://www.kios.ucy.ac.cy" target="_blank"
             >KIOS Research and Innovation Center of Excellence</a
             >, <a href="https://www.ucy.ac.cy" target="_blank">University of Cyprus. </a> <br>Copyright © 2025 KIOS CoE, UCY. All rights reserved.<br>
@@ -235,8 +235,10 @@
                 <p data-el="stress-info-1"></p>
                 <p data-el="stress-info-2"></p>
                 <p data-el="stress-info-3"></p>
-                <p data-el="stress-info-4"></p>
-                <p data-el="stress-info-5"></p>
+                <p data-el="stress-info-4a"></p>
+                <p data-el="stress-info-4b"></p>
+                <p data-el="stress-info-5a"></p>
+                <p data-el="stress-info-5b"></p>
             </div>
         </div>
     </div>
@@ -912,6 +914,9 @@
 
                 // Function to actually draw the banner
                 function drawBanner() {
+                    // console.log('[drawBanner] Drawing banner...');
+                    // console.log('[drawBanner] ctx.font:', ctx.font);
+                    // console.log('[drawBanner] template.naturalWidth:', template.naturalWidth, 'template.naturalHeight:', template.naturalHeight);
                     // Match canvas to template
                     canvas.width = template.naturalWidth;
                     canvas.height = template.naturalHeight;
@@ -920,69 +925,76 @@
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.drawImage(template, 0, 0);
 
-                    // Text settings
-                    ctx.fillStyle = '#003366';
-                    ctx.font = '56px "Playpen Sans", Georgia';
-                    ctx.textAlign = 'left';
-
-                    const boxWidth = canvas.width * 0.50; // 70% of banner width
-                    const lineHeight = 70; // px between lines
-                    const startY = canvas.height * 0.22; // vertical start
-                    const centerX = canvas.width / 2 * 0.35;
-
-                    // Create dynamic text based on user data
-                    const pledgeValue = document.getElementById('pledgeSlider').value;
-
-                    // Calculate difference from average for display
-                    const avg = 140;
-                    const diffPct = ((perDay - avg) / avg) * 100;
-
-                    // New banner text - different content based on pledge value
-                    let quote;
-                    if (pledgeValue == 0) {
-                        // Show calculation summary when no pledge is set
-                        quote = currentLang === 'el' ?
-                            `Καταναλώνω ${perDay.toFixed(1)} λίτρα ανά ημέρα (${Math.abs(diffPct).toFixed(1)}% ${diffPct < 0 ? 'κάτω' : 'πάνω'} από μέσο όρο των 140).\nΓινόμαστε μέρος της λύσης!` :
-                            `Ι consumpe ${perDay.toFixed(1)} liters per day (${Math.abs(diffPct).toFixed(1)}% ${diffPct < 0 ? 'below' : 'above'} the average of 140).\nLets be part of the soltuion!`;
-                    } else {
-                        // Show pledge text when pledge is set
-                        quote = currentLang === 'el' ?
-                            `Θα μειώσω κατά ${pledgeValue}% τη χρήση νερού στο σπίτι μου, από ${perDay.toFixed(0)} λίτρα ανά ημέρα.\nΕίμαι μέρος της λύσης!` :
-                            `I will reduce by ${pledgeValue}% my water consumption, from ${perDay.toFixed(0)} Liters per day.\nI am part of the solution!`;
-                    }
-
-                    // Split by explicit newlines first, then wrap each paragraph
-                    const paragraphs = quote.split('\n');
-                    let y = startY;
-
-                    paragraphs.forEach(p => {
-                        const lines = wrapLines(ctx, p, boxWidth);
-                        lines.forEach(l => {
-                            ctx.fillText(l, centerX, y);
-                            y += lineHeight;
+                    // Try both font family syntaxes
+                    function tryFont(fontString) {
+                        ctx.fillStyle = '#003366';
+                        ctx.font = fontString;
+                        ctx.textAlign = 'left';
+                        // console.log('[drawBanner] Set ctx.font to:', ctx.font);
+                        // if ('fonts' in document) {
+                        //     document.fonts.ready.then(fontFaceSet => {
+                        //         const loaded = Array.from(fontFaceSet).some(ff => ff.family.replace(/['\"]/g, '').includes('Playpen Sans'));
+                        //         console.log('[drawBanner] Playpen Sans loaded:', loaded, '| ctx.font:', ctx.font);
+                        //     });
+                        // }
+                        const boxWidth = canvas.width * 0.50;
+                        const lineHeight = 70;
+                        const startY = canvas.height * 0.22;
+                        const centerX = canvas.width / 2 * 0.35;
+                        const pledgeValue = document.getElementById('pledgeSlider').value;
+                        const avg = 140;
+                        const diffPct = ((perDay - avg) / avg) * 100;
+                        let quote;
+                        if (pledgeValue == 0) {
+                            quote = currentLang === 'el' ?
+                                `Καταναλώνω ${perDay.toFixed(1)} λίτρα ανά ημέρα (${Math.abs(diffPct).toFixed(1)}% ${diffPct < 0 ? 'κάτω' : 'πάνω'} από μέσο όρο των 140).\nΜάθε κι εσύ, και γίνε μέρος της λύσης!` :
+                                `Ι consume ${perDay.toFixed(1)} liters per day (${Math.abs(diffPct).toFixed(1)}% ${diffPct < 0 ? 'below' : 'above'} the average of 140).\nLearn how much water you use, and be part of the solution!`;
+                        } else {
+                            quote = currentLang === 'el' ?
+                                `Θα μειώσω κατά ${pledgeValue}% τη χρήση νερού στο σπίτι μου, από ${perDay.toFixed(0)} λίτρα ανά ημέρα.\nΕίμαι μέρος της λύσης!` :
+                                `I will reduce by ${pledgeValue}% my water consumption, from ${perDay.toFixed(0)} Liters per day.\nI am part of the solution!`;
+                        }
+                        const paragraphs = quote.split('\n');
+                        let y = startY;
+                        paragraphs.forEach(p => {
+                            const lines = wrapLines(ctx, p, boxWidth);
+                            lines.forEach(l => {
+                                ctx.fillText(l, centerX, y);
+                                y += lineHeight;
+                            });
+                            y += lineHeight * 0.3;
                         });
-                        // Extra gap between paragraphs
-                        y += lineHeight * 0.3;
-                    });
+                    }
+                    // Try with and without quotes
+                    tryFont('56px "Playpen Sans", Georgia');
+                    setTimeout(() => {
+                        tryFont('56px Playpen Sans, Georgia');
+                    }, 100);
                 }
 
                 // Check if font is loaded and draw banner
                 function checkFontAndDraw() {
-                    // Use Font Loading API if available
                     if ('fonts' in document) {
-                        document.fonts.load('56px "Playpen Sans"').then(() => {
-                            drawBanner();
-                        }).catch(() => {
-                            // Fallback if font loading fails
-                            setTimeout(() => {
+                        // console.log('[checkFontAndDraw] Font Loading API available. Waiting for document.fonts.ready...');
+                        document.fonts.ready.then(() => {
+                            document.fonts.load('56px "Playpen Sans"').then((loadedFonts) => {
+                                // console.log('[checkFontAndDraw] document.fonts.load resolved:', loadedFonts);
                                 drawBanner();
-                            }, 100);
+                                setTimeout(() => {
+                                    drawBanner();
+                                }, 200);
+                            }).catch((err) => {
+                                // console.warn('[checkFontAndDraw] document.fonts.load failed:', err);
+                                setTimeout(() => {
+                                    drawBanner();
+                                }, 500);
+                            });
                         });
                     } else {
-                        // Fallback for browsers without Font Loading API
+                        // console.warn('[checkFontAndDraw] Font Loading API not available, using fallback.');
                         setTimeout(() => {
                             drawBanner();
-                        }, 100);
+                        }, 500);
                     }
                 }
 
@@ -990,9 +1002,9 @@
                     checkFontAndDraw();
                 };
 
-                // If image is already loaded, trigger onload
+                // If image is already loaded, trigger checkFontAndDraw directly
                 if (template.complete) {
-                    template.onload();
+                    checkFontAndDraw();
                 }
             }
 
