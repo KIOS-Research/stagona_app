@@ -1,8 +1,6 @@
-# Stagona – Υπολογιστής Κατανάλωσης Νερού
+# Stagona – Water Consumption Calculator
 
 <img src="/assets/images/logo.png" alt="Stagona Logo" width="105px" />
-
-# Stagona – Water Consumption Calculator
 
 **Stagona** is a simple web application (Progressive Web App) that helps you calculate your average daily water consumption per person in your household and compare it to the national average in Cyprus (140 liters per person per day). It provides practical suggestions to reduce water usage, estimates potential annual water savings, and allows easy sharing of your results. The app runs entirely on your device (client-side), ensuring your data remains private, and can be installed as a PWA for offline use.
 
