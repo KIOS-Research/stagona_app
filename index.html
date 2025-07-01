@@ -106,6 +106,7 @@
                 <strong class="pledge-title" data-el="share-title"></strong>
             </div>
             <p id="pledge-subtitle" data-el="pledge-subtitle"></p>
+            <h3 id="pledge-call" data-el="pledge-call" style="text-align:center; color: var(--primary); font-size: 1rem; font-weight: 500; margin: 0.5rem 0 1rem 0;"></h3>
             <div class="pledge-slider-section result-box">
                 <label for="pledgeSlider" id="pledgeSliderLabel"></label>
                 <input type="range" id="pledgeSlider" min="0" max="50" step="5" value="10" />
@@ -937,7 +938,7 @@
                         //         console.log('[drawBanner] Playpen Sans loaded:', loaded, '| ctx.font:', ctx.font);
                         //     });
                         // }
-                        const boxWidth = canvas.width * 0.50;
+                        const boxWidth = canvas.width * 0.67;
                         const lineHeight = 70;
                         const startY = canvas.height * 0.22;
                         const centerX = canvas.width / 2 * 0.35;
@@ -947,12 +948,12 @@
                         let quote;
                         if (pledgeValue == 0) {
                             quote = currentLang === 'el' ?
-                                `Καταναλώνω ${perDay.toFixed(1)} λίτρα ανά ημέρα (${Math.abs(diffPct).toFixed(1)}% ${diffPct < 0 ? 'κάτω' : 'πάνω'} από μέσο όρο των 140).\nΜάθε κι εσύ, και γίνε μέρος της λύσης!` :
-                                `Ι consume ${perDay.toFixed(1)} liters per day (${Math.abs(diffPct).toFixed(1)}% ${diffPct < 0 ? 'below' : 'above'} the average of 140).\nLearn how much water you use, and be part of the solution!`;
+                                `Καταναλώνω ${perDay.toFixed(1)} λίτρα νέρο κάθε ημέρα. Είμαι ${Math.abs(diffPct).toFixed(1)}% ${diffPct < 0 ? 'κάτω' : 'πάνω'} από το μέσο όρο της Κύπρου (140 λίτρα).\nΠώς το ξέρω;\nstagona.cy` :
+                                `I consume ${perDay.toFixed(1)} liters per day. I am ${Math.abs(diffPct).toFixed(1)}% ${diffPct < 0 ? 'below' : 'above'} the Cyprus average (140 liters).\nHow?\nstagona.cy`;
                         } else {
                             quote = currentLang === 'el' ?
-                                `Θα μειώσω κατά ${pledgeValue}% τη χρήση νερού στο σπίτι μου, από ${perDay.toFixed(0)} λίτρα ανά ημέρα.\nΕίμαι μέρος της λύσης!` :
-                                `I will reduce by ${pledgeValue}% my water consumption, from ${perDay.toFixed(0)} Liters per day.\nI am part of the solution!`;
+                                `Θα προσπαθήσω να μειώσω την ημερήσια κατανάλωση νερού κατά ${pledgeValue}%, από ${perDay.toFixed(0)} λίτρα σε ${(perDay * (1 - pledgeValue / 100)).toFixed(0)} λίτρα.\n\nstagona.cy` :
+                                `Pledge: I will try to reduce my daily water consumption by ${pledgeValue}%, from ${perDay.toFixed(0)} Liters to ${(perDay * (1 - pledgeValue / 100)).toFixed(0)} Liters.\n\nstagona.cy`;
                         }
                         const paragraphs = quote.split('\n');
                         let y = startY;
