@@ -112,7 +112,7 @@ window.translations = {
         "app-title": "Stagona - Water Consumption Calculator",
         "info-title": "Information",
         "title": "Drop-count!",
-        "intro-question": "Do you know how many liters of water you consume every day?<br>How do you compare to the average Cypriot?",
+        "intro-question": "How many liters of water do you consume every day?<br>How do you compare to the average Cypriot?",
         "intro-instructions": "1️⃣ Find a <em>recent bill</em> from your water utility organization<br>2️⃣ Locate the <em>total consumption</em> in cubic meters (m³)<br>3️⃣ Fill in the details and calculate how many liters of water you use every day in your home<br>🚀 Alternatively, you can also calculate your total consumption (<a href='#' class='why-info-link'>instructions</a>)<br><br>* 1 m³ = 1000 liters",
         "total-label": "Total period consumption (in m³):",
         "period-label": "Consumption period (in months):",
