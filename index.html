@@ -372,37 +372,37 @@
                 // Compose difference string
                 let diffStr;
                 if (lang === "el") {
-                    diffStr = diffPct < 0 ? `${Math.abs(diffPct).toFixed(1)}% κάτω από μέσο όρο των 140 λίτρων/ημέρα` : `${diffPct.toFixed(1)}% πάνω από μέσο όρο των 140 λίτρων/ημέρα`;
+                    diffStr = diffPct < 0 ? `${Math.abs(Math.round(diffPct))}% κάτω από μέσο όρο των 140 λίτρων/ημέρα` : `${Math.round(diffPct)}% πάνω από μέσο όρο των 140 λίτρων/ημέρα`;
                 } else {
-                    diffStr = diffPct < 0 ? `${Math.abs(diffPct).toFixed(1)}% below average of 140 liters/day` : `${diffPct.toFixed(1)}% above average of 140 liters/day`;
+                    diffStr = diffPct < 0 ? `${Math.abs(Math.round(diffPct))}% below average of 140 liters/day` : `${Math.round(diffPct)}% above average of 140 liters/day`;
                 }
                 // Compose base
                 let summary;
                 if (lang === "el") {
                     if (mode === "share") {
-                        summary = `Μόλις υπολόγισα την ατομική κατανάλωσή νερού μου: ${perDay.toFixed(1)} λίτρα/ημέρα (${diffStr}).`;
+                        summary = `Μόλις υπολόγισα την ατομική κατανάλωσή νερού μου: ${Math.round(perDay)} λίτρα/ημέρα (${diffStr}).`;
                         if (pledge > 0 && pledgeLiters !== null) {
-                            summary += ` Θα προσπαθήσω να τη μειώσω κατά ${pledge}% (${pledgeLiters} λίτρα/ημέρα) μέσα στον επόμενο μήνα.`;
+                            summary += ` Θα προσπαθήσω να τη μειώσω κατά ${Math.round(pledge)}% (${Math.round(pledgeLiters)} λίτρα/ημέρα) μέσα στον επόμενο μήνα.`;
                         }
                         summary += ` Δοκίμασέ το και εσύ: ${url}  #Cyprus125`;
                     } else {
-                        summary = `Μόλις υπολόγισα την ατομική κατανάλωσή νερού μου: ${perDay.toFixed(1)} λίτρα/ημέρα (${diffStr}).`;
+                        summary = `Μόλις υπολόγισα την ατομική κατανάλωσή νερού μου: ${Math.round(perDay)} λίτρα/ημέρα (${diffStr}).`;
                         if (pledge > 0 && pledgeLiters !== null) {
-                            summary += ` Θα προσπαθήσω να τη μειώσω κατά ${pledge}% (${pledgeLiters} λίτρα/ημέρα) μέσα στον επόμενο μήνα.`;
+                            summary += ` Θα προσπαθήσω να τη μειώσω κατά ${Math.round(pledge)}% (${Math.round(pledgeLiters)} λίτρα/ημέρα) μέσα στον επόμενο μήνα.`;
                         }
                         summary += ` Δοκίμασέ το και εσύ: ${url} #Cyprus125`;
                     }
                 } else {
                     if (mode === "share") {
-                        summary = `I've just calculated my individual water consumption: ${perDay.toFixed(1)} liters/day (${diffStr}).`;
+                        summary = `I've just calculated my individual water consumption: ${Math.round(perDay)} liters/day (${diffStr}).`;
                         if (pledge > 0 && pledgeLiters !== null) {
-                            summary += ` I will try to reduce it by ${pledge}% (${pledgeLiters} liters/day) in the next month.`;
+                            summary += ` I will try to reduce it by ${Math.round(pledge)}% (${Math.round(pledgeLiters)} liters/day) in the next month.`;
                         }
                         summary += ` Try it yourself: ${url} #Cyprus125`;
                     } else {
-                        summary = `I've just calculated my individual water consumption: ${perDay.toFixed(1)} liters/day (${diffStr}).`;
+                        summary = `I've just calculated my individual water consumption: ${Math.round(perDay)} liters/day (${diffStr}).`;
                         if (pledge > 0 && pledgeLiters !== null) {
-                            summary += ` I will try to reduce it by ${pledge}% (${pledgeLiters} liters/day) in the next month.`;
+                            summary += ` I will try to reduce it by ${Math.round(pledge)}% (${Math.round(pledgeLiters)} liters/day) in the next month.`;
                         }
                         summary += ` Try it yourself: ${url} #Cyprus125`;
                     }
@@ -948,12 +948,12 @@
                         let quote;
                         if (pledgeValue == 0) {
                             quote = currentLang === 'el' ?
-                                `Καταναλώνω ${perDay.toFixed(1)} λίτρα νερό κάθε μέρα. Είμαι ${Math.abs(diffPct).toFixed(1)}% ${diffPct < 0 ? 'κάτω' : 'πάνω'} από τον μέσο όρο της Κύπρου (140 λίτρα).\nΠώς το ξέρω;\nstagona.cy` :
-                                `I consume ${perDay.toFixed(1)} liters per day. I am ${Math.abs(diffPct).toFixed(1)}% ${diffPct < 0 ? 'below' : 'above'} the Cyprus average (140 liters).\nHow do I know?\nstagona.cy`;
+                                `Καταναλώνω ${Math.round(perDay)} λίτρα νερό κάθε μέρα. Είμαι ${Math.abs(Math.round(diffPct))}% ${diffPct < 0 ? 'κάτω' : 'πάνω'} από τον μέσο όρο της Κύπρου (140 λίτρα).\nΠώς το ξέρω;\nstagona.cy` :
+                                `I consume ${Math.round(perDay)} liters per day. I am ${Math.abs(Math.round(diffPct))}% ${diffPct < 0 ? 'below' : 'above'} the Cyprus average (140 liters).\nHow do I know?\nstagona.cy`;
                         } else {
                             quote = currentLang === 'el' ?
-                                `Θα προσπαθήσω να μειώσω την ημερήσια μου κατανάλωση νερού κατά ${pledgeValue}%, από ${perDay.toFixed(0)} λίτρα σε ${(perDay * (1 - pledgeValue / 100)).toFixed(0)} λίτρα.\n\nstagona.cy` :
-                                `Pledge: I will try to reduce my daily water consumption by ${pledgeValue}%, from ${perDay.toFixed(0)} Liters to ${(perDay * (1 - pledgeValue / 100)).toFixed(0)} Liters.\n\nstagona.cy`;
+                                `Θα προσπαθήσω να μειώσω την ημερήσια μου κατανάλωση νερού κατά ${Math.round(pledgeValue)}%, από ${Math.round(perDay)} λίτρα σε ${Math.round(perDay * (1 - pledgeValue / 100))} λίτρα.\n\nstagona.cy` :
+                                `Pledge: I will try to reduce my daily water consumption by ${Math.round(pledgeValue)}%, from ${Math.round(perDay)} Liters to ${Math.round(perDay * (1 - pledgeValue / 100))} Liters.\n\nstagona.cy`;
                         }
                         const paragraphs = quote.split('\n');
                         let y = startY;
@@ -1264,9 +1264,9 @@
                         }
                     }
 
-                    const newLiters = (perDay * (1 - percent / 100)).toFixed(1);
+                    const newLiters = Math.round(perDay * (1 - percent / 100));
                     const unit = currentLang === "el" ? "λίτρα" : "liters";
-                    label.innerHTML = `${translations[currentLang]["pledge-label"]} <span id='pledgeValue'>${percent}%</span> (${newLiters} ${unit})`;
+                    label.innerHTML = `${translations[currentLang]["pledge-label"]} <span id='pledgeValue'>${Math.round(percent)}%</span> (${newLiters} ${unit})`;
                 }
             }
 
