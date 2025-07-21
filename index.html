@@ -382,29 +382,29 @@
                     if (mode === "share") {
                         summary = `Μόλις υπολόγισα την ατομική κατανάλωσή νερού μου: ${perDay.toFixed(1)} λίτρα/ημέρα (${diffStr}).`;
                         if (pledge > 0 && pledgeLiters !== null) {
-                            summary += ` Θα προσπαθήσω να τη μειώσω κατά ${pledge}% (${pledgeLiters} λίτρα/ημέρα) μέσα στον επόμενο μήνα. #Cyprus125`;
+                            summary += ` Θα προσπαθήσω να τη μειώσω κατά ${pledge}% (${pledgeLiters} λίτρα/ημέρα) μέσα στον επόμενο μήνα.`;
                         }
-                        summary += ` Δοκίμασέ το και εσύ: ${url}`;
+                        summary += ` Δοκίμασέ το και εσύ: ${url}  #Cyprus125`;
                     } else {
                         summary = `Μόλις υπολόγισα την ατομική κατανάλωσή νερού μου: ${perDay.toFixed(1)} λίτρα/ημέρα (${diffStr}).`;
                         if (pledge > 0 && pledgeLiters !== null) {
-                            summary += ` Θα προσπαθήσω να τη μειώσω κατά ${pledge}% (${pledgeLiters} λίτρα/ημέρα) μέσα στον επόμενο μήνα. #Cyprus125`;
+                            summary += ` Θα προσπαθήσω να τη μειώσω κατά ${pledge}% (${pledgeLiters} λίτρα/ημέρα) μέσα στον επόμενο μήνα.`;
                         }
-                        summary += ` Δοκίμασέ το και εσύ: ${url}`;
+                        summary += ` Δοκίμασέ το και εσύ: ${url} #Cyprus125`;
                     }
                 } else {
                     if (mode === "share") {
                         summary = `I've just calculated my individual water consumption: ${perDay.toFixed(1)} liters/day (${diffStr}).`;
                         if (pledge > 0 && pledgeLiters !== null) {
-                            summary += ` I will try to reduce it by ${pledge}% (${pledgeLiters} liters/day) in the next month. #Cyprus125`;
+                            summary += ` I will try to reduce it by ${pledge}% (${pledgeLiters} liters/day) in the next month.`;
                         }
-                        summary += ` Try it yourself: ${url}`;
+                        summary += ` Try it yourself: ${url} #Cyprus125`;
                     } else {
                         summary = `I've just calculated my individual water consumption: ${perDay.toFixed(1)} liters/day (${diffStr}).`;
                         if (pledge > 0 && pledgeLiters !== null) {
-                            summary += ` I will try to reduce it by ${pledge}% (${pledgeLiters} liters/day) in the next month. #Cyprus125`;
+                            summary += ` I will try to reduce it by ${pledge}% (${pledgeLiters} liters/day) in the next month.`;
                         }
-                        summary += ` Try it yourself: ${url}`;
+                        summary += ` Try it yourself: ${url} #Cyprus125`;
                     }
                 }
                 return summary;
@@ -948,11 +948,11 @@
                         let quote;
                         if (pledgeValue == 0) {
                             quote = currentLang === 'el' ?
-                                `Καταναλώνω ${perDay.toFixed(1)} λίτρα νέρο κάθε ημέρα. Είμαι ${Math.abs(diffPct).toFixed(1)}% ${diffPct < 0 ? 'κάτω' : 'πάνω'} από το μέσο όρο της Κύπρου (140 λίτρα).\nΠώς το ξέρω;\nstagona.cy` :
-                                `I consume ${perDay.toFixed(1)} liters per day. I am ${Math.abs(diffPct).toFixed(1)}% ${diffPct < 0 ? 'below' : 'above'} the Cyprus average (140 liters).\nHow?\nstagona.cy`;
+                                `Καταναλώνω ${perDay.toFixed(1)} λίτρα νερό κάθε μέρα. Είμαι ${Math.abs(diffPct).toFixed(1)}% ${diffPct < 0 ? 'κάτω' : 'πάνω'} από τον μέσο όρο της Κύπρου (140 λίτρα).\nΠώς το ξέρω;\nstagona.cy` :
+                                `I consume ${perDay.toFixed(1)} liters per day. I am ${Math.abs(diffPct).toFixed(1)}% ${diffPct < 0 ? 'below' : 'above'} the Cyprus average (140 liters).\nHow do I know?\nstagona.cy`;
                         } else {
                             quote = currentLang === 'el' ?
-                                `Θα προσπαθήσω να μειώσω την ημερήσια κατανάλωση νερού κατά ${pledgeValue}%, από ${perDay.toFixed(0)} λίτρα σε ${(perDay * (1 - pledgeValue / 100)).toFixed(0)} λίτρα.\n\nstagona.cy` :
+                                `Θα προσπαθήσω να μειώσω την ημερήσια μου κατανάλωση νερού κατά ${pledgeValue}%, από ${perDay.toFixed(0)} λίτρα σε ${(perDay * (1 - pledgeValue / 100)).toFixed(0)} λίτρα.\n\nstagona.cy` :
                                 `Pledge: I will try to reduce my daily water consumption by ${pledgeValue}%, from ${perDay.toFixed(0)} Liters to ${(perDay * (1 - pledgeValue / 100)).toFixed(0)} Liters.\n\nstagona.cy`;
                         }
                         const paragraphs = quote.split('\n');
