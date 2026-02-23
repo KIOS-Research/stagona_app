@@ -2,7 +2,7 @@
 
 <img src="/assets/images/logo.png" alt="Stagona Logo" width="105px" />
 
-**Stagona** is a simple web application (Progressive Web App) that helps you calculate your average daily water consumption per person in your household and compare it to the national average in Cyprus (140 liters per person per day). It provides practical suggestions to reduce water usage, estimates potential annual water savings, and allows easy sharing of your results. The app runs entirely on your device (client-side), ensuring your data remains private, and can be installed as a PWA for offline use.
+**Stagona** is a simple web application (Progressive Web App) that helps you calculate your average daily water consumption per person in your household and compare it to the national target in Cyprus (125 liters per person per day). It provides practical suggestions to reduce water usage, estimates potential annual water savings, and allows easy sharing of your results. The app runs entirely on your device (client-side), ensuring your data remains private, and can be installed as a PWA for offline use.
 
 ---
 
@@ -13,7 +13,7 @@
   - Time period of that consumption (in months)
   - Number of people in the household
 
-- **Benchmark Comparison:** See how your usage compares with the Cyprus average of **140 L/day per person**.
+- **Benchmark Comparison:** See how your usage compares with the Cyprus target of **125 L/day per person**.
 
 - **Feedback Zones:** Receive dynamic feedback based on your results.
 
@@ -43,7 +43,7 @@
 
 4. **View Results:**
    - See your daily water use per person
-   - Gauge bar shows how you compare to the national average
+   - Gauge bar shows how you compare to the national target
    - Color-coded and descriptive feedback is provided
 
 5. **Adjust Savings:**
@@ -67,7 +67,7 @@ You can also try it online:
 
 **Result:**
 - Average: 164.5 liters/person/day
-- Comparison: 17.5% above national average
+- Comparison: 31.6% above national target
 
 ---
 
